@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+const date = article.data.publishedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const base = import.meta.env.BASE_URL;
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      headline: article.data.title,
+      description: article.data.description,
+      datePublished: article.data.publishedAt.toISOString(),
+      ...(article.data.updatedAt ? { dateModified: article.data.updatedAt.toISOString() } : {}),
+      ...(canonicalUrl ? { mainEntityOfPage: canonicalUrl } : {}),
+      articleSection: article.data.topic,
+      keywords: article.data.tags,
+      isPartOf: Astro.site ? { '@type': 'WebSite', name: 'Agent Fieldnotes', url: Astro.site.toString() } : undefined,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.toString() },
+        { '@type': 'ListItem', position: 2, name: 'Learning path', item: Astro.site ? new URL(`${base}learn/`, Astro.site).toString() : undefined },
+        { '@type': 'ListItem', position: 3, name: article.data.topic, item: Astro.site ? new URL(`${base}learn/#${article.data.topic.toLowerCase()}`, Astro.site).toString() : undefined },
+        { '@type': 'ListItem', position: 4, name: article.data.title, item: canonicalUrl },
+      ],
+    },
+  ],
+};
+---
+
+<SiteLayout title={`${article.data.title} — Agent Fieldnotes`} description={article.data.description} article structuredData={articleSchema}>
+  <header class="article-hero">
+    <div class="article-hero-inner">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={base}>Home</a><span>/</span><a href={`${base}learn/`}>Learning path</a><span>/</span><span>{article.data.topic}</span></nav>
+      <span class="eyebrow">{article.data.topic} · {article.data.level}</span>
+      <h1>{article.data.title}</h1>
+      <p class="article-dek">{article.data.description}</p>
+      <div class="article-byline"><span class="topic-label">FIELDNOTE</span><span>{date}</span><span>{article.data.readingMinutes ?? 5} min read</span></div>
+    </div>
+  </header>
+  <div class="article-shell">
+    <aside class="article-aside" aria-label="On this page">
+      <div class="aside-title">On this page</div>
+      <nav class="toc-list">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>
+      <a class="back-link" href={`${base}learn/`}><span aria-hidden="true">←</span> All fieldnotes</a>
+    </aside>
+    <article class="prose"><Content /></article>
+  </div>
+</SiteLayout>

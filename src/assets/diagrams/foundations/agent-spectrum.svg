@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="580" viewBox="0 0 760 580" role="img" aria-labelledby="title desc">
+  <title id="title">Four ways to use a model, by who chooses the next step</title>
+  <desc id="desc">Four side-by-side lanes. Model call: the application sends one request to the model and gets one answer; the application chooses every step. Chatbot: a user message goes to the model and a reply comes back, repeating each turn; the user and model drive the conversation but nothing acts. Fixed workflow: code runs step 1, the model does one task, code runs step 2, then the answer; code chooses every step. Agent: the model proposes an action, the application checks it, the tool runs, and the application decides whether it is done; if not, the loop repeats; if so, it answers. The model chooses the next step within limits the application sets.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: acid-outlined boxes = steps the application or code controls (also labeled "App" or "Code"),
+    dashed return arrows = repetition, header text names who chooses the next step.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/>
+    </marker>
+    <style>
+      .title { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .who { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .plain { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .end { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .lane { fill: none; stroke: rgba(235,243,225,.12); stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="760" height="580" fill="#171a16"/>
+
+  <!-- Lane frames -->
+  <rect class="lane" x="20" y="20" width="165" height="470" rx="4"/>
+  <rect class="lane" x="205" y="20" width="165" height="470" rx="4"/>
+  <rect class="lane" x="390" y="20" width="165" height="470" rx="4"/>
+  <rect class="lane" x="575" y="20" width="165" height="470" rx="4"/>
+
+  <!-- Headers -->
+  <g text-anchor="middle">
+    <text class="title" x="102.5" y="46">Model call</text>
+    <text class="sub" x="102.5" y="66">next step chosen by</text>
+    <text class="who" x="102.5" y="82">the application</text>
+
+    <text class="title" x="287.5" y="46">Chatbot</text>
+    <text class="sub" x="287.5" y="66">next step chosen by</text>
+    <text class="who" x="287.5" y="82">the user, turn by turn</text>
+
+    <text class="title" x="472.5" y="46">Fixed workflow</text>
+    <text class="sub" x="472.5" y="66">next step chosen by</text>
+    <text class="who" x="472.5" y="82">your code</text>
+
+    <text class="title" x="657.5" y="46">Agent</text>
+    <text class="sub" x="657.5" y="66">next step chosen by</text>
+    <text class="who" x="657.5" y="82">the model, within limits</text>
+  </g>
+
+  <!-- Lane 1: model call -->
+  <rect class="app" x="32.5" y="120" width="140" height="44" rx="3"/>
+  <text class="node" x="102.5" y="147" text-anchor="middle">App: one request</text>
+  <line x1="102.5" y1="164" x2="102.5" y2="196" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="plain" x="32.5" y="200" width="140" height="44" rx="3"/>
+  <text class="node" x="102.5" y="227" text-anchor="middle">Model</text>
+  <line x1="102.5" y1="244" x2="102.5" y2="276" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="end" x="32.5" y="280" width="140" height="44" rx="16"/>
+  <text class="node" x="102.5" y="307" text-anchor="middle">Answer</text>
+  <text class="note" x="102.5" y="350" text-anchor="middle">one response</text>
+  <text class="note" x="102.5" y="366" text-anchor="middle">no actions</text>
+
+  <!-- Lane 2: chatbot -->
+  <rect class="plain" x="217.5" y="120" width="140" height="44" rx="16"/>
+  <text class="node" x="287.5" y="147" text-anchor="middle">User message</text>
+  <line x1="287.5" y1="164" x2="287.5" y2="196" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="plain" x="217.5" y="200" width="140" height="44" rx="3"/>
+  <text class="node" x="287.5" y="227" text-anchor="middle">Model</text>
+  <line x1="287.5" y1="244" x2="287.5" y2="276" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="end" x="217.5" y="280" width="140" height="44" rx="16"/>
+  <text class="node" x="287.5" y="307" text-anchor="middle">Reply</text>
+  <path d="M358,302 H364 V142 H362" fill="none" stroke="#9ce6db" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <text class="note" x="287.5" y="350" text-anchor="middle">repeats each turn</text>
+  <text class="note" x="287.5" y="366" text-anchor="middle">talks, doesn't act</text>
+
+  <!-- Lane 3: fixed workflow -->
+  <rect class="app" x="402.5" y="120" width="140" height="44" rx="3"/>
+  <text class="node" x="472.5" y="147" text-anchor="middle">Code: step 1</text>
+  <line x1="472.5" y1="164" x2="472.5" y2="196" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="plain" x="402.5" y="200" width="140" height="44" rx="3"/>
+  <text class="node" x="472.5" y="227" text-anchor="middle">Model: one task</text>
+  <line x1="472.5" y1="244" x2="472.5" y2="276" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="app" x="402.5" y="280" width="140" height="44" rx="3"/>
+  <text class="node" x="472.5" y="307" text-anchor="middle">Code: step 2</text>
+  <line x1="472.5" y1="324" x2="472.5" y2="356" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="end" x="402.5" y="360" width="140" height="44" rx="16"/>
+  <text class="node" x="472.5" y="387" text-anchor="middle">Answer</text>
+  <text class="note" x="472.5" y="430" text-anchor="middle">same path</text>
+  <text class="note" x="472.5" y="446" text-anchor="middle">every time</text>
+
+  <!-- Lane 4: agent -->
+  <rect class="plain" x="587.5" y="120" width="140" height="44" rx="3"/>
+  <text class="node" x="657.5" y="147" text-anchor="middle">Model proposes</text>
+  <line x1="657.5" y1="164" x2="657.5" y2="196" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="app" x="587.5" y="200" width="140" height="44" rx="3"/>
+  <text class="node" x="657.5" y="227" text-anchor="middle">App checks</text>
+  <line x1="657.5" y1="244" x2="657.5" y2="276" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="plain" x="587.5" y="280" width="140" height="44" rx="3"/>
+  <text class="node" x="657.5" y="307" text-anchor="middle">Tool runs</text>
+  <line x1="657.5" y1="324" x2="657.5" y2="356" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="app" x="587.5" y="360" width="140" height="44" rx="3"/>
+  <text class="node" x="657.5" y="387" text-anchor="middle">App: done?</text>
+  <path d="M728,382 H735 V142 H732" fill="none" stroke="#9ce6db" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <line x1="657.5" y1="404" x2="657.5" y2="432" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="end" x="587.5" y="436" width="140" height="44" rx="16"/>
+  <text class="node" x="657.5" y="463" text-anchor="middle">Answer</text>
+
+  <!-- Legend -->
+  <rect x="20" y="512" width="26" height="14" class="app"/>
+  <text class="note" x="54" y="523">Outlined: steps your application or code controls.</text>
+  <line x1="20" y1="548" x2="46" y2="548" stroke="#9ce6db" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text class="note" x="54" y="552">Dashed return: the steps repeat (chatbot: each turn; agent: until a stop condition).</text>
+</svg>

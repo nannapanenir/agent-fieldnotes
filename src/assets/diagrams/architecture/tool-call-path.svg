@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="680" viewBox="0 0 760 680" role="img" aria-labelledby="title desc">
+  <title id="title">The path of one tool call</title>
+  <desc id="desc">Flowchart. 1, the model proposes a tool call with a name, arguments, and a call ID. 2, the application checks that the tool is known and allowed for this agent; if not, it returns an unknown-tool error. 3, it checks the arguments against the schema; if they don't match, it returns an invalid-arguments error naming the field. 4, it checks that the action is allowed for this user; if not, it returns a denial that reveals nothing. 5, it runs the tool with a timeout; if the tool fails or times out, it returns an error that says whether retrying may help. 6, it trims the result to a size limit and labels it as untrusted data. 7, every path ends the same way: a tool result, success or error, goes back to the model paired with the call ID, and counts against the step budget.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: acid-outlined boxes = application checks and actions (also numbered),
+    dashed boxes = error results, "yes"/"no" labels on every branch.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/>
+    </marker>
+    <style>
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .lbl { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .elbl { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .plain { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .err { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+
+  <rect width="760" height="680" fill="#171a16"/>
+
+  <!-- 1: model proposes -->
+  <rect class="plain" x="40" y="30" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="53" text-anchor="middle">1  Model proposes a tool call</text>
+  <text class="sub" x="190" y="72" text-anchor="middle">name + arguments + call ID</text>
+  <line x1="190" y1="84" x2="190" y2="110" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 2: known tool -->
+  <rect class="app" x="40" y="114" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="137" text-anchor="middle">2  Known tool for this agent?</text>
+  <text class="sub" x="190" y="156" text-anchor="middle">name is on the allowlist</text>
+  <line x1="190" y1="168" x2="190" y2="194" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text class="lbl" x="200" y="186">yes</text>
+
+  <!-- 3: schema -->
+  <rect class="app" x="40" y="198" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="221" text-anchor="middle">3  Arguments match the schema?</text>
+  <text class="sub" x="190" y="240" text-anchor="middle">types, enums, lengths, no extras</text>
+  <line x1="190" y1="252" x2="190" y2="278" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text class="lbl" x="200" y="270">yes</text>
+
+  <!-- 4: authorization -->
+  <rect class="app" x="40" y="282" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="305" text-anchor="middle">4  Allowed for this user?</text>
+  <text class="sub" x="190" y="324" text-anchor="middle">checked in code, every call</text>
+  <line x1="190" y1="336" x2="190" y2="362" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text class="lbl" x="200" y="354">yes</text>
+
+  <!-- 5: run -->
+  <rect class="app" x="40" y="366" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="389" text-anchor="middle">5  Run the tool with a timeout</text>
+  <text class="sub" x="190" y="408" text-anchor="middle">writes carry an idempotency key</text>
+  <line x1="190" y1="420" x2="190" y2="446" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text class="lbl" x="200" y="438">ok</text>
+
+  <!-- 6: trim -->
+  <rect class="app" x="40" y="450" width="300" height="54" rx="3"/>
+  <text class="node" x="190" y="473" text-anchor="middle">6  Trim and label the result</text>
+  <text class="sub" x="190" y="492" text-anchor="middle">size limit, marked untrusted</text>
+  <line x1="190" y1="504" x2="190" y2="550" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Error branches -->
+  <line x1="340" y1="141" x2="436" y2="141" stroke="#9ce6db" stroke-width="1.4" marker-end="url(#arrow-cyan)"/>
+  <text class="elbl" x="376" y="134">no</text>
+  <rect class="err" x="440" y="114" width="260" height="54" rx="3"/>
+  <text class="node" x="570" y="137" text-anchor="middle">Error: unknown tool</text>
+  <text class="sub" x="570" y="156" text-anchor="middle">nothing runs</text>
+
+  <line x1="340" y1="225" x2="436" y2="225" stroke="#9ce6db" stroke-width="1.4" marker-end="url(#arrow-cyan)"/>
+  <text class="elbl" x="376" y="218">no</text>
+  <rect class="err" x="440" y="198" width="260" height="54" rx="3"/>
+  <text class="node" x="570" y="221" text-anchor="middle">Error: invalid arguments</text>
+  <text class="sub" x="570" y="240" text-anchor="middle">names the field that failed</text>
+
+  <line x1="340" y1="309" x2="436" y2="309" stroke="#9ce6db" stroke-width="1.4" marker-end="url(#arrow-cyan)"/>
+  <text class="elbl" x="376" y="302">no</text>
+  <rect class="err" x="440" y="282" width="260" height="54" rx="3"/>
+  <text class="node" x="570" y="305" text-anchor="middle">Denied</text>
+  <text class="sub" x="570" y="324" text-anchor="middle">same reply as "not found"</text>
+
+  <line x1="340" y1="393" x2="436" y2="393" stroke="#9ce6db" stroke-width="1.4" marker-end="url(#arrow-cyan)"/>
+  <text class="elbl" x="362" y="386">fails</text>
+  <rect class="err" x="440" y="366" width="260" height="54" rx="3"/>
+  <text class="node" x="570" y="389" text-anchor="middle">Error: failed or timed out</text>
+  <text class="sub" x="570" y="408" text-anchor="middle">says if a retry may help</text>
+
+  <!-- Error collector -->
+  <path d="M700,141 H726 M700,225 H726 M700,309 H726 M700,393 H726" fill="none" stroke="#9ce6db" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <path d="M726,141 V582 H704" fill="none" stroke="#9ce6db" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+
+  <!-- 7: return -->
+  <rect class="app" x="40" y="554" width="660" height="56" rx="16"/>
+  <text class="node" x="370" y="578" text-anchor="middle">7  Return a tool result to the model, paired with the call ID</text>
+  <text class="sub" x="370" y="597" text-anchor="middle">success or error · counts against the step budget</text>
+
+  <!-- Legend -->
+  <rect x="40" y="634" width="26" height="14" class="app"/>
+  <text class="note" x="74" y="645">Outlined: checks and actions the application runs.</text>
+  <rect x="420" y="634" width="26" height="14" class="err"/>
+  <text class="note" x="454" y="645">Dashed: error results.</text>
+</svg>

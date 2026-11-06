@@ -1,0 +1,19 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="About — Agent Fieldnotes" description="The purpose and editorial approach behind Agent Fieldnotes.">
+  <section class="page-intro">
+    <span class="eyebrow">About this project</span>
+    <h1>Technology deserves clear explanations.</h1>
+    <p>Agent Fieldnotes is a learning resource for engineers exploring agentic systems and their security. It starts with fundamentals and builds toward practical architecture, deployment, evaluation, and risk reduction.</p>
+  </section>
+  <section class="topic-section">
+    <div class="topic-heading"><h2>How we write</h2><span>EDITORIAL NOTES</span></div>
+    <div class="prose" style="max-width:700px">
+      <p>We explain the mechanism before the marketing language. We distinguish an LLM call, a fixed workflow, and an agentic loop, while recognizing that the industry does not use one universal definition of “agent.”</p>
+      <p>For changing technical details, articles should cite current primary sources and name relevant versions. Security writing should describe the system boundary, pair risks with controls, and state what remains uncertain or unmitigated.</p>
+      <p>This is a work in progress. New guides will be added as Markdown files inside topic folders, then become routes and navigation cards at build time.</p>
+    </div>
+  </section>
+</SiteLayout>

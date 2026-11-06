@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../components/ArticleCard.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order || b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const featured = articles.find((article) => article.data.featured) ?? articles[0];
+const recent = articles.filter((article) => article.id !== featured?.id).slice(0, 3);
+const topics = [
+  { name: 'Foundations', desc: 'Build the mental model first.' },
+  { name: 'Architecture', desc: 'Understand the pieces and control flow.' },
+  { name: 'Frameworks', desc: 'Choose tools with clear tradeoffs.' },
+  { name: 'Deployment', desc: 'Run, evaluate, and operate systems.' },
+  { name: 'Security', desc: 'Map risks and apply layered controls.' },
+];
+const base = import.meta.env.BASE_URL;
+const siteSchema = Astro.site ? {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Agent Fieldnotes',
+  description: 'A practical learning path through AI agents, architecture, frameworks, deployment, and security.',
+  url: Astro.site.toString(),
+} : null;
+---
+
+<SiteLayout structuredData={siteSchema}>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">A field guide to agentic systems</span>
+        <h1>Understand agents.<br />Build them <em>responsibly.</em></h1>
+        <p class="hero-copy">A practical learning path through how AI agents work, how to build and deploy them, and how to make their tools and decisions safer.</p>
+        <div class="hero-actions">
+          <a class="button-primary" href={`${base}learn/`}>Start with the fundamentals <span aria-hidden="true">↗</span></a>
+          <a class="button-quiet" href={`${base}learn/#security`}>Explore security</a>
+        </div>
+        <div class="hero-note"><span>●</span> Concepts first · evidence over hype · security throughout</div>
+      </div>
+      <div class="hero-visual" aria-label="Illustration of a bounded agent loop">
+        <div class="visual-top"><span>Inside an agent loop</span><span class="live">● bounded by design</span></div>
+        <div class="loop-diagram" aria-hidden="true">
+          <div class="loop-step"><b><span class="num">01</span>Observe</b><small>Request + trusted context</small></div>
+          <div class="loop-step"><b><span class="num">02</span>Decide</b><small>Model selects an action</small></div>
+          <div class="loop-step"><b><span class="num">03</span>Check</b><small>Policy + permission gate</small></div>
+          <div class="loop-step"><b><span class="num">04</span>Act</b><small>Tool returns an observation</small></div>
+          <span class="loop-arrow a">→</span><span class="loop-arrow b">↶</span>
+        </div>
+        <p class="visual-caption"><span>↳</span> The application owns permissions, limits, and stop conditions. The model proposes; the system decides what runs.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="signal-row"><div class="signal-inner"><strong>Learn in sequence</strong><span class="signal-dot"></span><span>From first principles</span><span class="signal-dot"></span><span>To production and security</span><span class="signal-dot"></span><span>Updated as tools evolve</span></div></div>
+
+  <section class="section">
+    <div class="section-heading">
+      <div><span class="eyebrow">Start here</span><h2>Get the foundations right.</h2></div>
+      <p>Clear explanations for engineers who want to understand the system before choosing a framework or granting it access.</p>
+    </div>
+    <div class="featured-grid">
+      {featured && <ArticleCard article={featured} featured />}
+      <div class="feature-aside">
+        <span class="aside-index">The editorial promise / 01—03</span>
+        <div><h3>Less magic.<br />More mechanism.</h3><p>We look at the model, the application, the tools, and the boundaries between them. Every capability comes with its tradeoffs.</p></div>
+        <div><div class="aside-rule"></div><a class="feature-link" href={`${base}learn/`}>Browse the learning path <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 10px">
+    <div class="section-heading">
+      <div><span class="eyebrow">Latest fieldnotes</span><h2>Learn one useful idea at a time.</h2></div>
+      <p>Short, connected guides to architecture choices, engineering practice, and the risks that come with giving software tools.</p>
+    </div>
+    {recent.length > 0 ? <div class="article-grid">{recent.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">More fieldnotes are on the way. Start with the fundamentals above.</p>}
+  </section>
+
+  <section class="path-section">
+    <div class="section">
+      <div class="section-heading">
+        <div><span class="eyebrow">The learning path</span><h2>From first principles to safer systems.</h2></div>
+        <p>Follow a deliberate progression. Each topic folder contains Markdown files that become readable pages automatically.</p>
+      </div>
+      <div class="path-grid">
+        {topics.map((topic, index) => <a class="path-step" href={`${base}learn/#${topic.name.toLowerCase()}`}><span class="path-number">0{index + 1} / 05</span><h3>{topic.name}</h3><p>{topic.desc}</p></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="security-callout" id="security">
+    <div><span class="eyebrow">Security is part of the architecture</span><h2>Give an agent a tool. Give that tool a boundary.</h2><p>Explore threat modeling, untrusted content, authorization, and the controls that belong in the application around the model.</p></div>
+    <a class="button-quiet" href={`${base}learn/#security`}>Read security guides <span aria-hidden="true">↗</span></a>
+  </section>
+</SiteLayout>

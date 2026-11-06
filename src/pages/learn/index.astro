@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../../components/ArticleCard.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order || b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const topics = [
+  { name: 'Foundations', description: 'Start with definitions and mental models before the implementation details.' },
+  { name: 'Architecture', description: 'Trace the model, state, tools, and application control flow.' },
+  { name: 'Frameworks', description: 'Compare orchestration options against a concrete task and constraints.' },
+  { name: 'Deployment', description: 'Prepare to evaluate, release, observe, and operate agentic systems.' },
+  { name: 'Security', description: 'Threat-model the whole application and match controls to real risks.' },
+];
+---
+
+<SiteLayout title="Learning path — Agent Fieldnotes" description="A sequenced guide to AI agents, architecture, frameworks, deployment, and security.">
+  <section class="page-intro">
+    <span class="eyebrow">The field guide</span>
+    <h1>Learn agents in order.</h1>
+    <p>Start with the building blocks, follow how systems make decisions, then explore frameworks, deployment, and security. Each Markdown file becomes a page at the matching route.</p>
+  </section>
+  {topics.map((topic) => {
+    const posts = articles.filter((article) => article.data.topic === topic.name);
+    return <section class="topic-section" id={topic.name.toLowerCase()}>
+      <div class="topic-heading"><h2>{topic.name}</h2><span>{String(posts.length).padStart(2, '0')} FIELDNOTES</span></div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.6;max-width:650px;margin:0 0 20px">{topic.description}</p>
+      {posts.length ? <div class="article-grid">{posts.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">This section is planned. Its topic folder is ready for the first Markdown article.</p>}
+    </section>;
+  })}
+</SiteLayout>

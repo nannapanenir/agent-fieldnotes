@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="240" viewBox="0 0 760 240" role="img" aria-labelledby="title desc">
+  <title id="title">MCP connects an agent to tools; A2A connects agents to each other</title>
+  <desc id="desc">Your agent sits in the middle. On the left, it connects over MCP to an MCP server that exposes tools, files, and APIs; the agent calls those capabilities. On the right, it connects over A2A to another agent, from another vendor or team, which can take on a task and report back. Both the MCP server and the other agent are outside your application's trust boundary, shown with dashed outlines.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: dashed outline = outside your trust boundary, protocol names are written on each connection.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/>
+    </marker>
+    <style>
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .proto { font: 600 12px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .agent { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .outside { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+
+  <rect width="760" height="240" fill="#171a16"/>
+
+  <!-- MCP server -->
+  <rect class="outside" x="30" y="40" width="190" height="60" rx="3"/>
+  <text class="node" x="125" y="65" text-anchor="middle">MCP server</text>
+  <text class="sub" x="125" y="85" text-anchor="middle">tools, files, APIs</text>
+
+  <!-- Your agent -->
+  <rect class="agent" x="285" y="40" width="190" height="60" rx="3"/>
+  <text class="node" x="380" y="65" text-anchor="middle">Your agent</text>
+  <text class="sub" x="380" y="85" text-anchor="middle">your application</text>
+
+  <!-- Other agent -->
+  <rect class="outside" x="540" y="40" width="190" height="60" rx="3"/>
+  <text class="node" x="635" y="65" text-anchor="middle">Another agent</text>
+  <text class="sub" x="635" y="85" text-anchor="middle">other vendor or team</text>
+
+  <!-- Connections -->
+  <line x1="281" y1="70" x2="224" y2="70" stroke="#f0f0e8" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text class="proto" x="252" y="60" text-anchor="middle">MCP</text>
+  <line x1="479" y1="70" x2="536" y2="70" stroke="#f0f0e8" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text class="proto" x="508" y="60" text-anchor="middle">A2A</text>
+
+  <text class="note" x="125" y="136" text-anchor="middle">agent calls a capability</text>
+  <text class="note" x="125" y="152" text-anchor="middle">and gets a result</text>
+  <text class="note" x="635" y="136" text-anchor="middle">agent hands off a task</text>
+  <text class="note" x="635" y="152" text-anchor="middle">and gets a report back</text>
+
+  <!-- Legend -->
+  <rect x="30" y="196" width="26" height="14" class="outside"/>
+  <text class="note" x="64" y="207">Dashed outline: outside your application. Treat what comes back as untrusted.</text>
+</svg>

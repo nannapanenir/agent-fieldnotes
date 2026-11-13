@@ -8,17 +8,17 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 
 | Stage | File | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | foundations/what-is-an-agent.md | in PR | Revised version replaces the live one; adds agent-spectrum.svg. `draft: false` is set in this PR, so the live page stays up after merge. |
-| 1 | foundations/agentic-ai-glossary.md | in PR | No images. |
-| 1 | foundations/ai-phrasebook.md | in PR | Adds engineering-ladder.svg. Links into the glossary. |
+| 1 | foundations/what-is-an-agent.md | published | Revised version replaces the live one; adds agent-spectrum.svg. `draft: false` is set in this PR, so the live page stays up after merge. |
+| 1 | foundations/agentic-ai-glossary.md | published | No images. |
+| 1 | foundations/ai-phrasebook.md | published | Adds engineering-ladder.svg. Links into the glossary. |
 | 2 | architecture/the-agent-loop.md | published | Closing-paragraph fix is in this PR. |
-| 2 | architecture/agent-components-model-tools-state.md | in PR | Adds agent-components.svg, plus agent-loop.svg and trust-boundaries.svg figure blocks. |
-| 2 | architecture/tool-calling-and-control-flow.md | in PR | Adds tool-call-path.svg. |
-| 2 | architecture/context-memory-and-retrieval.md | in PR | Adds context-sources.svg. |
-| 2 | architecture/single-agent-vs-multi-agent.md | in PR | Adds single-vs-multi-agent.svg and mcp-vs-a2a.svg. |
-| 2 | architecture/orchestration-patterns.md | in PR | Adds five pattern-*.svg diagrams. |
+| 2 | architecture/agent-components-model-tools-state.md | published | Adds agent-components.svg, plus agent-loop.svg and trust-boundaries.svg figure blocks. |
+| 2 | architecture/tool-calling-and-control-flow.md | published | Adds tool-call-path.svg. |
+| 2 | architecture/context-memory-and-retrieval.md | published | Adds context-sources.svg. |
+| 2 | architecture/single-agent-vs-multi-agent.md | published | Adds single-vs-multi-agent.svg and mcp-vs-a2a.svg. |
+| 2 | architecture/orchestration-patterns.md | published | Adds five pattern-*.svg diagrams. |
 | 3 | security/trust-boundaries-for-agents.md | published | Further-reading update (OWASP Agentic Top 10 2026, NIST AI 600-1) is in this PR. |
-| 3 | security/tool-permissions-and-excessive-agency.md | in PR | Adds security/scoped-token-flow.svg. |
+| 3 | security/tool-permissions-and-excessive-agency.md | published | Adds security/scoped-token-flow.svg. |
 | 3 | security/prompt-injection-in-agent-systems.md | next | |
 | 3 | security/agent-memory-and-data-exposure.md | planned | |
 | 3 | security/sandboxing-and-code-execution.md | planned | |
@@ -47,6 +47,10 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 8 | deployment/azure-networking-and-private-access.md | planned | |
 | 8 | deployment/monitor-version-and-roll-back-an-azure-agent.md | planned | |
 | 8 | deployment/monitoring-and-incident-response.md | planned | |
+
+## Writing rules
+
+- Cite OWASP LLM Top 10 IDs from the 2026 edition (for example LLM03:2026 Excessive Agency) and name the edition.
 
 ## Stage 8 notes (Microsoft Foundry)
 

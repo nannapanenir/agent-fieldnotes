@@ -4,6 +4,7 @@ description: Follow a bounded agent from a user request through action selection
 topic: Architecture
 level: Beginner
 publishedAt: 2026-11-03
+updatedAt: 2026-11-13
 order: 2
 readingMinutes: 7
 tags: [architecture, tools, control-flow]
@@ -62,4 +63,6 @@ For a shipment lookup, the model can select `getShipmentStatus` and provide a tr
 - Which actions require human approval?
 - How does the system stop safely after an error?
 
-The next useful topic is how to choose between a fixed workflow and an agentic loop. Add it under `foundations/` so its URL and navigation follow the same content structure.
+## What to learn next
+
+Each step of this loop belongs to a specific part of the system. [The Parts of an AI Agent](/learn/architecture/agent-components-model-tools-state/) covers the model, instructions, tools, and state, and which of them enforces each rule.

@@ -4,6 +4,7 @@ description: Map the model, tools, retrieved content, and application as separat
 topic: Security
 level: Beginner
 publishedAt: 2026-11-03
+updatedAt: 2026-11-13
 order: 4
 readingMinutes: 6
 tags: [security, threat-modeling, tools]
@@ -47,5 +48,7 @@ No single prompt, classifier, or checklist makes an agent secure. Controls must 
 
 ## Further reading
 
-- [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) — application-focused risk guidance; check the current edition before citing specific categories.
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — risk-management resource; map its guidance to the system context rather than treating it as a technical checklist.
+- [OWASP Top 10 for LLM Applications (2026)](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/): application-focused risk guidance; cite category IDs with their edition, because the 2026 edition renumbered some of them.
+- [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/): risks specific to agents that plan and act with tools, published December 9, 2025, by the OWASP GenAI Security Project; use its ASI categories as a review checklist, not as proof of coverage.
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework): risk-management resource; map its guidance to the system context rather than treating it as a technical checklist.
+- [NIST AI 600-1, Generative AI Profile](https://doi.org/10.6028/NIST.AI.600-1): the July 2024 companion to the AI RMF that lists risks specific to generative AI, such as information security and data privacy, with suggested actions for each.

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="470" viewBox="0 0 760 470" role="img" aria-labelledby="title desc">
+  <title id="title">Where each step's context comes from</title>
+  <desc id="desc">Data-flow diagram. Five sources feed a context builder in the application: instructions and tool definitions, written by you and trusted; conversation state, which holds user messages and is untrusted; long-term memory saved in earlier sessions, untrusted; retrieved documents from a search index, untrusted; and tool results from this turn, untrusted. The context builder scopes everything to the current user, selects what is relevant, trims it to a token budget, and orders and labels it. The result goes to one model call, and the context is rebuilt for every step.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: dashed outline + the word "untrusted" = content you didn't write,
+    solid gray outline = trusted content you wrote, acid outline = the application.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/>
+    </marker>
+    <style>
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .step { font: 400 12px 'DM Sans', system-ui, sans-serif; fill: #d4d8cf; }
+      .who { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .plain { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .untrusted { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+
+  <rect width="760" height="470" fill="#171a16"/>
+
+  <!-- Sources -->
+  <rect class="plain" x="30" y="30" width="260" height="54" rx="3"/>
+  <text class="node" x="160" y="53" text-anchor="middle">Instructions + tool definitions</text>
+  <text class="sub" x="160" y="72" text-anchor="middle">written by you · trusted</text>
+
+  <rect class="untrusted" x="30" y="104" width="260" height="54" rx="3"/>
+  <text class="node" x="160" y="127" text-anchor="middle">Conversation state</text>
+  <text class="usub" x="160" y="146" text-anchor="middle">user messages · untrusted</text>
+
+  <rect class="untrusted" x="30" y="178" width="260" height="54" rx="3"/>
+  <text class="node" x="160" y="201" text-anchor="middle">Long-term memory</text>
+  <text class="usub" x="160" y="220" text-anchor="middle">saved earlier · untrusted</text>
+
+  <rect class="untrusted" x="30" y="252" width="260" height="54" rx="3"/>
+  <text class="node" x="160" y="275" text-anchor="middle">Retrieved documents</text>
+  <text class="usub" x="160" y="294" text-anchor="middle">search index · untrusted</text>
+
+  <rect class="untrusted" x="30" y="326" width="260" height="54" rx="3"/>
+  <text class="node" x="160" y="349" text-anchor="middle">Tool results</text>
+  <text class="usub" x="160" y="368" text-anchor="middle">this turn · untrusted</text>
+
+  <!-- Flows into the builder -->
+  <line x1="290" y1="57" x2="356" y2="140" stroke="#f0f0e8" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <line x1="290" y1="131" x2="356" y2="172" stroke="#f0f0e8" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <line x1="290" y1="205" x2="356" y2="205" stroke="#f0f0e8" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <line x1="290" y1="279" x2="356" y2="238" stroke="#f0f0e8" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <line x1="290" y1="353" x2="356" y2="270" stroke="#f0f0e8" stroke-width="1.3" marker-end="url(#arrow)"/>
+
+  <!-- Context builder -->
+  <rect class="app" x="360" y="110" width="210" height="190" rx="3"/>
+  <text class="node" x="465" y="136" text-anchor="middle">Context builder</text>
+  <text class="who" x="465" y="154" text-anchor="middle">application</text>
+  <text class="step" x="378" y="185">1  Scope to this user</text>
+  <text class="step" x="378" y="211">2  Select what's relevant</text>
+  <text class="step" x="378" y="237">3  Trim to a token budget</text>
+  <text class="step" x="378" y="263">4  Order and label sources</text>
+
+  <!-- To the model -->
+  <line x1="570" y1="205" x2="612" y2="205" stroke="#f0f0e8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect class="plain" x="616" y="178" width="120" height="54" rx="3"/>
+  <text class="node" x="676" y="201" text-anchor="middle">Model call</text>
+  <text class="sub" x="676" y="220" text-anchor="middle">one step</text>
+  <text class="note" x="676" y="256" text-anchor="middle">rebuilt for</text>
+  <text class="note" x="676" y="272" text-anchor="middle">every step</text>
+
+  <!-- Legend -->
+  <rect x="30" y="408" width="26" height="14" class="plain"/>
+  <text class="note" x="64" y="419">Solid: content you wrote.</text>
+  <rect x="270" y="408" width="26" height="14" class="untrusted"/>
+  <text class="note" x="304" y="419">Dashed: untrusted, checked before use.</text>
+  <rect x="30" y="436" width="26" height="14" class="app"/>
+  <text class="note" x="64" y="447">Outlined in green: the application decides what the model sees.</text>
+</svg>

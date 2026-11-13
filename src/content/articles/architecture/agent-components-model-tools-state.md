@@ -8,7 +8,7 @@ order: 5
 readingMinutes: 9
 tags: [architecture, tools, state, memory, fundamentals]
 featured: false
-draft: true
+draft: false
 ---
 
 An AI agent has four parts: a model, instructions, tools, and state. The model reads the context and proposes what to do next. The application around it does the rest. It runs the loop, decides what the model sees, executes tools, keeps state, and enforces every rule.
@@ -119,6 +119,17 @@ Here is one turn of a shipment-tracking agent, with each step mapped to the part
 7. **Stop.** The model writes the answer, the application saves the turn, and the loop ends.
 
 <figure class="diagram">
+<div class="diagram-frame" tabindex="0" role="region" aria-label="Sequence diagram of one bounded agent turn. Scrolls horizontally on small screens.">
+
+![Sequence diagram with four participants: user, application, model, and tool. 1, the user sends a task and identity to the application. 2, the application validates the request and builds context. Steps 3 to 6 repeat in a loop: 3, the application sends context and the allowed tools to the model, and the model returns a proposed action. 4, the application checks the schema, authorization, and limits. 5, the application runs the tool with a timeout and receives an untrusted result. 6, the application returns a bounded, untrusted observation to the model, which replies with an answer or a next action. 7, the application returns the result or a handoff to the user. A box at the bottom lists the stop conditions the application enforces: final answer, step limit, time or cost limit, refusal, repeated errors, or human handoff.](../../../assets/diagrams/architecture/agent-loop.svg)
+
+</div>
+<figcaption>One turn of a bounded agent loop. The application owns every check and every stop condition.</figcaption>
+</figure>
+
+**How to read the diagram.** Read from top to bottom. Each column is a participant, and the numbers match the steps above. Solid arrows are requests and calls; dashed arrows are responses. The dashed frame marks steps 3 to 6, which repeat until a stop condition in the box at the bottom ends the turn. Every check sits on the application's column, never on the model's.
+
+<figure class="diagram">
 <div class="diagram-frame" tabindex="0" role="region" aria-label="Agent parts diagram. Scrolls horizontally on small screens.">
 
 ![Component diagram. A large application box contains instructions, policy and limits, session state, and a tool gateway. The model sits outside the application and receives requests, returning proposals. Tools sit behind the gateway, the user enters from the left, a human approval step connects to policy and limits, a separate box marks provider-hosted tools, and an optional long-term memory store connects to session state.](../../../assets/diagrams/architecture/agent-components.svg)
@@ -147,6 +158,17 @@ The application box holds everything the system controls: the instructions it se
 - Each tool is code the model can trigger, so each one you add widens the blast radius. Give every tool the narrowest scope it needs, keep read tools separate from write tools, and require approval for consequential actions.
 - Scope long-term memory per user, set a retention period, and be careful about what gets saved. Injected text stored as a "memory" gets loaded again in future sessions.
 - Keep secrets out of instructions, tool descriptions, and context. All three can leak through logs, traces, or prompt-extraction attacks.
+
+<figure class="diagram">
+<div class="diagram-frame" tabindex="0" role="region" aria-label="Trust boundary diagram of a tool-using assistant. Scrolls horizontally on small screens.">
+
+![Trust boundary diagram. The application sits in the center inside its own trust boundary and holds identity and permission checks, schema validation and limits, the tool gateway, approval logic, and redacted logging. Each surrounding zone is a separate trust boundary: the signed-in user sends requests; the model provider receives context and returns proposed actions, marked untrusted; retrieved web pages, files, and documents flow in as untrusted content; read-only tools are called with scoped access and write tools only after approval, and both return untrusted results; a human approval path approves or rejects high-impact actions; and memory, databases, logs, and secrets are reached with least access and retention limits.](../../../assets/diagrams/security/trust-boundaries.svg)
+
+</div>
+<figcaption>The parts of an agent mapped to trust boundaries. Everything that crosses into the application is checked there.</figcaption>
+</figure>
+
+**How to read the diagram.** The application in the center is the only zone you fully control, and every check in this guide lives inside it. Each dashed box around it is a separate trust boundary. Dashed arrows carry untrusted data, which the application treats as data and never as instructions. Write tools sit behind the approval path, and storage is reached only with minimized, redacted access.
 
 See [Trust Boundaries for Agent Systems](/learn/security/trust-boundaries-for-agents/) for how these parts map to trust zones.
 

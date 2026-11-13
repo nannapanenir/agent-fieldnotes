@@ -38,11 +38,13 @@ That file is served at `/learn/security/prompt-injection-in-rag/`.
 1. Replace every `TODO` in the frontmatter and body. Search the file for `TODO` before you finish.
 2. Set `publishedAt` to the real publication date (`YYYY-MM-DD`). Add `updatedAt` only when you revise a published article.
 3. Keep `topic` and `level` spelled exactly as listed in the comments. The allowed values come from `src/content.config.ts`, and the build fails on anything else.
-4. Cite primary sources next to the claims they support, with versions and dates for anything that changes quickly.
+4. Attribute claims in words in the article, with versions and dates for anything that changes quickly. Keep external source links out of the article body; list the sources with their dates in the pull request description.
 5. Delete the template comments (`# ...` lines in frontmatter and `<!-- ... -->` in the body) if you don't need them.
 
-## Keep it a draft until it's ready
+## Publish through the stage pull request
 
-Every template starts with `draft: true`, which keeps the article out of the public build. Change it to `draft: false` only when the article is reviewed and ready to publish. For security articles, run `/review-agent-security` first. For any article, `/seo-site-audit` can check metadata and internal links.
+New articles use `draft: false`. The user reviews the stage pull request, and merging it publishes them.
+
+Every template starts with `draft: true` only so a half-filled copy can't go live by accident. Change it to `draft: false` once every `TODO` is gone, before you open the pull request. For security articles, run `/review-agent-security` first. For any article, `/seo-site-audit` can check metadata and internal links.
 
 If the schema in `src/content.config.ts` changes, update these templates to match.

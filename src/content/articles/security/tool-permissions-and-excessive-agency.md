@@ -4,6 +4,7 @@ description: How to apply least privilege to an agent's tools, with separate rea
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-11
+updatedAt: 2026-11-13
 order: 2
 readingMinutes: 9
 tags: [security, permissions, least-privilege, excessive-agency, owasp]
@@ -17,7 +18,7 @@ This article applies least privilege to the shipment assistant from earlier arti
 
 ## What "excessive agency" means
 
-OWASP's Top 10 for LLM Applications (2025 edition) lists excessive agency as LLM06: a system that can take damaging actions because a model's output was unexpected, ambiguous, or manipulated. OWASP names three root causes:
+OWASP's Top 10 for LLM Applications (2026 edition) lists excessive agency as LLM03:2026 (it was LLM06 in the 2025 edition): a system that can take damaging actions because a model's output was unexpected, ambiguous, or manipulated. OWASP names three root causes:
 
 - Excessive functionality: tools the task doesn't need, or tools that can do more than intended.
 - Excessive permissions: tools that reach systems with broader access than the task needs.

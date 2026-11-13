@@ -4,6 +4,7 @@ description: Plain definitions of the agent and agent-security terms used across
 topic: Foundations
 level: Beginner
 publishedAt: 2026-11-05
+updatedAt: 2026-11-13
 order: 2
 readingMinutes: 10
 tags: [glossary, agents, fundamentals, security, terminology]
@@ -171,7 +172,7 @@ OWASP's extension of least privilege to agents: give an agent only the autonomy 
 
 ### Excessive agency
 
-An OWASP term, listed as LLM06 in the Top 10 for LLM Applications (2025), for an agent that can do more damage than its task requires. OWASP names three root causes: excessive functionality (tools it doesn't need), excessive permissions (more access than the task needs), and excessive autonomy (high-impact actions with no check or approval).
+An OWASP term, listed as LLM03:2026 in the Top 10 for LLM Applications (2026 edition; it was LLM06 in the 2025 edition), for an agent that can do more damage than its task requires. OWASP names three root causes: excessive functionality (tools it doesn't need), excessive permissions (more access than the task needs), and excessive autonomy (high-impact actions with no check or approval).
 
 ### Sandbox
 

@@ -8,7 +8,7 @@ order: 9
 readingMinutes: 11
 tags: [architecture, orchestration, workflows, multi-agent, security]
 featured: false
-draft: true
+draft: false
 ---
 
 Orchestration is how you arrange the steps of an AI system: which model calls happen, in what order, what your code checks between them, and when a person gets a say. A handful of shapes cover most real systems, and each one has its own places where things can go wrong.

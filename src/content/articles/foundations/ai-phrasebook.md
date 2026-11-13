@@ -8,7 +8,7 @@ order: 3
 readingMinutes: 13
 tags: [fundamentals, terminology, prompt-engineering, context-engineering, harness-engineering]
 featured: false
-draft: true
+draft: false
 ---
 
 AI picks up new words faster than most people can look them up. Some name real ideas, some rename old ones, and a few are mostly marketing. This phrasebook gives each term a short, plain meaning, says where it came from when that's known, and points to a deeper article when the site has one.

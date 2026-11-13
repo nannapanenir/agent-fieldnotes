@@ -8,7 +8,7 @@ order: 8
 readingMinutes: 10
 tags: [architecture, multi-agent, orchestration, a2a, security]
 featured: false
-draft: true
+draft: false
 ---
 
 A team of AI agents sounds like a good idea: a planner, a researcher, a writer, and a reviewer, each doing what it's best at. In practice, most tasks go better with one agent that has the right tools. Extra agents cost more, are harder to debug, and add a trust boundary at every handoff.

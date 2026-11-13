@@ -8,7 +8,7 @@ order: 7
 readingMinutes: 11
 tags: [architecture, context, memory, retrieval, rag, security]
 featured: false
-draft: true
+draft: false
 ---
 
 A model knows nothing about your user, your product, or the conversation so far except what you send it on each call. Every step of the agent loop starts with the application deciding what goes into that call. This article covers where that information comes from, how much of it fits, and which parts you can trust.

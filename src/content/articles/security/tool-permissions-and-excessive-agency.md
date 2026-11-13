@@ -8,7 +8,7 @@ order: 2
 readingMinutes: 9
 tags: [security, permissions, least-privilege, excessive-agency, owasp]
 featured: false
-draft: true
+draft: false
 ---
 
 An agent can only do what its tools allow, with the credentials those tools use. That makes tool permissions the most direct control you have over how much damage a confused or manipulated agent can cause. If the model is tricked into calling the wrong tool, permissions decide whether the result is an error message or a real incident.

@@ -8,7 +8,7 @@ order: 5
 readingMinutes: 9
 tags: [architecture, tools, state, memory, fundamentals]
 featured: false
-draft: true
+draft: false
 ---
 
 An AI agent has four parts: a model, instructions, tools, and state. The model reads the context and proposes what to do next. The application around it does the rest. It runs the loop, decides what the model sees, executes tools, keeps state, and enforces every rule.

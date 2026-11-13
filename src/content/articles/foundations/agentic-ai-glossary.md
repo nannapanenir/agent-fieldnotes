@@ -8,7 +8,7 @@ order: 2
 readingMinutes: 10
 tags: [glossary, agents, fundamentals, security, terminology]
 featured: false
-draft: true
+draft: false
 ---
 
 This page defines the terms used across Agent Fieldnotes. Other articles link here the first time they use a term instead of defining it again.

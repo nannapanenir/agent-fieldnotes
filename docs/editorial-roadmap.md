@@ -21,8 +21,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 3 | security/tool-permissions-and-excessive-agency.md | published | Adds security/scoped-token-flow.svg. |
 | 3 | security/prompt-injection-in-agent-systems.md | in PR | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
 | 3 | security/agent-memory-and-data-exposure.md | in PR | Adds security/data-exposure-paths.svg. |
-| 3 | security/sandboxing-and-code-execution.md | next | |
-| 3 | security/human-approval-for-sensitive-actions.md | planned | |
+| 3 | security/sandboxing-and-code-execution.md | in PR | Adds security/sandbox-containment.svg. |
+| 3 | security/human-approval-for-sensitive-actions.md | next | |
 | 4 | architecture/build-a-minimal-agent-in-typescript.md | planned | |
 | 4 | architecture/add-tools-and-permissions.md | planned | |
 | 4 | architecture/add-state-and-handle-tool-errors.md | planned | |

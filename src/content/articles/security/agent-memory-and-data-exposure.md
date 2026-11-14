@@ -170,4 +170,4 @@ For the terms used here, see the [Agentic AI Glossary](/learn/foundations/agenti
 
 ## What to learn next
 
-Memory and logs hold what an agent has seen. The next article covers what an agent can run: sandboxing and code execution, and how to contain what agent-written code can reach.
+Memory and logs hold what an agent has seen. The next article covers what an agent can run: [sandboxing and code execution](/learn/security/sandboxing-and-code-execution/), and how to contain what agent-written code can reach.

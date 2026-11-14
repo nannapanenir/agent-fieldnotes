@@ -146,4 +146,4 @@ For the terms used here, see the [Agentic AI Glossary](/learn/foundations/agenti
 
 ## What to learn next
 
-A sandbox limits what code can reach. Some actions are risky even when nothing escapes, such as a refund or a message sent on a customer's behalf. The next article covers human approval for sensitive actions: which actions need a person, and how to design approvals people don't just click through.
+A sandbox limits what code can reach. Some actions are risky even when nothing escapes, such as a refund or a message sent on a customer's behalf. The next article covers [human approval for sensitive actions](/learn/security/human-approval-for-sensitive-actions/): which actions need a person, and how to design approvals people don't just click through.

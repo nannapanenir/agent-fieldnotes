@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="460" viewBox="0 0 760 460" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative mockup of an approval card</title>
+  <desc id="desc">Illustrative mockup of an approval card titled "Approve this redelivery?". It lists the package tracking number, the new delivery date, Saturday, November 14, and the delivery address on file, 14 Linden Ave, each read from the company's systems. A separate, labeled section shows the assistant's note, marked as written by the assistant and not verified. Below are Approve and Reject buttons, and a line saying the request expires in 15 minutes and nothing happens if it expires.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Illustrative mockup only, not a real product screen. The address and tracking number are made up.
+    Meaning never depends on color: the unverified note is dashed and says "not verified".
+  -->
+  <defs>
+    <style>
+      .label { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; letter-spacing: .06em; }
+      .title { font: 600 18px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .k { font: 400 12px 'DM Sans', system-ui, sans-serif; fill: #a4a99f; }
+      .v { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .src { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .quote { font: 400 12px 'DM Sans', system-ui, sans-serif; fill: #d4d8cf; }
+      .btn { font: 600 13px 'DM Sans', system-ui, sans-serif; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+    </style>
+  </defs>
+  <rect width="760" height="460" fill="#171a16"/>
+  <text class="label" x="120" y="34">ILLUSTRATIVE MOCKUP</text>
+
+  <rect x="120" y="46" width="520" height="390" rx="8" fill="#1d211b" stroke="#a4a99f" stroke-width="1"/>
+  <text class="title" x="146" y="84">Approve this redelivery?</text>
+
+  <text class="k" x="146" y="122">Package</text>
+  <text class="v" x="290" y="122">1Z999AA10123456784</text>
+  <text class="k" x="146" y="152">New date</text>
+  <text class="v" x="290" y="152">Saturday, November 14</text>
+  <text class="k" x="146" y="182">Deliver to</text>
+  <text class="v" x="290" y="182">14 Linden Ave (address on file)</text>
+  <text class="src" x="146" y="208">details read from shipment and account records</text>
+
+  <rect x="146" y="226" width="468" height="70" rx="4" fill="#171a16" stroke="#9ce6db" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text class="usub" x="162" y="248">assistant's note: written by the assistant, not verified</text>
+  <text class="quote" x="162" y="276">"Customer asked to move the delivery to Saturday."</text>
+
+  <rect x="146" y="320" width="150" height="40" rx="4" fill="#c7f36b"/>
+  <text class="btn" x="221" y="345" text-anchor="middle" fill="#171a12">Approve</text>
+  <rect x="312" y="320" width="150" height="40" rx="4" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <text class="btn" x="387" y="345" text-anchor="middle" fill="#f0f0e8">Reject</text>
+
+  <text class="note" x="146" y="394">Expires in 15 minutes. If it expires, nothing happens.</text>
+  <text class="src" x="146" y="414">Rejecting is always safe; the assistant will explain other options.</text>
+</svg>

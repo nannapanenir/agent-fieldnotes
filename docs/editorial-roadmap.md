@@ -22,8 +22,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 3 | security/prompt-injection-in-agent-systems.md | in PR | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
 | 3 | security/agent-memory-and-data-exposure.md | in PR | Adds security/data-exposure-paths.svg. |
 | 3 | security/sandboxing-and-code-execution.md | in PR | Adds security/sandbox-containment.svg. |
-| 3 | security/human-approval-for-sensitive-actions.md | next | |
-| 4 | architecture/build-a-minimal-agent-in-typescript.md | planned | |
+| 3 | security/human-approval-for-sensitive-actions.md | in PR | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
+| 4 | architecture/build-a-minimal-agent-in-typescript.md | next | |
 | 4 | architecture/add-tools-and-permissions.md | planned | |
 | 4 | architecture/add-state-and-handle-tool-errors.md | planned | |
 | 4 | architecture/evaluate-agent-behavior-locally.md | planned | |

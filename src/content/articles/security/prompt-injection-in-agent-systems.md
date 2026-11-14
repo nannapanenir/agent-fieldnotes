@@ -165,4 +165,4 @@ For the terms used here, see the [Agentic AI Glossary](/learn/foundations/agenti
 
 ## What to learn next
 
-Injected text that reaches an agent's memory doesn't go away when the conversation ends. The next article covers agent memory and data exposure: how memory, retrieval, logs, and traces can leak or be poisoned, and how to limit both.
+Injected text that reaches an agent's memory doesn't go away when the conversation ends. The next article covers [agent memory and data exposure](/learn/security/agent-memory-and-data-exposure/): how memory, retrieval, logs, and traces can leak or be poisoned, and how to limit both.

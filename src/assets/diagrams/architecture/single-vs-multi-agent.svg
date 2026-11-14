@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" role="img" aria-labelledby="title desc">
+  <title id="title">One agent compared with an orchestrator and two workers</title>
+  <desc id="desc">Two panels. Left: one agent that plans and acts, connected to three tools: search, orders, and email. Right: an orchestrator agent that plans, delegates, and combines results sends subtasks to two worker agents, each with its own context and one tool, search for the first and orders for the second. A dashed line labeled trust boundary separates the orchestrator from the workers, and another dashed line separates the two workers. Results return from each worker to the orchestrator as untrusted input. Each added agent adds a trust boundary and a handoff to secure.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: dashed lines = trust boundaries (labeled), dashed arrows = results returned as untrusted input.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/>
+    </marker>
+    <style>
+      .title { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .blbl { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .agent { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .tool { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .boundary { stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 6 5; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="760" height="500" fill="#171a16"/>
+  <line x1="380" y1="24" x2="380" y2="430" stroke="rgba(235,243,225,.12)" stroke-width="1"/>
+
+  <!-- Left: one agent -->
+  <text class="title" x="190" y="44" text-anchor="middle">One agent</text>
+  <text class="sub" x="190" y="64" text-anchor="middle">one context, one set of tools</text>
+
+  <rect class="agent" x="100" y="110" width="180" height="56" rx="3"/>
+  <text class="node" x="190" y="133" text-anchor="middle">Agent</text>
+  <text class="sub" x="190" y="152" text-anchor="middle">plans and acts</text>
+
+  <line x1="170" y1="166" x2="84" y2="339" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="190" y1="166" x2="190" y2="339" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="210" y1="166" x2="296" y2="339" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <rect class="tool" x="30" y="343" width="100" height="44" rx="3"/>
+  <text class="node" x="80" y="370" text-anchor="middle">Search</text>
+  <rect class="tool" x="140" y="343" width="100" height="44" rx="3"/>
+  <text class="node" x="190" y="370" text-anchor="middle">Orders</text>
+  <rect class="tool" x="250" y="343" width="100" height="44" rx="3"/>
+  <text class="node" x="300" y="370" text-anchor="middle">Email</text>
+
+  <text class="note" x="190" y="418" text-anchor="middle">every check happens in one place</text>
+
+  <!-- Right: orchestrator + workers -->
+  <text class="title" x="570" y="44" text-anchor="middle">Orchestrator + workers</text>
+  <text class="sub" x="570" y="64" text-anchor="middle">separate contexts, more handoffs</text>
+
+  <rect class="agent" x="440" y="110" width="260" height="56" rx="3"/>
+  <text class="node" x="570" y="133" text-anchor="middle">Orchestrator agent</text>
+  <text class="sub" x="570" y="152" text-anchor="middle">plans, delegates, combines</text>
+
+  <line class="boundary" x1="404" y1="200" x2="736" y2="200"/>
+  <text class="blbl" x="570" y="194" text-anchor="middle">trust boundary</text>
+
+  <line x1="495" y1="166" x2="495" y2="231" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="475" y1="235" x2="475" y2="170" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrow-cyan)"/>
+  <line x1="665" y1="166" x2="665" y2="231" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="645" y1="235" x2="645" y2="170" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrow-cyan)"/>
+
+  <rect class="agent" x="410" y="235" width="150" height="56" rx="3"/>
+  <text class="node" x="485" y="258" text-anchor="middle">Worker A</text>
+  <text class="sub" x="485" y="277" text-anchor="middle">own context</text>
+
+  <rect class="agent" x="580" y="235" width="150" height="56" rx="3"/>
+  <text class="node" x="655" y="258" text-anchor="middle">Worker B</text>
+  <text class="sub" x="655" y="277" text-anchor="middle">own context</text>
+
+  <line class="boundary" x1="570" y1="215" x2="570" y2="398"/>
+
+  <line x1="485" y1="291" x2="485" y2="339" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="655" y1="291" x2="655" y2="339" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <rect class="tool" x="425" y="343" width="120" height="44" rx="3"/>
+  <text class="node" x="485" y="370" text-anchor="middle">Search</text>
+  <rect class="tool" x="595" y="343" width="120" height="44" rx="3"/>
+  <text class="node" x="655" y="370" text-anchor="middle">Orders</text>
+
+  <text class="note" x="570" y="418" text-anchor="middle">every handoff needs its own checks</text>
+
+  <!-- Legend -->
+  <line x1="20" y1="452" x2="50" y2="452" stroke="#f0f0e8" stroke-width="1.4"/>
+  <text class="note" x="58" y="456">Solid arrow: a request or subtask.</text>
+  <line x1="300" y1="452" x2="330" y2="452" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <text class="note" x="338" y="456">Dashed arrow: a result, treated as untrusted.</text>
+  <line class="boundary" x1="20" y1="478" x2="50" y2="478"/>
+  <text class="note" x="58" y="482">Dashed line: a trust boundary between agents.</text>
+</svg>

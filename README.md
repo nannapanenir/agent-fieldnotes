@@ -66,9 +66,13 @@ cp templates/articles/concept-guide.md src/content/articles/foundations/what-is-
 
 Then replace every `TODO` placeholder. Keep templates themselves out of `src/content/articles/`; anything there is loaded as an article.
 
-### Keep it a draft until it's ready
+### Publish through the stage pull request
 
-Templates start with `draft: true`. Draft articles are excluded from every page, the article index, and `sitemap.xml`, including when you run `npm run dev`. To preview a draft locally, temporarily set `draft: false`, check it in the dev server, and set it back before committing if it isn't ready. Publish by committing it with `draft: false`.
+New articles use `draft: false`. Articles are grouped by roadmap stage into one pull request; the user reviews that pull request, and merging it publishes them. Templates start with `draft: true` only so a half-filled copy can't go live by accident: change it to `draft: false` once every `TODO` is gone, before you open the pull request.
+
+Articles marked `draft: true` are excluded from every page, the article index, and `sitemap.xml`, including when you run `npm run dev`. Use it only to hold back an article that isn't ready to merge.
+
+Keep external source links out of the article body. List sources with their dates in the pull request description, and attribute claims in words in the article (for example, "OWASP's 2026 edition lists...").
 
 ### Topic folders and frontmatter
 
@@ -82,7 +86,7 @@ deployment/
 security/
 ```
 
-For example, `src/content/articles/security/prompt-injection.md` becomes `/learn/security/prompt-injection/`. Add frontmatter like this. The `topic` must match the section name exactly. Set `draft: true` to keep a post out of the public build.
+For example, `src/content/articles/security/prompt-injection.md` becomes `/learn/security/prompt-injection/`. Add frontmatter like this. The `topic` must match the section name exactly. New articles use `draft: false`; merging the stage pull request publishes them.
 
 ```yaml
 ---
@@ -95,7 +99,7 @@ order: 10
 readingMinutes: 8
 tags: [security, prompt-injection]
 featured: false
-draft: true
+draft: false
 ---
 ```
 

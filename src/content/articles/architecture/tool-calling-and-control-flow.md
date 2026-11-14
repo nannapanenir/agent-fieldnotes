@@ -8,7 +8,7 @@ order: 6
 readingMinutes: 11
 tags: [architecture, tools, tool-calling, validation, security]
 featured: false
-draft: true
+draft: false
 ---
 
 A model can't run a tool. When it wants one, it writes a structured request, and your application decides what happens next. Most of the security of an agent depends on how the application makes that decision.

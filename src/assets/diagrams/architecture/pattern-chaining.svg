@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="196" viewBox="0 0 760 196" role="img" aria-labelledby="title desc">
+  <title id="title">Prompt chaining</title>
+  <desc id="desc">Left to right: an untrusted customer email goes to a model step that extracts the order and issue. A code step checks the fields; if the check fails, the run stops and is logged. If it passes, a second model step drafts a reply, and a human checkpoint approves it before it is sent.</desc>
+  <!--
+    Hand-authored source, generated once from a small script; edit this file directly.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: every box is labeled "Model:", "Code:", or "Human checkpoint",
+    and untrusted inputs say "untrusted".
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/></marker>
+    <style>
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .model { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .code { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .human-inner { fill: none; stroke: #232822; stroke-width: 1.2; }
+      .io { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .untrusted { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+  <rect width="760" height="196" fill="#171a16"/>
+  <rect class="untrusted" x="20" y="40" width="110" height="56" rx="18"/>
+  <text class="node" x="75" y="64" text-anchor="middle">Customer email</text>
+  <text class="usub" x="75" y="81" text-anchor="middle">untrusted</text>
+  <rect class="model" x="160" y="40" width="120" height="56" rx="3"/>
+  <text class="node" x="220" y="64" text-anchor="middle">Model: extract</text>
+  <text class="sub" x="220" y="81" text-anchor="middle">order + issue</text>
+  <rect class="code" x="310" y="40" width="120" height="56" rx="3"/>
+  <text class="node" x="370" y="64" text-anchor="middle">Code: check</text>
+  <text class="sub" x="370" y="81" text-anchor="middle">fields valid?</text>
+  <rect class="model" x="460" y="40" width="120" height="56" rx="3"/>
+  <text class="node" x="520" y="64" text-anchor="middle">Model: draft</text>
+  <text class="sub" x="520" y="81" text-anchor="middle">reply</text>
+  <rect class="human" x="610" y="40" width="130" height="56" rx="3"/>
+  <rect class="human-inner" x="614" y="44" width="122" height="48" rx="2"/>
+  <text class="node" x="675" y="64" text-anchor="middle">Human checkpoint</text>
+  <text class="sub" x="675" y="81" text-anchor="middle">approve, then send</text>
+  <line x1="130" y1="68" x2="156" y2="68" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="280" y1="68" x2="306" y2="68" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="430" y1="68" x2="456" y2="68" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="580" y1="68" x2="606" y2="68" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="370" y1="96" x2="370" y2="128" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <rect class="code" x="310" y="132" width="120" height="40" rx="3"/>
+  <text class="node" x="370" y="156" text-anchor="middle">Stop and log</text>
+  <text class="sub" x="384" y="118" text-anchor="start">fail</text>
+</svg>

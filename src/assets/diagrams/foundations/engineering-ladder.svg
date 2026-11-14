@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="470" viewBox="0 0 760 470" role="img" aria-labelledby="title desc">
+  <title id="title">From prompt to loop: four layers of AI engineering</title>
+  <desc id="desc">Four nested boxes. The innermost is prompt engineering, which asks how to phrase one request and took off from 2022. It sits inside context engineering, which asks what the model should see at each step and was named in 2025. That sits inside harness engineering, which asks what environment, tools, and checks surround the agent and was named in early 2026. The outermost is loop engineering, which asks what keeps the agent working toward a goal and when it stops, named in mid-2026. Each layer wraps the one before it instead of replacing it.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning comes from nesting and labels, not color: each box contains the layers inside it.
+  -->
+  <defs>
+    <style>
+      .name { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .q { font: 400 12px 'DM Sans', system-ui, sans-serif; fill: #d4d8cf; }
+      .yr { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .l4 { fill: #1b1f19; stroke: #a4a99f; stroke-width: 1; }
+      .l3 { fill: #1f241d; stroke: #a4a99f; stroke-width: 1; }
+      .l2 { fill: #232822; stroke: #a4a99f; stroke-width: 1; }
+      .l1 { fill: #2a3027; stroke: #c7f36b; stroke-width: 1.4; }
+    </style>
+  </defs>
+
+  <rect width="760" height="470" fill="#171a16"/>
+
+  <!-- Loop -->
+  <rect class="l4" x="20" y="20" width="720" height="400" rx="6"/>
+  <text class="name" x="40" y="48">Loop engineering</text>
+  <text class="yr" x="720" y="48" text-anchor="end">named mid-2026</text>
+  <text class="q" x="40" y="68">What keeps the agent working toward a goal, and when does it stop?</text>
+
+  <!-- Harness -->
+  <rect class="l3" x="50" y="88" width="660" height="312" rx="6"/>
+  <text class="name" x="70" y="116">Harness engineering</text>
+  <text class="yr" x="690" y="116" text-anchor="end">named early 2026</text>
+  <text class="q" x="70" y="136">What tools, rules, and checks surround the agent?</text>
+
+  <!-- Context -->
+  <rect class="l2" x="80" y="156" width="600" height="224" rx="6"/>
+  <text class="name" x="100" y="184">Context engineering</text>
+  <text class="yr" x="660" y="184" text-anchor="end">named 2025</text>
+  <text class="q" x="100" y="204">What should the model see at each step?</text>
+
+  <!-- Prompt -->
+  <rect class="l1" x="110" y="224" width="540" height="136" rx="6"/>
+  <text class="name" x="380" y="280" text-anchor="middle">Prompt engineering</text>
+  <text class="q" x="380" y="302" text-anchor="middle">How should I phrase this one request?</text>
+  <text class="yr" x="380" y="326" text-anchor="middle">took off from 2022</text>
+
+  <text class="note" x="380" y="448" text-anchor="middle">Each layer wraps the one inside it. None of them replaces the others.</text>
+</svg>

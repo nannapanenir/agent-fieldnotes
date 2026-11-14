@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="256" viewBox="0 0 760 256" role="img" aria-labelledby="title desc">
+  <title id="title">Routing</title>
+  <desc id="desc">Left to right: an untrusted customer message goes to a model that returns one label. A code step accepts only allowed labels and routes the message to one of three paths: a tracking path with read-only tools, a redelivery path with a write tool that asks for confirmation first, or a human checkpoint when the label is unknown or the classifier is unsure.</desc>
+  <!--
+    Hand-authored source, generated once from a small script; edit this file directly.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: every box is labeled "Model:", "Code:", or "Human checkpoint",
+    and untrusted inputs say "untrusted".
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/></marker>
+    <style>
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .model { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .code { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .human-inner { fill: none; stroke: #232822; stroke-width: 1.2; }
+      .io { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .untrusted { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+  <rect width="760" height="256" fill="#171a16"/>
+  <rect class="untrusted" x="20" y="104" width="140" height="56" rx="18"/>
+  <text class="node" x="90" y="128" text-anchor="middle">Customer message</text>
+  <text class="usub" x="90" y="145" text-anchor="middle">untrusted</text>
+  <rect class="model" x="185" y="104" width="120" height="56" rx="3"/>
+  <text class="node" x="245" y="128" text-anchor="middle">Model: classify</text>
+  <text class="sub" x="245" y="145" text-anchor="middle">one label</text>
+  <rect class="code" x="330" y="104" width="130" height="56" rx="3"/>
+  <text class="node" x="395" y="128" text-anchor="middle">Code: route</text>
+  <text class="sub" x="395" y="145" text-anchor="middle">allowed labels</text>
+  <rect class="model" x="510" y="30" width="230" height="56" rx="3"/>
+  <text class="node" x="625" y="54" text-anchor="middle">Tracking path</text>
+  <text class="sub" x="625" y="71" text-anchor="middle">read-only tools</text>
+  <rect class="model" x="510" y="104" width="230" height="56" rx="3"/>
+  <text class="node" x="625" y="128" text-anchor="middle">Redelivery path</text>
+  <text class="sub" x="625" y="145" text-anchor="middle">write tool, confirm first</text>
+  <rect class="human" x="510" y="178" width="230" height="56" rx="3"/>
+  <rect class="human-inner" x="514" y="182" width="222" height="48" rx="2"/>
+  <text class="node" x="625" y="202" text-anchor="middle">Human checkpoint</text>
+  <text class="sub" x="625" y="219" text-anchor="middle">unknown or unsure: a person</text>
+  <line x1="160" y1="132" x2="181" y2="132" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="305" y1="132" x2="326" y2="132" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <path d="M460,132 C485,132 485,58 506,58" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="460" y1="132" x2="506" y2="132" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <path d="M460,132 C485,132 485,206 506,206" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+</svg>

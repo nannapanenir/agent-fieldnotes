@@ -9,7 +9,7 @@ order: 1
 readingMinutes: 8
 tags: [agents, fundamentals, llms, workflows, chatbots]
 featured: true
-draft: true
+draft: false
 ---
 
 An AI agent is a software system in which a language model chooses the next step toward a goal: which tool to call, what to look at next, and when the task is done. The application around the model sets the limits and carries out every action.

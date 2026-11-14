@@ -19,8 +19,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 2 | architecture/orchestration-patterns.md | published | Adds five pattern-*.svg diagrams. |
 | 3 | security/trust-boundaries-for-agents.md | published | Further-reading update (OWASP Agentic Top 10 2026, NIST AI 600-1) is in this PR. |
 | 3 | security/tool-permissions-and-excessive-agency.md | published | Adds security/scoped-token-flow.svg. |
-| 3 | security/prompt-injection-in-agent-systems.md | next | |
-| 3 | security/agent-memory-and-data-exposure.md | planned | |
+| 3 | security/prompt-injection-in-agent-systems.md | in PR | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
+| 3 | security/agent-memory-and-data-exposure.md | next | |
 | 3 | security/sandboxing-and-code-execution.md | planned | |
 | 3 | security/human-approval-for-sensitive-actions.md | planned | |
 | 4 | architecture/build-a-minimal-agent-in-typescript.md | planned | |

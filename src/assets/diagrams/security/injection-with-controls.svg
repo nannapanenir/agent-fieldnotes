@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">Indirect prompt injection with layered controls</title>
+  <desc id="desc">The same five steps with controls. A1: an attacker writes instructions into a carrier delivery note, which is untrusted. A2: code returns the status with the note trimmed and labeled as untrusted data; control: label and trim tool results. A3: the model may still follow the note, so the design assumes some injections succeed. A4: code blocks the action, because the redelivery tool has no address field, the email tool has no recipient field, and ownership is checked; control: narrow schemas, ownership checks, and approval with exact details. A5: the damage is contained; at worst the customer is asked to approve a redelivery of their own package to their own address, and the attempt is logged; control: logging and alerts on blocked calls.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: boxes are labeled "Code:", "Model:", "Control:", "untrusted", or "Outcome:", and steps are numbered A1-A5.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .h { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .node { font: 500 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .step { font: 600 12px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ctl { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .code { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .model { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .untrusted { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+      .control { fill: #232822; stroke: #c7f36b; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="760" height="520" fill="#171a16"/>
+  <text class="h" x="40" y="36">With layered controls</text>
+  <text class="sub" x="560" y="36">controls at each step</text>
+
+  <text class="step" x="40" y="94">A1</text>
+  <rect class="untrusted" x="80" y="64" width="450" height="56" rx="3"/>
+  <text class="node" x="98" y="87">Attacker writes into a carrier delivery note</text>
+  <text class="usub" x="98" y="106">untrusted: the same text as before</text>
+
+  <line x1="305" y1="120" x2="305" y2="140" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <text class="step" x="40" y="174">A2</text>
+  <rect class="code" x="80" y="144" width="450" height="56" rx="3"/>
+  <text class="node" x="98" y="167">Code: returns the status, note trimmed</text>
+  <text class="sub" x="98" y="186">anything left is labeled untrusted data</text>
+  <rect class="control" x="555" y="144" width="185" height="56" rx="3"/>
+  <text class="ctl" x="567" y="167">Control:</text>
+  <text class="note" x="567" y="186">label and trim results</text>
+
+  <line x1="305" y1="200" x2="305" y2="220" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <text class="step" x="40" y="254">A3</text>
+  <rect class="model" x="80" y="224" width="450" height="56" rx="3"/>
+  <text class="node" x="98" y="247">Model: may still follow the note</text>
+  <text class="sub" x="98" y="266">the design assumes some injections succeed</text>
+
+  <line x1="305" y1="280" x2="305" y2="300" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <text class="step" x="40" y="334">A4</text>
+  <rect class="code" x="80" y="304" width="450" height="56" rx="3"/>
+  <text class="node" x="98" y="327">Code: blocks the harmful call</text>
+  <text class="sub" x="98" y="346">no address field, no recipient field</text>
+  <rect class="control" x="555" y="304" width="185" height="56" rx="3"/>
+  <text class="ctl" x="567" y="322">Control:</text>
+  <text class="note" x="567" y="338">narrow schemas, owner</text>
+  <text class="note" x="567" y="352">checks, approval</text>
+
+  <line x1="305" y1="360" x2="305" y2="380" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <text class="step" x="40" y="414">A5</text>
+  <rect class="code" x="80" y="384" width="450" height="56" rx="3"/>
+  <text class="node" x="98" y="407">Outcome: contained and logged</text>
+  <text class="sub" x="98" y="426">worst case: own package, own address, approval</text>
+  <rect class="control" x="555" y="384" width="185" height="56" rx="3"/>
+  <text class="ctl" x="567" y="407">Control:</text>
+  <text class="note" x="567" y="426">log and alert on blocks</text>
+
+  <rect x="80" y="472" width="26" height="14" class="untrusted"/>
+  <text class="note" x="116" y="483">Dashed: untrusted content.</text>
+  <rect x="330" y="472" width="26" height="14" class="code"/>
+  <text class="note" x="366" y="483">Outlined: application code and controls.</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="title desc">
+  <title id="title">The approval lifecycle</title>
+  <desc id="desc">State diagram. A proposed action, which the model asked to run and the application's policy says needs approval, becomes pending. While pending, the approver sees the exact action and a timer runs; this is the human checkpoint. From pending, an action is approved, rejected, or timed out. Approved means a token is bound to this exact action for one use; it then becomes executed, where code checks the token and runs the tool. Rejected means nothing runs and the model is told the action was declined. Timed out means nobody answered in time and nothing runs. Only the executed state runs the action.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: each state names itself and says whether anything runs; the human checkpoint is labeled.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .node { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .tag { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .model { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .code { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.4; }
+      .end { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="760" height="380" fill="#171a16"/>
+
+  <!-- Top row: the one path that runs -->
+  <rect class="model" x="20" y="50" width="165" height="88" rx="3"/>
+  <text class="node" x="34" y="74">Proposed</text>
+  <text class="sub" x="34" y="94">model asks to run a</text>
+  <text class="sub" x="34" y="110">high-impact tool;</text>
+  <text class="sub" x="34" y="126">policy needs approval</text>
+
+  <rect class="human" x="205" y="50" width="165" height="88" rx="3"/>
+  <text class="node" x="219" y="74">Pending</text>
+  <text class="tag" x="219" y="94">human checkpoint</text>
+  <text class="sub" x="219" y="110">approver sees the</text>
+  <text class="sub" x="219" y="126">exact action; timer</text>
+
+  <rect class="code" x="390" y="50" width="165" height="88" rx="3"/>
+  <text class="node" x="404" y="74">Approved</text>
+  <text class="sub" x="404" y="94">token bound to this</text>
+  <text class="sub" x="404" y="110">exact action, one</text>
+  <text class="sub" x="404" y="126">use, with an expiry</text>
+
+  <rect class="code" x="575" y="50" width="165" height="88" rx="16"/>
+  <text class="node" x="589" y="74">Executed</text>
+  <text class="sub" x="589" y="94">code checks the</text>
+  <text class="sub" x="589" y="110">token, then runs</text>
+  <text class="tag" x="589" y="126">the action runs</text>
+
+  <line x1="185" y1="94" x2="201" y2="94" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="370" y1="94" x2="386" y2="94" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="555" y1="94" x2="571" y2="94" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Other endings -->
+  <rect class="end" x="205" y="210" width="165" height="88" rx="16"/>
+  <text class="node" x="219" y="234">Rejected</text>
+  <text class="sub" x="219" y="254">nothing runs; the</text>
+  <text class="sub" x="219" y="270">model is told it</text>
+  <text class="sub" x="219" y="286">was declined</text>
+
+  <rect class="end" x="390" y="210" width="165" height="88" rx="16"/>
+  <text class="node" x="404" y="234">Timed out</text>
+  <text class="sub" x="404" y="254">no answer in time;</text>
+  <text class="sub" x="404" y="270">nothing runs;</text>
+  <text class="sub" x="404" y="286">silence is not yes</text>
+
+  <line x1="287" y1="138" x2="287" y2="206" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <path d="M330,138 C330,175 472,170 472,206" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="330" width="26" height="14" class="human"/>
+  <text class="note" x="56" y="341">Thick outline: human checkpoint.</text>
+  <rect x="300" y="330" width="26" height="14" class="code"/>
+  <text class="note" x="336" y="341">Green: enforced by code.</text>
+  <rect x="540" y="330" width="26" height="14" rx="5" class="end"/>
+  <text class="note" x="576" y="341">Rounded: an ending.</text>
+</svg>

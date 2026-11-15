@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="540" viewBox="0 0 760 540" role="img" aria-labelledby="title desc">
+  <title id="title">Where an agent's user data goes, and the control at each stop</title>
+  <desc id="desc">The signed-in user sends messages to the application, which builds context and runs tools and is where scoping, redaction, and minimization are enforced in code. The application sends prompts to the model provider, which is outside your system; the control is to send the minimum and check retention terms. The application reads and writes long-term memory, scoped per user and tenant, with a write gate, provenance, and expiry. It reads the retrieval index, filtered by user in the query and reindexed on delete. It writes logs, redacted before writing and kept for days rather than forever. It writes traces of prompts and tool calls, redacted or sampled, with restricted access and short retention. Backups hold copies of every store, and deletion and expiry must apply to them too. Untrusted content such as tool results and documents enters the application and can try to plant memories.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: dashed outline = outside your control or untrusted (also labeled), controls are written under each store name.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/></marker>
+    <style>
+      .node { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .usub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .ctl { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .store { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .outside { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+  <rect width="760" height="540" fill="#171a16"/>
+
+  <!-- Model provider (outside) -->
+  <rect class="outside" x="180" y="30" width="240" height="84" rx="3"/>
+  <text class="node" x="196" y="54">Model provider</text>
+  <text class="usub" x="196" y="73">outside your system</text>
+  <text class="ctl" x="196" y="91">send the minimum;</text>
+  <text class="ctl" x="196" y="105">check retention terms</text>
+
+  <!-- User -->
+  <rect class="store" x="20" y="232" width="125" height="56" rx="16"/>
+  <text class="node" x="38" y="256">User</text>
+  <text class="sub" x="38" y="274">signed in</text>
+
+  <!-- Application -->
+  <rect class="app" x="180" y="196" width="240" height="128" rx="3"/>
+  <text class="node" x="196" y="222">Application</text>
+  <text class="sub" x="196" y="241">builds context, runs tools</text>
+  <text class="ctl" x="196" y="270">scope, redact, minimize:</text>
+  <text class="ctl" x="196" y="285">enforced here, in code</text>
+
+  <!-- Untrusted content -->
+  <rect class="outside" x="20" y="400" width="260" height="70" rx="3"/>
+  <text class="node" x="36" y="424">Untrusted content</text>
+  <text class="usub" x="36" y="442">tool results, documents</text>
+  <text class="usub" x="36" y="458">can try to plant memories</text>
+
+  <!-- Stores -->
+  <rect class="store" x="470" y="30" width="270" height="70" rx="3"/>
+  <text class="node" x="486" y="52">Long-term memory</text>
+  <text class="ctl" x="486" y="70">scope: per user and tenant</text>
+  <text class="ctl" x="486" y="86">write gate, provenance, expiry</text>
+
+  <rect class="store" x="470" y="116" width="270" height="70" rx="3"/>
+  <text class="node" x="486" y="138">Retrieval index</text>
+  <text class="ctl" x="486" y="156">filter by user in the query</text>
+  <text class="ctl" x="486" y="172">reindex when data is deleted</text>
+
+  <rect class="store" x="470" y="202" width="270" height="70" rx="3"/>
+  <text class="node" x="486" y="224">Logs</text>
+  <text class="ctl" x="486" y="242">redact before writing</text>
+  <text class="ctl" x="486" y="258">keep for days, not forever</text>
+
+  <rect class="store" x="470" y="288" width="270" height="70" rx="3"/>
+  <text class="node" x="486" y="310">Traces</text>
+  <text class="ctl" x="486" y="328">redact or sample; limit access</text>
+  <text class="ctl" x="486" y="344">shortest retention that works</text>
+
+  <rect class="store" x="470" y="400" width="270" height="70" rx="3"/>
+  <text class="node" x="486" y="422">Backups</text>
+  <text class="sub" x="486" y="440">copies of every store above</text>
+  <text class="ctl" x="486" y="456">deletion and expiry apply here</text>
+
+  <!-- Flows -->
+  <line x1="145" y1="260" x2="176" y2="260" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="300" y1="192" x2="300" y2="118" stroke="#f0f0e8" stroke-width="1.4" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M420,212 C445,212 445,65 466,65" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M420,236 C445,236 445,151 466,151" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="420" y1="250" x2="466" y2="250" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <path d="M420,300 C445,300 445,323 466,323" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <path d="M740,65 H752 M740,151 H752 M740,237 H752 M740,323 H752 M752,65 V435 H746" fill="none" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="150" y1="400" x2="230" y2="328" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrow-cyan)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="500" width="26" height="14" class="outside"/>
+  <text class="note" x="56" y="511">Dashed: outside your control, or untrusted.</text>
+  <text class="ctl" x="410" y="511">Green text: the control at that stop.</text>
+</svg>

@@ -418,4 +418,4 @@ What's left is a real risk: an approved redelivery on the wrong date, if the cus
 
 ## What to learn next
 
-The agent now acts, so failures matter more. The next tutorial adds conversation state with a size limit and handles tool errors properly: classifying them, retrying only safe reads, and returning a clear partial result instead of an invented one.
+The agent now acts, so failures matter more. [Add State and Handle Tool Errors](/learn/architecture/add-state-and-handle-tool-errors/) adds conversation state with a size limit and handles tool errors properly: classifying them, retrying only safe reads, and returning a clear partial result instead of an invented one.

@@ -99,15 +99,17 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
       const year = document.querySelector('#year');
       if (year) year.textContent = String(new Date().getFullYear());
 
-      // Code tabs: a <div class="code-tabs"> holding one code block per language becomes a tab switcher.
+      // Code tabs: a <div class="code-tabs"> holding a TypeScript block, then a Python block, becomes a tab switcher.
       // The chosen language applies to every group on the page and is remembered between visits.
       // Without JavaScript, the blocks stay stacked, each with a CSS language label.
+      // Blocks that aren't code (two bash or text blocks, say) take their language from their position.
       const LANGUAGES: Record<string, { id: string; label: string }> = {
         ts: { id: 'typescript', label: 'TypeScript' },
         typescript: { id: 'typescript', label: 'TypeScript' },
         py: { id: 'python', label: 'Python' },
         python: { id: 'python', label: 'Python' },
       };
+      const BY_POSITION = [LANGUAGES.typescript, LANGUAGES.python];
       const LANGUAGE_KEY = 'code-language';
       const groups = Array.from(document.querySelectorAll<HTMLElement>('.code-tabs'));
       const tabGroups: { tabs: HTMLButtonElement[]; panels: HTMLElement[]; languages: string[] }[] = [];
@@ -138,7 +140,8 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
         const languages: string[] = [];
         panels.forEach((panel, i) => {
           const raw = panel.dataset.language ?? '';
-          const language = LANGUAGES[raw] ?? { id: raw, label: raw };
+          const known = LANGUAGES[raw];
+          const language = known && !languages.includes(known.id) ? known : (BY_POSITION[i] ?? { id: raw, label: raw });
           const tab = document.createElement('button');
           tab.type = 'button';
           tab.className = 'code-tab';
@@ -366,9 +369,9 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   .prose .code-tabs { margin: 25px 0; }
   .prose .code-tabs > pre { margin: 0; }
   .prose .code-tabs:not(.is-enhanced) > pre + pre { margin-top: 14px; }
-  .prose .code-tabs:not(.is-enhanced) > pre[data-language]::before { display: block; margin: -6px 0 12px; color: var(--soft); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; content: attr(data-language); }
-  .prose .code-tabs:not(.is-enhanced) > pre[data-language="ts"]::before { content: 'TypeScript'; }
-  .prose .code-tabs:not(.is-enhanced) > pre[data-language="python"]::before { content: 'Python'; }
+  .prose .code-tabs:not(.is-enhanced) > pre::before { display: block; margin: -6px 0 12px; color: var(--soft); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+  .prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(1)::before { content: 'TypeScript'; }
+  .prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(2)::before { content: 'Python'; }
   .prose .code-tabs-list { display: flex; border: 1px solid var(--line); border-bottom: 0; background: var(--surface-2); }
   .prose .code-tab { margin: 0 0 -1px; padding: 9px 14px; border: 0; border-right: 1px solid var(--line); border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
   .prose .code-tab:hover { color: var(--ink); }

@@ -19,12 +19,12 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 2 | architecture/orchestration-patterns.md | published | Adds five pattern-*.svg diagrams. |
 | 3 | security/trust-boundaries-for-agents.md | published | Further-reading update (OWASP Agentic Top 10 2026, NIST AI 600-1) is in this PR. |
 | 3 | security/tool-permissions-and-excessive-agency.md | published | Adds security/scoped-token-flow.svg. |
-| 3 | security/prompt-injection-in-agent-systems.md | in PR | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
-| 3 | security/agent-memory-and-data-exposure.md | in PR | Adds security/data-exposure-paths.svg. |
-| 3 | security/sandboxing-and-code-execution.md | in PR | Adds security/sandbox-containment.svg. |
-| 3 | security/human-approval-for-sensitive-actions.md | in PR | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
-| 4 | architecture/build-a-minimal-agent-in-typescript.md | next | |
-| 4 | architecture/add-tools-and-permissions.md | planned | |
+| 3 | security/prompt-injection-in-agent-systems.md | published | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
+| 3 | security/agent-memory-and-data-exposure.md | published | Adds security/data-exposure-paths.svg. |
+| 3 | security/sandboxing-and-code-execution.md | published | Adds security/sandbox-containment.svg. |
+| 3 | security/human-approval-for-sensitive-actions.md | published | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
+| 4 | architecture/build-a-minimal-agent-in-typescript.md | in PR | Adds architecture/minimal-agent-run.svg. Code tested with @anthropic-ai/sdk 1.8.0 and Node.js 22.23. |
+| 4 | architecture/add-tools-and-permissions.md | next | |
 | 4 | architecture/add-state-and-handle-tool-errors.md | planned | |
 | 4 | architecture/evaluate-agent-behavior-locally.md | planned | |
 | 5 | security/threat-modeling-an-agent.md | planned | |

@@ -5,7 +5,7 @@ topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15
 order: 12
-readingMinutes: 20
+readingMinutes: 21
 tags: [architecture, tutorial, typescript, python, state, error-handling]
 featured: false
 draft: false

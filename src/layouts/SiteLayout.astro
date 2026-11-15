@@ -98,6 +98,85 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
       });
       const year = document.querySelector('#year');
       if (year) year.textContent = String(new Date().getFullYear());
+
+      // Code tabs: a <div class="code-tabs"> holding one code block per language becomes a tab switcher.
+      // The chosen language applies to every group on the page and is remembered between visits.
+      // Without JavaScript, the blocks stay stacked, each with a CSS language label.
+      const LANGUAGES: Record<string, { id: string; label: string }> = {
+        ts: { id: 'typescript', label: 'TypeScript' },
+        typescript: { id: 'typescript', label: 'TypeScript' },
+        py: { id: 'python', label: 'Python' },
+        python: { id: 'python', label: 'Python' },
+      };
+      const LANGUAGE_KEY = 'code-language';
+      const groups = Array.from(document.querySelectorAll<HTMLElement>('.code-tabs'));
+      const tabGroups: { tabs: HTMLButtonElement[]; panels: HTMLElement[]; languages: string[] }[] = [];
+
+      const selectLanguage = (language: string, anchor?: HTMLElement) => {
+        const before = anchor?.getBoundingClientRect().top;
+        for (const group of tabGroups) {
+          const index = Math.max(0, group.languages.indexOf(language));
+          group.tabs.forEach((tab, i) => {
+            const selected = i === index;
+            tab.setAttribute('aria-selected', String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+            group.panels[i].hidden = !selected;
+          });
+        }
+        // Groups above the one clicked can change height; keep the clicked tab where it was.
+        if (anchor && before !== undefined) window.scrollBy(0, anchor.getBoundingClientRect().top - before);
+      };
+
+      groups.forEach((group, groupIndex) => {
+        const panels = Array.from(group.querySelectorAll<HTMLElement>(':scope > pre[data-language]'));
+        if (panels.length < 2) return;
+        const tablist = document.createElement('div');
+        tablist.className = 'code-tabs-list';
+        tablist.setAttribute('role', 'tablist');
+        tablist.setAttribute('aria-label', 'Code language');
+        const tabs: HTMLButtonElement[] = [];
+        const languages: string[] = [];
+        panels.forEach((panel, i) => {
+          const raw = panel.dataset.language ?? '';
+          const language = LANGUAGES[raw] ?? { id: raw, label: raw };
+          const tab = document.createElement('button');
+          tab.type = 'button';
+          tab.className = 'code-tab';
+          tab.id = `code-tab-${groupIndex}-${i}`;
+          tab.textContent = language.label;
+          tab.setAttribute('role', 'tab');
+          panel.id = `code-panel-${groupIndex}-${i}`;
+          panel.setAttribute('role', 'tabpanel');
+          panel.setAttribute('aria-labelledby', tab.id);
+          tab.setAttribute('aria-controls', panel.id);
+          tab.addEventListener('click', () => choose(language.id, tab));
+          tab.addEventListener('keydown', (event) => {
+            const keys: Record<string, number> = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
+            if (!(event.key in keys)) return;
+            event.preventDefault();
+            const next = tabs[(keys[event.key] + tabs.length) % tabs.length];
+            next.focus();
+            choose(languages[tabs.indexOf(next)], next);
+          });
+          tabs.push(tab);
+          languages.push(language.id);
+          tablist.append(tab);
+        });
+        group.prepend(tablist);
+        group.classList.add('is-enhanced');
+        tabGroups.push({ tabs, panels, languages });
+      });
+
+      function choose(language: string, anchor: HTMLElement) {
+        selectLanguage(language, anchor);
+        try { localStorage.setItem(LANGUAGE_KEY, language); } catch {}
+      }
+
+      if (tabGroups.length > 0) {
+        let saved: string | null = null;
+        try { saved = localStorage.getItem(LANGUAGE_KEY); } catch {}
+        selectLanguage(saved ?? tabGroups[0].languages[0]);
+      }
     </script>
   </body>
 </html>
@@ -284,6 +363,17 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   .prose .diagram-frame:focus-visible { outline: 2px solid var(--acid); outline-offset: 2px; }
   .prose .diagram-frame p { margin: 0; }
   .prose .diagram-frame img { display: block; width: 100%; min-width: 560px; height: auto; }
+  .prose .code-tabs { margin: 25px 0; }
+  .prose .code-tabs > pre { margin: 0; }
+  .prose .code-tabs:not(.is-enhanced) > pre + pre { margin-top: 14px; }
+  .prose .code-tabs:not(.is-enhanced) > pre[data-language]::before { display: block; margin: -6px 0 12px; color: var(--soft); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; content: attr(data-language); }
+  .prose .code-tabs:not(.is-enhanced) > pre[data-language="ts"]::before { content: 'TypeScript'; }
+  .prose .code-tabs:not(.is-enhanced) > pre[data-language="python"]::before { content: 'Python'; }
+  .prose .code-tabs-list { display: flex; border: 1px solid var(--line); border-bottom: 0; background: var(--surface-2); }
+  .prose .code-tab { margin: 0 0 -1px; padding: 9px 14px; border: 0; border-right: 1px solid var(--line); border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+  .prose .code-tab:hover { color: var(--ink); }
+  .prose .code-tab[aria-selected="true"] { border-bottom-color: var(--acid); background: var(--code-bg); color: var(--acid); }
+  .prose .code-tab:focus-visible, .prose .code-tabs > pre:focus-visible { outline: 2px solid var(--acid); outline-offset: -2px; }
   .prose figcaption { margin-top: 10px; color: var(--soft); font: 11px/1.6 'DM Mono', monospace; }
   .aside-title { margin-bottom: 15px; color: var(--soft); font: 10px 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
   .toc-list { display: grid; gap: 10px; padding-left: 13px; border-left: 1px solid var(--line); }

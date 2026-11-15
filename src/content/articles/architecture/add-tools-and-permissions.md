@@ -11,7 +11,7 @@ featured: false
 draft: false
 ---
 
-The agent from [Build a Minimal Agent in TypeScript](/learn/architecture/build-a-minimal-agent-in-typescript/) can only read, which made it safe to experiment with. This tutorial gives it a tool that changes something: a redelivery request. Done carelessly, that one tool lets a confused or manipulated model act for the wrong customer, on the wrong package, as many times as it likes. Done carefully, it can do exactly one thing, for the signed-in customer, after that customer says yes.
+The agent from [Build a Minimal Agent](/learn/architecture/build-a-minimal-agent/) can only read, which made it safe to experiment with. This tutorial gives it a tool that changes something: a redelivery request. Done carelessly, that one tool lets a confused or manipulated model act for the wrong customer, on the wrong package, as many times as it likes. Done carefully, it can do exactly one thing, for the signed-in customer, after that customer says yes.
 
 You'll add a signed-in customer, a second read tool, the write tool, and a small runner that enforces the permissions in code. The design comes from [Tool Permissions and Excessive Agency](/learn/security/tool-permissions-and-excessive-agency/) and [Human Approval for Sensitive Actions](/learn/security/human-approval-for-sensitive-actions/).
 

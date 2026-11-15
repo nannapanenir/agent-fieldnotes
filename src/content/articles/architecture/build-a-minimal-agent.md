@@ -1,6 +1,6 @@
 ---
-title: "Build a Minimal Agent in TypeScript: One Tool, One Loop, Hard Limits"
-description: Write the smallest working shipment-tracking agent yourself in TypeScript, with one read-only tool, a bounded loop with step, time, and token limits, and structured logs.
+title: "Build a Minimal Agent: One Tool, One Loop, Hard Limits"
+description: Write the smallest working shipment-tracking agent yourself, with one read-only tool, a bounded loop with step, time, and token limits, and structured logs.
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15

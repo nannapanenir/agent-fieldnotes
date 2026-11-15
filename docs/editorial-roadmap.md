@@ -24,8 +24,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 3 | security/sandboxing-and-code-execution.md | published | Adds security/sandbox-containment.svg. |
 | 3 | security/human-approval-for-sensitive-actions.md | published | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
 | 4 | architecture/build-a-minimal-agent-in-typescript.md | in PR | Adds architecture/minimal-agent-run.svg. Code tested with @anthropic-ai/sdk 1.8.0 and Node.js 22.23. |
-| 4 | architecture/add-tools-and-permissions.md | next | |
-| 4 | architecture/add-state-and-handle-tool-errors.md | planned | |
+| 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. |
+| 4 | architecture/add-state-and-handle-tool-errors.md | next | |
 | 4 | architecture/evaluate-agent-behavior-locally.md | planned | |
 | 5 | security/threat-modeling-an-agent.md | planned | |
 | 5 | security/evaluating-agent-security.md | planned | |

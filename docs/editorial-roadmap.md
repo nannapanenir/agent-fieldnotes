@@ -23,10 +23,10 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 3 | security/agent-memory-and-data-exposure.md | published | Adds security/data-exposure-paths.svg. |
 | 3 | security/sandboxing-and-code-execution.md | published | Adds security/sandbox-containment.svg. |
 | 3 | security/human-approval-for-sensitive-actions.md | published | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
-| 4 | architecture/build-a-minimal-agent.md | in PR | Adds architecture/minimal-agent-run.svg. Code tested with @anthropic-ai/sdk 1.8.0 and Node.js 22.23. Renamed from build-a-minimal-agent-in-typescript.md so the title names no language. |
-| 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. |
-| 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. |
-| 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. |
+| 4 | architecture/build-a-minimal-agent.md | in PR | Adds architecture/minimal-agent-run.svg. TypeScript and Python in code tabs; tested with @anthropic-ai/sdk 1.8.0 on Node.js 22.23 and anthropic 2.8.0 with pydantic 2.14 on Python 3.12.3. Renamed from build-a-minimal-agent-in-typescript.md so the title names no language. |
+| 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. TypeScript and Python suites in code tabs; the CI workflow runs both. |
 | 5 | security/threat-modeling-an-agent.md | next | |
 | 5 | security/evaluating-agent-security.md | planned | |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
@@ -51,6 +51,7 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 ## Writing rules
 
 - Cite OWASP LLM Top 10 IDs from the 2026 edition (for example LLM03:2026 Excessive Agency) and name the edition.
+- Every code example ships in TypeScript and Python inside a `<div class="code-tabs">`, TypeScript first. Names follow each language (`getShipmentStatus` / `get_shipment_status`); prose uses the TypeScript names. Count `readingMinutes` from prose plus one language.
 
 ## Stage 8 notes (Microsoft Foundry)
 

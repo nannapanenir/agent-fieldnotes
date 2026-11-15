@@ -609,4 +609,4 @@ Error handling is a security feature in an agent, because the model reads every 
 
 ## What to learn next
 
-The agent now has tools, permissions, state, and error handling, which is a lot of behavior to break by accident. The next tutorial builds a local evaluation suite: a versioned set of test cases, including injected instructions and failing tools, that checks the agent's tool choices and arguments before every change.
+The agent now has tools, permissions, state, and error handling, which is a lot of behavior to break by accident. [Evaluate Agent Behavior Locally](/learn/architecture/evaluate-agent-behavior-locally/) builds a local evaluation suite: a versioned set of test cases, including injected instructions and failing tools, that checks the agent's tool choices and arguments before every change.

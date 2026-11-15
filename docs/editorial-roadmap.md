@@ -26,8 +26,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 4 | architecture/build-a-minimal-agent-in-typescript.md | in PR | Adds architecture/minimal-agent-run.svg. Code tested with @anthropic-ai/sdk 1.8.0 and Node.js 22.23. |
 | 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. |
 | 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. |
-| 4 | architecture/evaluate-agent-behavior-locally.md | next | |
-| 5 | security/threat-modeling-an-agent.md | planned | |
+| 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. |
+| 5 | security/threat-modeling-an-agent.md | next | |
 | 5 | security/evaluating-agent-security.md | planned | |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
 | 6 | frameworks/framework-comparison-by-use-case.md | planned | |

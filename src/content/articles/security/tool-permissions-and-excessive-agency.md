@@ -4,9 +4,9 @@ description: How to apply least privilege to an agent's tools, with separate rea
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-11
-updatedAt: 2026-11-13
+updatedAt: 2026-11-16
 order: 2
-readingMinutes: 9
+readingMinutes: 10
 tags: [security, permissions, least-privilege, excessive-agency, owasp]
 featured: false
 draft: false
@@ -92,7 +92,9 @@ Here's the permission plan for the shipment assistant:
 
 Refunds, in the last row, aren't an agent tool at all. When an action is high value and rare, a link to a human process is often safer than a tool with an approval step.
 
-A policy table like this can live in code, checked before every call:
+A policy table like this can live in code, checked before every call. The example comes in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. Names follow each language's conventions, so `getShipmentStatus` is `get_shipment_status` in Python:
+
+<div class="code-tabs">
 
 ```ts
 type ToolPolicy = {
@@ -114,7 +116,8 @@ type Decision =
   | { kind: "deny"; reason: string };
 
 export function checkPolicy(tool: string, callsSoFar: number, approved: boolean): Decision {
-  const policy = POLICIES[tool];
+  // Object.hasOwn, so a name like "constructor" can't match a built-in property and slip through.
+  const policy = Object.hasOwn(POLICIES, tool) ? POLICIES[tool] : undefined;
   if (!policy) return { kind: "deny", reason: "tool_not_allowed" };
   if (callsSoFar >= policy.maxCallsPerRun) return { kind: "deny", reason: "limit_reached" };
   if (policy.requiresApproval && !approved) return { kind: "needs_approval", scope: policy.scope };
@@ -122,7 +125,63 @@ export function checkPolicy(tool: string, callsSoFar: number, approved: boolean)
 }
 ```
 
+```python
+from dataclasses import dataclass
+from typing import Literal
+
+
+@dataclass(frozen=True)
+class ToolPolicy:
+    access: Literal["read", "write"]
+    scope: str
+    requires_approval: bool
+    max_calls_per_run: int
+
+
+POLICIES: dict[str, ToolPolicy] = {
+    "get_shipment_status": ToolPolicy("read", "shipments:read", requires_approval=False, max_calls_per_run=30),
+    "search_help_articles": ToolPolicy("read", "help:read", requires_approval=False, max_calls_per_run=10),
+    "request_redelivery": ToolPolicy("write", "redelivery:write", requires_approval=True, max_calls_per_run=1),
+}
+
+
+@dataclass(frozen=True)
+class Run:
+    scope: str
+    kind: Literal["run"] = "run"
+
+
+@dataclass(frozen=True)
+class NeedsApproval:
+    scope: str
+    kind: Literal["needs_approval"] = "needs_approval"
+
+
+@dataclass(frozen=True)
+class Deny:
+    reason: str
+    kind: Literal["deny"] = "deny"
+
+
+type Decision = Run | NeedsApproval | Deny
+
+
+def check_policy(tool: str, calls_so_far: int, approved: bool) -> Decision:
+    policy = POLICIES.get(tool)
+    if policy is None:
+        return Deny("tool_not_allowed")
+    if calls_so_far >= policy.max_calls_per_run:
+        return Deny("limit_reached")
+    if policy.requires_approval and not approved:
+        return NeedsApproval(policy.scope)
+    return Run(policy.scope)
+```
+
+</div>
+
 The application calls `checkPolicy` before it requests a token for the tool, and it asks the identity service for exactly the scope the policy names. The model never chooses the scope.
+
+The lookup matters as much as the table. In TypeScript, a plain `POLICIES[tool]` also finds properties every object inherits, so a tool named `constructor` would get back a function instead of `undefined`, skip every check, and be allowed to run. `Object.hasOwn` limits the lookup to the policies you wrote. Python's `dict.get` only finds keys you added, so both versions deny the same names.
 
 ## Rule 5: Require approval for high-impact actions
 

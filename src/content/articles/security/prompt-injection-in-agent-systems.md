@@ -4,8 +4,9 @@ description: How direct and indirect prompt injection work, how injected text tu
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-14
+updatedAt: 2026-11-16
 order: 5
-readingMinutes: 9
+readingMinutes: 10
 tags: [security, prompt-injection, owasp, agents, tools]
 featured: false
 draft: false
@@ -69,7 +70,9 @@ No single control stops prompt injection. The useful question is: if an injectio
 
 ### Limit what any tool can do
 
-The strongest controls work at A4, because they don't depend on the model behaving. Take the address out of the redelivery tool's arguments and read it from the customer's account instead. Give the email tool fixed templates and send only to the signed-in customer's own address. Then the most a fooled model can request is a redelivery of the customer's own package to the customer's own address.
+The strongest controls work at A4, because they don't depend on the model behaving. Take the address out of the redelivery tool's arguments and read it from the customer's account instead. Give the email tool fixed templates and send only to the signed-in customer's own address. Then the most a fooled model can request is a redelivery of the customer's own package to the customer's own address. Here's that handler in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. The Python version takes the stores and the carrier client as a parameter instead of reading globals:
+
+<div class="code-tabs">
 
 ```ts
 type Session = { customerId: string };
@@ -88,10 +91,16 @@ declare const carrier: {
 };
 
 const MAX_DAYS_AHEAD = 14;
+const ISO_DATE = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 
+// A real calendar date, YYYY-MM-DD, from now to 14 days ahead.
 function withinWindow(date: string, now: Date): boolean {
-  const days = (new Date(`${date}T00:00:00Z`).getTime() - now.getTime()) / 86_400_000;
-  return Number.isFinite(days) && days >= 0 && days <= MAX_DAYS_AHEAD;
+  if (!ISO_DATE.test(date)) return false;
+  const day = new Date(`${date}T00:00:00Z`);
+  // Date turns 2026-11-31 into December 1, so check that the date survives the round trip.
+  if (Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== date) return false;
+  const days = (day.getTime() - now.getTime()) / 86_400_000;
+  return days >= 0 && days <= MAX_DAYS_AHEAD;
 }
 
 // The model chooses the shipment and the date. It can't choose the customer or the address.
@@ -115,6 +124,102 @@ export async function requestRedelivery(
   return { ok: true, confirmationId };
 }
 ```
+
+```python
+import re
+from dataclasses import dataclass
+from datetime import UTC, datetime
+from typing import Protocol
+
+from pydantic import BaseModel
+
+
+@dataclass(frozen=True)
+class Session:
+    customer_id: str
+
+
+@dataclass(frozen=True)
+class Shipment:
+    tracking_id: str
+    owner_id: str
+    eligible_for_redelivery: bool
+
+
+@dataclass(frozen=True)
+class Customer:
+    id: str
+    delivery_address_id: str
+
+
+# Services defined elsewhere in the app.
+class ShipmentStore(Protocol):
+    async def find(self, tracking_id: str) -> Shipment | None: ...
+
+
+class CustomerStore(Protocol):
+    async def get(self, customer_id: str) -> Customer: ...
+
+
+class Carrier(Protocol):
+    async def schedule_redelivery(
+        self, *, tracking_id: str, date: str, address_id: str, idempotency_key: str
+    ) -> str: ...  # returns the confirmation ID
+
+
+@dataclass(frozen=True)
+class Services:
+    shipments: ShipmentStore
+    customers: CustomerStore
+    carrier: Carrier
+
+
+class RedeliveryArgs(BaseModel):
+    tracking_id: str
+    date: str
+
+
+MAX_DAYS_AHEAD = 14
+ISO_DATE = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
+
+
+# A real calendar date, YYYY-MM-DD, from now to 14 days ahead.
+def within_window(date: str, now: datetime) -> bool:
+    if not ISO_DATE.fullmatch(date):
+        return False
+    try:
+        day = datetime.fromisoformat(f"{date}T00:00:00+00:00")  # rejects 2026-11-31
+    except ValueError:
+        return False
+    days = (day - now).total_seconds() / 86_400
+    return 0 <= days <= MAX_DAYS_AHEAD
+
+
+# The model chooses the shipment and the date. It can't choose the customer or the address.
+async def request_redelivery(
+    args: RedeliveryArgs, session: Session, call_id: str, services: Services
+) -> dict[str, str | bool]:
+    shipment = await services.shipments.find(args.tracking_id)
+    if shipment is None or shipment.owner_id != session.customer_id:
+        return {"ok": False, "error": "not_found"}
+    if not shipment.eligible_for_redelivery:
+        return {"ok": False, "error": "not_eligible"}
+    if not within_window(args.date, datetime.now(UTC)):
+        return {"ok": False, "error": "date_out_of_range"}
+
+    customer = await services.customers.get(session.customer_id)
+    confirmation_id = await services.carrier.schedule_redelivery(
+        tracking_id=shipment.tracking_id,
+        date=args.date,
+        address_id=customer.delivery_address_id,  # from the account, never from model output
+        idempotency_key=call_id,
+    )
+    return {"ok": True, "confirmation_id": confirmation_id}
+```
+
+</div>
+
+The date check accepts only a real calendar date written as YYYY-MM-DD. JavaScript's `Date` would quietly turn `2026-11-31` into December 1, and a model-chosen string shouldn't reach the carrier just because it parses. Both versions reject the same arguments.
 
 This handler runs after the application's approval step, described below. Even if the approval step failed, the handler still couldn't send a package to a new address, because there's no input for one.
 

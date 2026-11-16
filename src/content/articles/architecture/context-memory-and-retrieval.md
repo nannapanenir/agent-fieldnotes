@@ -4,6 +4,7 @@ description: How an agent decides what goes into each model call, and how conver
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-06
+updatedAt: 2026-11-16
 order: 7
 readingMinutes: 11
 tags: [architecture, context, memory, retrieval, rag, security]
@@ -100,7 +101,9 @@ The builder does four things, in order:
 3. Trim to a budget. Set a token budget per source, so a long tool result can't crowd out the instructions.
 4. Order and label. Put instructions first, and mark where each piece came from so the model can tell your rules from retrieved text.
 
-Here's a simplified builder in TypeScript:
+Here's a simplified builder in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. Both versions build the same context from the same chunks:
+
+<div class="code-tabs">
 
 ```ts
 type Source = "conversation" | "memory" | "retrieved" | "tool_result";
@@ -139,6 +142,48 @@ export function buildContext(instructions: string, chunks: Chunk[], budget: numb
   return [instructions, ...labeled].join("\n\n");
 }
 ```
+
+```python
+import math
+from dataclasses import dataclass
+from typing import Literal
+
+type Source = Literal["conversation", "memory", "retrieved", "tool_result"]
+
+
+@dataclass(frozen=True)
+class Chunk:
+    source: Source
+    origin: str  # e.g. "policy/redelivery.md" or "get_shipment_status"
+    text: str
+    tokens: int
+    relevance: float  # 0..1, from your search or ranking step
+
+
+# Chunks arrive already fetched for the signed-in user (step 1 happens in the queries).
+def build_context(instructions: str, chunks: list[Chunk], budget: int) -> str:
+    per_source_cap: dict[Source, int] = {
+        "conversation": math.floor(budget * 0.4),
+        "tool_result": math.floor(budget * 0.25),
+        "retrieved": math.floor(budget * 0.25),
+        "memory": math.floor(budget * 0.1),
+    }
+    used: dict[Source, int] = {"conversation": 0, "memory": 0, "retrieved": 0, "tool_result": 0}
+
+    # 2. Select: most relevant first, within each source's cap.
+    selected: list[Chunk] = []
+    for chunk in sorted(chunks, key=lambda chunk: chunk.relevance, reverse=True):
+        if used[chunk.source] + chunk.tokens > per_source_cap[chunk.source]:
+            continue  # 3. Trim
+        used[chunk.source] += chunk.tokens
+        selected.append(chunk)
+
+    # 4. Order and label: instructions first, then each source wrapped with its origin.
+    labeled = [f'<{chunk.source} origin="{chunk.origin}">\n{chunk.text}\n</{chunk.source}>' for chunk in selected]
+    return "\n\n".join([instructions, *labeled])
+```
+
+</div>
 
 A real builder also keeps conversation turns in their original order and summarizes what didn't fit. Either way, one function decides what the model sees, using rules you can test.
 

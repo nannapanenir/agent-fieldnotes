@@ -4,6 +4,7 @@ description: Give the shipment agent, in TypeScript or Python, per-customer conv
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15
+updatedAt: 2026-11-16
 order: 12
 readingMinutes: 21
 tags: [architecture, tutorial, typescript, python, state, error-handling]
@@ -196,7 +197,7 @@ In `flaky` mode, every other call fails, so a single retry gets through. In `dow
 
 ## Step 3: Give every tool error a kind
 
-`tools.ts` keeps the same three tools and the same ownership checks. Three things change: the status and the booking go through the carrier, every error carries a kind, and the runner moves to its own file, so this file now only defines tools.
+`tools.ts` keeps the same three tools and the same ownership checks. Three things change: the status and the booking go through the carrier, every error carries a kind, and the runner moves to its own file, so this file now defines the tools and the argument check the runner uses.
 
 <div class="code-tabs">
 
@@ -212,11 +213,14 @@ export type ToolOutput = { content: string; isError: boolean };
 export type ApprovalRequest = { action: string; details: Record<string, string> };
 export type Approve = (request: ApprovalRequest) => Promise<boolean>;
 
+export type Args = Record<string, string>;
+
 export type ToolSpec = {
   definition: Anthropic.Beta.BetaTool;
   access: "read" | "write";
   maxCallsPerRun: number;
-  handler: (input: Record<string, unknown>, session: Session, approve: Approve) => Promise<ToolOutput>;
+  args: string[]; // the argument names, all required strings; anything else is rejected
+  handler: (args: Args, session: Session, approve: Approve) => Promise<ToolOutput>;
 };
 
 const TRACKING_ID = /^[A-Z0-9]{10,22}$/;
@@ -227,8 +231,8 @@ const BOOKING_TIMEOUT_MS = 10_000;
 const ok = (value: unknown): ToolOutput => ({ content: JSON.stringify(value), isError: false });
 
 // Ownership comes from your own records, before any call to the carrier.
-function ownedShipment(trackingId: unknown, session: Session): Shipment | null {
-  if (typeof trackingId !== "string" || !TRACKING_ID.test(trackingId)) return null;
+function ownedShipment(trackingId: string, session: Session): Shipment | null {
+  if (!TRACKING_ID.test(trackingId)) return null;
   const shipment = findShipment(trackingId);
   return shipment && shipment.ownerId === session.customerId ? shipment : null;
 }
@@ -247,6 +251,7 @@ export const TOOLS: Record<string, ToolSpec> = {
   getShipmentStatus: {
     access: "read",
     maxCallsPerRun: 10,
+    args: ["trackingId"],
     definition: {
       name: "getShipmentStatus",
       description: "Get the live status of one of the signed-in customer's shipments. Use it for any where-is-my-package question.",
@@ -258,8 +263,8 @@ export const TOOLS: Record<string, ToolSpec> = {
       },
       strict: true,
     },
-    handler: async (input, session) => {
-      const shipment = ownedShipment(input.trackingId, session);
+    handler: async (args, session) => {
+      const shipment = ownedShipment(args.trackingId, session);
       if (!shipment) return toolError("denied", "not_found");
       const live = await fetchLiveStatus(shipment.trackingId); // may throw: the runner classifies it
       return ok({ ...live, eligibleForRedelivery: shipment.eligibleForRedelivery });
@@ -269,19 +274,21 @@ export const TOOLS: Record<string, ToolSpec> = {
   listMyShipments: {
     access: "read",
     maxCallsPerRun: 3,
+    args: [],
     definition: {
       name: "listMyShipments",
       description: "List the signed-in customer's recent shipments. Use it when the customer doesn't know the tracking number.",
       input_schema: { type: "object", properties: {}, additionalProperties: false },
       strict: true,
     },
-    handler: async (_input, session) =>
+    handler: async (_args, session) =>
       ok(shipmentsFor(session.customerId).map(({ trackingId, status }) => ({ trackingId, status }))),
   },
 
   requestRedelivery: {
     access: "write",
     maxCallsPerRun: 1,
+    args: ["trackingId", "date"],
     definition: {
       name: "requestRedelivery",
       description:
@@ -298,13 +305,13 @@ export const TOOLS: Record<string, ToolSpec> = {
       },
       strict: true,
     },
-    handler: async (input, session, approve) => {
-      const shipment = ownedShipment(input.trackingId, session);
+    handler: async (args, session, approve) => {
+      const shipment = ownedShipment(args.trackingId, session);
       if (!shipment) return toolError("denied", "not_found");
       if (!shipment.eligibleForRedelivery) return toolError("validation", "not_eligible");
 
-      const date = input.date;
-      if (typeof date !== "string" || !ISO_DATE.test(date)) return toolError("validation", "invalid_date");
+      const date = args.date;
+      if (!ISO_DATE.test(date)) return toolError("validation", "invalid_date");
       const days = daysFromToday(date, new Date());
       if (!(days >= 1 && days <= MAX_DAYS_AHEAD)) return toolError("validation", "date_out_of_range");
 
@@ -332,6 +339,15 @@ export const TOOLS: Record<string, ToolSpec> = {
 };
 
 export const toolDefinitions: Anthropic.Beta.BetaTool[] = Object.values(TOOLS).map((tool) => tool.definition);
+
+// Checked by hand, with the same rules as the Python version's pydantic models:
+// an object with exactly the expected arguments, each a string.
+export function validArgs(input: unknown, names: string[]): input is Args {
+  if (typeof input !== "object" || input === null || Array.isArray(input)) return false;
+  const keys = Object.keys(input);
+  const values = input as Record<string, unknown>;
+  return keys.length === names.length && names.every((name) => typeof values[name] === "string");
+}
 ```
 
 ```python
@@ -559,7 +575,7 @@ The runner keeps the checks from the last tutorial and adds two things for reads
 // src/runner.ts
 import { TimeoutError, toolError, withTimeout } from "./errors.ts";
 import { log } from "./log.ts";
-import { TOOLS, type Approve, type Session, type ToolOutput } from "./tools.ts";
+import { TOOLS, validArgs, type Approve, type Session, type ToolOutput } from "./tools.ts";
 
 const READ_TIMEOUT_MS = 5_000;
 const READ_RETRIES = 2;
@@ -574,15 +590,13 @@ export function createToolRunner(session: Session, approve: Approve) {
   return async (name: string, input: unknown): Promise<ToolOutput> => {
     if (!Object.hasOwn(TOOLS, name)) return toolError("validation", "unknown_tool");
     const tool = TOOLS[name];
-    if (typeof input !== "object" || input === null || Array.isArray(input)) {
-      return toolError("validation", "invalid_arguments");
-    }
 
     const used = callsSoFar.get(name) ?? 0;
     if (used >= tool.maxCallsPerRun) return toolError("denied", "tool_limit_reached");
     callsSoFar.set(name, used + 1);
 
-    const args = input as Record<string, unknown>;
+    if (!validArgs(input, tool.args)) return toolError("validation", "invalid_arguments");
+    const args = input;
     if (tool.access === "write") return tool.handler(args, session, approve); // one attempt, handled inside
 
     // Reads are idempotent, so a timeout or upstream failure can be retried a few times.

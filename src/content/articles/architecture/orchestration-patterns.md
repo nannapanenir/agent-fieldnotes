@@ -4,6 +4,7 @@ description: Five common ways to arrange model calls, code, and agents, when eac
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-09
+updatedAt: 2026-11-16
 order: 9
 readingMinutes: 11
 tags: [architecture, orchestration, workflows, multi-agent, security]
@@ -68,7 +69,9 @@ Customer messages go to a model that labels each one as tracking, redelivery, or
 
 Use routing when inputs fall into distinct groups that need different instructions or tools. Each path stays focused, and the riskiest tools live only on the paths that need them.
 
-The classifier's label is model output, so your code should treat it as untrusted:
+The classifier's label is model output, so your code should treat it as untrusted. The check comes in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site:
+
+<div class="code-tabs">
 
 ```ts
 const ROUTES = ["tracking", "redelivery"] as const;
@@ -77,10 +80,33 @@ type Route = (typeof ROUTES)[number] | "human";
 // The model's label is a suggestion. Code decides which path actually runs.
 export function chooseRoute(label: string, confidence: number): Route {
   const known = (ROUTES as readonly string[]).includes(label);
-  if (!known || confidence < 0.8) return "human";
+  const inRange = Number.isFinite(confidence) && confidence >= 0 && confidence <= 1;
+  if (!known || !inRange || confidence < 0.8) return "human";
   return label as Route;
 }
 ```
+
+```python
+import math
+from typing import Literal
+
+type Route = Literal["tracking", "redelivery", "human"]
+
+ROUTES: dict[str, Route] = {"tracking": "tracking", "redelivery": "redelivery"}
+
+
+# The model's label is a suggestion. Code decides which path actually runs.
+def choose_route(label: str, confidence: float) -> Route:
+    route = ROUTES.get(label)
+    in_range = math.isfinite(confidence) and 0 <= confidence <= 1
+    if route is None or not in_range or confidence < 0.8:
+        return "human"
+    return route
+```
+
+</div>
+
+A confidence that isn't a finite number from 0 to 1 also goes to a person, because a score the code can't interpret, such as NaN or 1.7, should fail closed instead of slipping past the threshold.
 
 Watch for:
 

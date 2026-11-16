@@ -4,8 +4,9 @@ description: Extend the shipment agent, in TypeScript or Python, with a second r
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15
+updatedAt: 2026-11-16
 order: 11
-readingMinutes: 14
+readingMinutes: 15
 tags: [architecture, tutorial, typescript, python, tools, permissions]
 featured: false
 draft: false
@@ -199,11 +200,14 @@ export type ToolOutput = { content: string; isError: boolean };
 export type ApprovalRequest = { action: string; details: Record<string, string> };
 export type Approve = (request: ApprovalRequest) => Promise<boolean>;
 
+type Args = Record<string, string>;
+
 type ToolSpec = {
   definition: Anthropic.Beta.BetaTool;
   access: "read" | "write";
   maxCallsPerRun: number;
-  handler: (input: Record<string, unknown>, session: Session, approve: Approve) => Promise<ToolOutput>;
+  args: string[]; // the argument names, all required strings; anything else is rejected
+  handler: (args: Args, session: Session, approve: Approve) => Promise<ToolOutput>;
 };
 
 const TRACKING_ID = /^[A-Z0-9]{10,22}$/;
@@ -214,8 +218,8 @@ const ok = (value: unknown): ToolOutput => ({ content: JSON.stringify(value), is
 const fail = (error: string): ToolOutput => ({ content: JSON.stringify({ error }), isError: true });
 
 // Ownership is checked here, in code. Someone else's shipment looks exactly like one that doesn't exist.
-function ownedShipment(trackingId: unknown, session: Session): Shipment | null {
-  if (typeof trackingId !== "string" || !TRACKING_ID.test(trackingId)) return null;
+function ownedShipment(trackingId: string, session: Session): Shipment | null {
+  if (!TRACKING_ID.test(trackingId)) return null;
   const shipment = findShipment(trackingId);
   return shipment && shipment.ownerId === session.customerId ? shipment : null;
 }
@@ -234,6 +238,7 @@ const TOOLS: Record<string, ToolSpec> = {
   getShipmentStatus: {
     access: "read",
     maxCallsPerRun: 10,
+    args: ["trackingId"],
     definition: {
       name: "getShipmentStatus",
       description: "Get the status of one of the signed-in customer's shipments. Use it for any where-is-my-package question.",
@@ -245,8 +250,8 @@ const TOOLS: Record<string, ToolSpec> = {
       },
       strict: true,
     },
-    handler: async (input, session) => {
-      const shipment = ownedShipment(input.trackingId, session);
+    handler: async (args, session) => {
+      const shipment = ownedShipment(args.trackingId, session);
       if (!shipment) return fail("not_found");
       const { status, estimatedDelivery, lastScan, eligibleForRedelivery } = shipment;
       return ok({ status, estimatedDelivery, lastScan, eligibleForRedelivery });
@@ -256,19 +261,21 @@ const TOOLS: Record<string, ToolSpec> = {
   listMyShipments: {
     access: "read",
     maxCallsPerRun: 3,
+    args: [],
     definition: {
       name: "listMyShipments",
       description: "List the signed-in customer's recent shipments. Use it when the customer doesn't know the tracking number.",
       input_schema: { type: "object", properties: {}, additionalProperties: false },
       strict: true,
     },
-    handler: async (_input, session) =>
+    handler: async (_args, session) =>
       ok(shipmentsFor(session.customerId).map(({ trackingId, status }) => ({ trackingId, status }))),
   },
 
   requestRedelivery: {
     access: "write",
     maxCallsPerRun: 1,
+    args: ["trackingId", "date"],
     definition: {
       name: "requestRedelivery",
       description:
@@ -285,13 +292,13 @@ const TOOLS: Record<string, ToolSpec> = {
       },
       strict: true,
     },
-    handler: async (input, session, approve) => {
-      const shipment = ownedShipment(input.trackingId, session);
+    handler: async (args, session, approve) => {
+      const shipment = ownedShipment(args.trackingId, session);
       if (!shipment) return fail("not_found");
       if (!shipment.eligibleForRedelivery) return fail("not_eligible");
 
-      const date = input.date;
-      if (typeof date !== "string" || !ISO_DATE.test(date)) return fail("invalid_date");
+      const date = args.date;
+      if (!ISO_DATE.test(date)) return fail("invalid_date");
       const days = daysFromToday(date, new Date());
       if (!(days >= 1 && days <= MAX_DAYS_AHEAD)) return fail("date_out_of_range");
 
@@ -314,6 +321,15 @@ const TOOLS: Record<string, ToolSpec> = {
 
 export const toolDefinitions: Anthropic.Beta.BetaTool[] = Object.values(TOOLS).map((tool) => tool.definition);
 
+// Checked by hand, with the same rules as the Python version's pydantic models:
+// an object with exactly the expected arguments, each a string.
+function validArgs(input: unknown, names: string[]): input is Args {
+  if (typeof input !== "object" || input === null || Array.isArray(input)) return false;
+  const keys = Object.keys(input);
+  const values = input as Record<string, unknown>;
+  return keys.length === names.length && names.every((name) => typeof values[name] === "string");
+}
+
 // One runner per signed-in session. Identity and approval come from the application, never from the model.
 export function createToolRunner(session: Session, approve: Approve) {
   const callsSoFar = new Map<string, number>();
@@ -321,13 +337,13 @@ export function createToolRunner(session: Session, approve: Approve) {
   return async (name: string, input: unknown): Promise<ToolOutput> => {
     if (!Object.hasOwn(TOOLS, name)) return fail("unknown_tool");
     const tool = TOOLS[name];
-    if (typeof input !== "object" || input === null || Array.isArray(input)) return fail("invalid_arguments");
 
     const used = callsSoFar.get(name) ?? 0;
     if (used >= tool.maxCallsPerRun) return fail("tool_limit_reached");
     callsSoFar.set(name, used + 1);
 
-    return tool.handler(input as Record<string, unknown>, session, approve);
+    if (!validArgs(input, tool.args)) return fail("invalid_arguments");
+    return tool.handler(input, session, approve);
   };
 }
 ```
@@ -573,7 +589,7 @@ A few things to notice:
 - The write tool's schema has no address and no customer field. There's nothing for a manipulated model to fill in with an attacker's address or another customer's ID.
 - Business rules live in the handler: the package must be eligible, and the date must be between tomorrow and 14 days out. A strict schema guarantees the shape of the arguments, not whether the action makes sense.
 - The runner counts every call per tool, including rejected ones. A loop that keeps proposing redeliveries gets `tool_limit_reached` after its first attempt, whether that attempt was booked or refused.
-- The Python version gives each tool a pydantic model for its arguments, and the runner validates the arguments against it before the handler runs. Wrong types or extra fields return `invalid_arguments`. The ownership, eligibility, and date checks stay in the handlers in both languages, so both return the same error codes for them.
+- The runner checks each call's arguments before the handler runs: they must be exactly the tool's arguments, each a string. Missing, unknown, or wrong-typed arguments return `invalid_arguments`, and the call still counts. The TypeScript version checks this by hand; the Python version gives each tool a pydantic model with the same rules. The ownership, eligibility, and date checks stay in the handlers in both languages, so both reject the same inputs with the same error codes.
 
 ## Step 4: Ask the customer before the write
 

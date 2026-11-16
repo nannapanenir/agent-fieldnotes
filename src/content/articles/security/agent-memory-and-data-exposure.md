@@ -4,6 +4,7 @@ description: How an agent's memory, retrieval index, logs, traces, and model pro
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-14
+updatedAt: 2026-11-16
 order: 6
 readingMinutes: 9
 tags: [security, memory, privacy, data-exposure, owasp]
@@ -73,7 +74,9 @@ The fix is to control what gets written:
 - Give every memory an expiry date, and let customers see and delete what's stored.
 - When memories are loaded, label them as stored data, with the same caution as any other retrieved text.
 
-Here's a write gate for the shipment assistant's memory tool:
+Here's a write gate for the shipment assistant's memory tool, in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. The Python version validates the model's proposal with pydantic and takes the memory store as a parameter:
+
+<div class="code-tabs">
 
 ```ts
 type MemoryCategory = "delivery_preference" | "contact_preference" | "language";
@@ -114,8 +117,10 @@ export async function saveMemory(
   if (!session.userMessageIds.has(proposal.sourceMessageId)) {
     return { saved: false, reason: "not_from_user_message" };
   }
-  const value = proposal.value.trim();
-  if (value.length === 0 || value.length > MAX_VALUE_LENGTH) return { saved: false, reason: "bad_length" };
+  // Trim ASCII whitespace and count characters, not UTF-16 units, so the limit means the same in every language.
+  const value = proposal.value.replace(/^[ \t\n\r\f\v]+|[ \t\n\r\f\v]+$/g, "");
+  const length = [...value].length;
+  if (length === 0 || length > MAX_VALUE_LENGTH) return { saved: false, reason: "bad_length" };
 
   const now = new Date();
   await memoryStore.insert({
@@ -131,7 +136,88 @@ export async function saveMemory(
 }
 ```
 
+```python
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
+from typing import Literal, Protocol, TypeGuard
+
+from pydantic import BaseModel
+
+type MemoryCategory = Literal["delivery_preference", "contact_preference", "language"]
+
+
+class MemoryProposal(BaseModel):
+    category: str
+    value: str
+    source_message_id: str  # the user message the model says this came from
+
+
+@dataclass(frozen=True)
+class StoredMemory:
+    customer_id: str
+    tenant_id: str
+    category: MemoryCategory
+    value: str
+    source_message_id: str
+    created_at: str
+    expires_at: str
+
+
+@dataclass(frozen=True)
+class Session:
+    customer_id: str
+    tenant_id: str
+    user_message_ids: frozenset[str]
+
+
+ALLOWED: tuple[MemoryCategory, ...] = ("delivery_preference", "contact_preference", "language")
+MAX_VALUE_LENGTH = 200
+RETENTION_DAYS = 180
+
+
+# Defined elsewhere in the app.
+class MemoryStore(Protocol):
+    async def insert(self, memory: StoredMemory) -> None: ...
+
+
+def is_allowed_category(category: str) -> TypeGuard[MemoryCategory]:
+    return category in ALLOWED
+
+
+def iso(moment: datetime) -> str:
+    return moment.isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
+
+async def save_memory(proposal: MemoryProposal, session: Session, memory_store: MemoryStore) -> dict[str, bool | str]:
+    if not is_allowed_category(proposal.category):
+        return {"saved": False, "reason": "category_not_allowed"}
+    if proposal.source_message_id not in session.user_message_ids:
+        return {"saved": False, "reason": "not_from_user_message"}
+    # Trim ASCII whitespace and count characters, so the limit means the same in every language.
+    value = proposal.value.strip(" \t\n\r\f\v")
+    if len(value) == 0 or len(value) > MAX_VALUE_LENGTH:
+        return {"saved": False, "reason": "bad_length"}
+
+    now = datetime.now(UTC)
+    await memory_store.insert(
+        StoredMemory(
+            customer_id=session.customer_id,  # scope comes from the session, never from the proposal
+            tenant_id=session.tenant_id,
+            category=proposal.category,
+            value=value,
+            source_message_id=proposal.source_message_id,
+            created_at=iso(now),
+            expires_at=iso(now + timedelta(days=RETENTION_DAYS)),
+        )
+    )
+    return {"saved": True}
+```
+
+</div>
+
 The source check rejects memories the model attributes to a tool result or a retrieved document, because those IDs never appear in the session's list of user messages. It can't prove the value matches what the customer said, since the model could quote a real message ID and still write something else. That's why behavior-changing preferences also go through the confirmation step above.
+
+Both versions trim the same characters and count length the same way, so they accept and reject the same values. Left to the defaults, they wouldn't: JavaScript's `trim()` and Python's `strip()` remove different characters, and JavaScript's `length` counts an emoji as two.
 
 ## Retention and deletion
 

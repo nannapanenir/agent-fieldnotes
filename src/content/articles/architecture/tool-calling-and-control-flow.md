@@ -4,8 +4,9 @@ description: How a model requests a tool, and how your application should valida
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-05
+updatedAt: 2026-11-16
 order: 6
-readingMinutes: 11
+readingMinutes: 12
 tags: [architecture, tools, tool-calling, validation, security]
 featured: false
 draft: false
@@ -93,7 +94,9 @@ Every tool call should pass the same checks, in the same order, before anything 
 6. Trim the result to a size limit and keep only the fields the model needs. The result is untrusted data: a delivery note from the carrier could contain text written to manipulate the model.
 7. Return the result, or the error, paired with the call ID. Count the call against the step budget either way, so a model stuck in a retry loop still hits a limit.
 
-Here's that path as a TypeScript gateway. It uses Zod for validation; any schema library works.
+Here's that path as a gateway in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. The TypeScript version uses Zod for validation and the Python version uses pydantic, but any schema library works. Names follow each language's conventions, so `getShipmentStatus` is `get_shipment_status` in Python, and the Python version takes the shipment store as a parameter instead of reading a global. Both reject the same calls with the same errors, including tool names such as `constructor` that would otherwise match a built-in property of a JavaScript object.
+
+<div class="code-tabs">
 
 ```ts
 import { z } from "zod";
@@ -140,13 +143,16 @@ export async function executeToolCall(call: ToolCall, session: Session): Promise
   });
 
   // 2. Known tool for this agent?
-  const tool = tools[call.name as keyof typeof tools];
+  // Object.hasOwn, so a name like "constructor" can't match a built-in property.
+  const tool = Object.hasOwn(tools, call.name) ? tools[call.name as keyof typeof tools] : undefined;
   if (!tool) return reply(false, { error: "unknown_tool", name: call.name });
 
   // 3. Arguments match the schema?
   const parsed = tool.schema.safeParse(call.arguments);
   if (!parsed.success) {
-    const fields = parsed.error.issues.map((issue) => issue.path.join("."));
+    const fields = parsed.error.issues.flatMap((issue) =>
+      issue.code === "unrecognized_keys" ? issue.keys : [issue.path.join(".")],
+    );
     return reply(false, { error: "invalid_arguments", fields });
   }
 
@@ -162,6 +168,104 @@ export async function executeToolCall(call: ToolCall, session: Session): Promise
   }
 }
 ```
+
+```python
+import asyncio
+import json
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
+from typing import Any, Protocol
+
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+
+@dataclass(frozen=True)
+class ShipmentRecord:
+    status: str
+    eta: str
+    last_scan: str
+
+
+# Data access, defined elsewhere in the app. Ownership is part of the query.
+class ShipmentStore(Protocol):
+    async def find_for_customer(self, tracking_id: str, customer_id: str) -> ShipmentRecord | None: ...
+
+
+@dataclass(frozen=True)
+class Session:
+    customer_id: str
+
+
+@dataclass(frozen=True)
+class ToolCall:
+    id: str
+    name: str
+    arguments: object
+
+
+@dataclass(frozen=True)
+class ToolResult:
+    call_id: str
+    ok: bool
+    content: str
+
+
+MAX_RESULT_CHARS = 2_000
+TIMEOUT_S = 5.0
+
+
+class ShipmentStatusArgs(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    tracking_id: str = Field(pattern=r"^[A-Z0-9]{10,22}$")
+
+
+async def get_shipment_status(args: ShipmentStatusArgs, session: Session, shipments: ShipmentStore) -> dict[str, str]:
+    shipment = await shipments.find_for_customer(args.tracking_id, session.customer_id)
+    if shipment is None:
+        return {"error": "not_found"}
+    return {"status": shipment.status, "eta": shipment.eta, "location": shipment.last_scan}
+
+
+@dataclass(frozen=True)
+class Tool[A: BaseModel]:
+    schema: type[A]
+    run: Callable[[A, Session, ShipmentStore], Awaitable[dict[str, str]]]
+
+
+TOOLS: dict[str, Tool[Any]] = {
+    "get_shipment_status": Tool(schema=ShipmentStatusArgs, run=get_shipment_status),
+}
+
+
+async def execute_tool_call(call: ToolCall, session: Session, shipments: ShipmentStore) -> ToolResult:
+    def reply(ok: bool, body: object) -> ToolResult:
+        return ToolResult(call_id=call.id, ok=ok, content=json.dumps(body)[:MAX_RESULT_CHARS])
+
+    # 2. Known tool for this agent?
+    tool = TOOLS.get(call.name)
+    if tool is None:
+        return reply(False, {"error": "unknown_tool", "name": call.name})
+
+    # 3. Arguments match the schema?
+    try:
+        args = tool.schema.model_validate(call.arguments)
+    except ValidationError as error:
+        fields = [".".join(str(part) for part in issue["loc"]) for issue in error.errors()]
+        return reply(False, {"error": "invalid_arguments", "fields": fields})
+
+    # 4 and 5. Authorization happens inside run(), scoped to session.customer_id,
+    # and the run is bounded by a timeout.
+    try:
+        result = await asyncio.wait_for(tool.run(args, session, shipments), TIMEOUT_S)
+    except TimeoutError:
+        return reply(False, {"error": "timeout", "retryable": True})
+    except Exception:  # noqa: BLE001 - any other failure goes back to the model as data, never as a crash
+        return reply(False, {"error": "tool_failed", "retryable": False})
+    # 6. Trimming happens in reply(); run() already returns only the fields the model needs.
+    return reply("error" not in result, result)
+```
+
+</div>
 
 Four details in that code are easy to miss:
 

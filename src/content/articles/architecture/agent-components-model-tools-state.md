@@ -4,6 +4,7 @@ description: Learn what each part of an AI agent does, how the parts work togeth
 topic: Architecture
 level: Beginner
 publishedAt: 2026-11-04
+updatedAt: 2026-11-16
 order: 5
 readingMinutes: 9
 tags: [architecture, tools, state, memory, fundamentals]
@@ -53,6 +54,10 @@ To decide where a rule goes, ask: *if the agent ignored this line completely, wo
 
 A tool is a function the model may ask the application to call. The model never sees your implementation. It sees a name, a description, and an input schema.
 
+The code examples come in TypeScript and Python. Pick a language with the tabs above any code block, and the choice applies to every example on the site. Names follow each language's conventions, so `getShipmentStatus` in TypeScript is `get_shipment_status` in Python.
+
+<div class="code-tabs">
+
 ```ts
 const getShipmentStatus = {
   name: "getShipmentStatus",
@@ -68,11 +73,37 @@ const getShipmentStatus = {
 };
 ```
 
-Field names vary by provider and framework, but every tool definition has these three elements. The model reads the description to decide when to call the tool, so the description is effectively part of the prompt. Keep secrets and internal details out of it.
+```python
+from anthropic.types import ToolParam
+
+GET_SHIPMENT_STATUS: ToolParam = {
+    "name": "get_shipment_status",
+    "description": "Look up the current status of one of the signed-in user's shipments.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "tracking_id": {"type": "string", "description": "The shipment's tracking ID."},
+        },
+        "required": ["tracking_id"],
+        "additionalProperties": False,
+    },
+}
+```
+
+</div>
+
+Field names vary by provider and framework (the Python example uses the Anthropic SDK's `ToolParam` type, which calls the schema `input_schema`), but every tool definition has these three elements. The model reads the description to decide when to call the tool, so the description is effectively part of the prompt. Keep secrets and internal details out of it.
 
 When the model requests a call, the application runs the handler. Enforcement happens there:
 
+<div class="code-tabs">
+
 ```ts
+// Data access, defined elsewhere in the app.
+declare const shipments: {
+  findByTrackingId(trackingId: string): Promise<{ ownerId: string; status: string; eta: string } | null>;
+};
+
 async function handleGetShipmentStatus(args: { trackingId: string }, user: { id: string }) {
   const shipment = await shipments.findByTrackingId(args.trackingId);
   if (!shipment || shipment.ownerId !== user.id) {
@@ -81,6 +112,45 @@ async function handleGetShipmentStatus(args: { trackingId: string }, user: { id:
   return { status: shipment.status, estimatedDelivery: shipment.eta }; // Only the fields needed
 }
 ```
+
+```python
+from dataclasses import dataclass
+from typing import Protocol
+
+from pydantic import BaseModel
+
+
+@dataclass(frozen=True)
+class Shipment:
+    owner_id: str
+    status: str
+    eta: str
+
+
+# Data access, defined elsewhere in the app.
+class ShipmentStore(Protocol):
+    async def find_by_tracking_id(self, tracking_id: str) -> Shipment | None: ...
+
+
+class ShipmentStatusArgs(BaseModel):
+    tracking_id: str
+
+
+@dataclass(frozen=True)
+class User:
+    id: str
+
+
+async def handle_get_shipment_status(args: ShipmentStatusArgs, user: User, shipments: ShipmentStore) -> dict[str, str]:
+    shipment = await shipments.find_by_tracking_id(args.tracking_id)
+    if shipment is None or shipment.owner_id != user.id:
+        return {"error": "not_found"}  # Same answer for "missing" and "not yours"
+    return {"status": shipment.status, "estimated_delivery": shipment.eta}  # Only the fields needed
+```
+
+</div>
+
+The Python handler takes the shipment store as a parameter instead of reading a global, which is the usual Python style and makes it easy to test. Both versions return the same answer for the same input.
 
 Tools fall into three broad groups:
 

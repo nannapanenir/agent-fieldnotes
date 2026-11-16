@@ -4,6 +4,7 @@ description: When one agent with good tools does the job, when several cooperati
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-07
+updatedAt: 2026-11-16
 order: 8
 readingMinutes: 10
 tags: [architecture, multi-agent, orchestration, a2a, security]
@@ -90,7 +91,9 @@ Now take a different job: a monthly report on how 20 carriers performed, built f
 
 A worker knows only what its brief tells it. Anthropic found its workers needed four things: an objective, an output format, guidance on which tools and sources to use, and clear task boundaries. Without them, workers duplicated each other's work or wandered off task.
 
-Treat the brief as a contract your code checks before the worker starts. Here's a sketch in TypeScript:
+Treat the brief as a contract your code checks before the worker starts. Here's a sketch in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. Both reject the same briefs:
+
+<div class="code-tabs">
 
 ```ts
 type Permission = "carriers:read" | "complaints:read" | "orders:read" | "email:send";
@@ -114,6 +117,35 @@ export function prepareDelegation(callerPermissions: Permission[], brief: Subtas
   return { ...brief, maxSteps: Math.min(brief.maxSteps, MAX_WORKER_STEPS) };
 }
 ```
+
+```python
+from dataclasses import dataclass, replace
+from typing import Literal
+
+type Permission = Literal["carriers:read", "complaints:read", "orders:read", "email:send"]
+
+
+@dataclass(frozen=True)
+class SubtaskBrief:
+    objective: str  # e.g. "Summarize October delays for carrier ACME"
+    output_format: str  # e.g. "JSON: { carrier, on_time_rate, top_issues[] }"
+    allowed_tools: list[str]
+    permissions: list[Permission]
+    max_steps: int
+
+
+MAX_WORKER_STEPS = 10
+
+
+# A worker can never hold a permission its caller doesn't have.
+def prepare_delegation(caller_permissions: list[Permission], brief: SubtaskBrief) -> SubtaskBrief:
+    extra = [p for p in brief.permissions if p not in caller_permissions]
+    if extra:
+        raise PermissionError(f"Subtask requests permissions the caller lacks: {', '.join(extra)}")
+    return replace(brief, max_steps=min(brief.max_steps, MAX_WORKER_STEPS))
+```
+
+</div>
 
 The check runs in the application, before the worker starts. The orchestrator model can write whatever brief it likes, but it can't hand out access it doesn't have, and every worker gets a step limit.
 

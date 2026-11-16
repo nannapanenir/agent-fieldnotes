@@ -4,6 +4,7 @@ description: How to choose an isolation level for code an agent writes and runs,
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-14
+updatedAt: 2026-11-16
 order: 7
 readingMinutes: 9
 tags: [security, sandboxing, code-execution, isolation, owasp]
@@ -76,7 +77,9 @@ Set these for every sandbox:
 - Time: set a wall-clock limit and kill the sandbox when it's reached.
 - Lifetime: start a fresh sandbox for each task and destroy it afterward, so nothing one run writes can affect the next.
 
-Here's how the carrier report worker can enforce those settings in code before anything runs:
+Here's how the carrier report worker can enforce those settings in code before anything runs, in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. The Python version takes the sandbox factory as a parameter and gives its time limit in seconds:
+
+<div class="code-tabs">
 
 ```ts
 type SandboxPolicy = {
@@ -118,6 +121,89 @@ export async function runAnalysis(code: string, delayCsv: string): Promise<{ ok:
   }
 }
 ```
+
+```python
+from dataclasses import dataclass, field
+from typing import Literal, Protocol
+
+
+@dataclass(frozen=True)
+class DenyEgress:
+    egress: Literal["deny"] = "deny"
+
+
+@dataclass(frozen=True)
+class AllowlistEgress:
+    hosts: tuple[str, ...]
+    egress: Literal["allowlist"] = "allowlist"
+
+
+@dataclass(frozen=True)
+class Limits:
+    cpus: int
+    memory_mb: int
+    disk_mb: int
+    max_processes: int
+    timeout_s: float
+
+
+@dataclass(frozen=True)
+class SandboxPolicy:
+    isolation: Literal["gvisor", "microvm"]
+    network: DenyEgress | AllowlistEgress
+    mount_secrets: Literal[False]
+    writable_paths: tuple[Literal["/workspace"]]
+    limits: Limits
+
+
+@dataclass(frozen=True)
+class RunResult:
+    exit_code: int
+    stdout: str
+    timed_out: bool
+    files: dict[str, str] = field(default_factory=dict)
+
+
+# Defined elsewhere in the app.
+class Sandbox(Protocol):
+    async def run(self, code: str, inputs: dict[str, str]) -> RunResult: ...
+    async def destroy(self) -> None: ...
+
+
+class SandboxFactory(Protocol):
+    async def create(self, policy: SandboxPolicy) -> Sandbox: ...
+
+
+REPORT_POLICY = SandboxPolicy(
+    isolation="microvm",
+    network=DenyEgress(),  # data is copied in; the code never fetches it
+    mount_secrets=False,
+    writable_paths=("/workspace",),
+    limits=Limits(cpus=1, memory_mb=512, disk_mb=256, max_processes=16, timeout_s=30.0),
+)
+
+MAX_OUTPUT_CHARS = 4_000
+
+
+@dataclass(frozen=True)
+class Analysis:
+    ok: bool
+    output: str
+
+
+async def run_analysis(code: str, delay_csv: str, sandboxes: SandboxFactory) -> Analysis:
+    sandbox = await sandboxes.create(REPORT_POLICY)
+    try:
+        result = await sandbox.run(code, {"/workspace/delays.csv": delay_csv})
+        if result.timed_out:
+            return Analysis(ok=False, output="timeout")
+        # The output is untrusted: trim it and return it as data, never as a command to run.
+        return Analysis(ok=result.exit_code == 0, output=result.stdout[:MAX_OUTPUT_CHARS])
+    finally:
+        await sandbox.destroy()  # a fresh sandbox for every run
+```
+
+</div>
 
 This policy is stricter than the diagram: it allows no network at all, because the application copies the delay data in. Use an allowlist like the diagram's only when the code genuinely needs to call a service. Either way, the policy lives in the application, so the model writes the analysis code but never chooses the network rules, the mounts, or the limits.
 

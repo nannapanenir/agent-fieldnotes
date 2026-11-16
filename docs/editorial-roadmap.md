@@ -28,9 +28,9 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. TypeScript and Python in code tabs. |
 | 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. TypeScript and Python suites in code tabs; the CI workflow runs both. |
 | 5 | security/threat-modeling-an-agent.md | in PR | Adds security/shipment-agent-threat-model.svg (markers T1 to T10 match the table). |
-| 5 | security/evaluating-agent-security.md | next | |
+| 5 | security/evaluating-agent-security.md | in PR | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
-| 6 | frameworks/framework-comparison-by-use-case.md | planned | |
+| 6 | frameworks/framework-comparison-by-use-case.md | next | |
 | 7 | deployment/reliability-cost-and-runaway-loops.md | planned | |
 | 7 | deployment/deploying-an-agent.md | planned | |
 | 8 | deployment/what-is-microsoft-foundry.md | planned | New in the Foundry track. |

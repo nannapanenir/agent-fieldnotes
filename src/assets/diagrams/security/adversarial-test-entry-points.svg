@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="560" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+  <title id="title">Where adversarial tests enter the shipment agent</title>
+  <desc id="desc">Diagram of five entry points for adversarial tests, drawn as dashed boxes because they are adversarial by design, and the controls in code that each one tests. The agent's flow runs left to right: the customer, then, inside the application boundary, the chat entry point, which takes identity from the session; the agent loop, with step, time, and token limits; the tool runner, with argument, owner, and call-limit checks; and outside, the carrier and records. Below the loop are logs and state, with simple values only and state per customer. Below the tool runner is the approval prompt, a human checkpoint that asks the customer. I1, adversarial messages such as injection, ID tampering, and false identity claims, enter at the chat entry point. I3, a hostile scripted model, replaces the model and enters at the agent loop. I2, planted tool results, enter on the flow between the carrier and the tool runner. I4, approval answers such as no or no answer, enter at the approval prompt. I5, canary checks, read the logs and state to look for data that shouldn't be there.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: dashed boxes = test input (adversarial by design), solid outlined boxes = code under test,
+    the large outline = the application's trust boundary.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/></marker>
+    <style>
+      .head { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 10px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 10px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 10px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .sec { font: 600 12px 'DM Sans', system-ui, sans-serif; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.5; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .test { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; stroke-dasharray: 5 4; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .boundary { fill: none; stroke: #a4a99f; stroke-width: 1.4; }
+      .flow { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+      .inject { stroke: #9ce6db; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="560" fill="#171a16"/>
+
+  <!-- Test inputs, top -->
+  <rect class="test" x="20" y="30" width="220" height="62" rx="3"/>
+  <text class="head" x="130" y="52" text-anchor="middle">I1  Adversarial messages</text>
+  <text class="ucy" x="130" y="69" text-anchor="middle">injection · ID tampering</text>
+  <text class="ucy" x="130" y="83" text-anchor="middle">false identity claims</text>
+
+  <rect class="test" x="262" y="30" width="196" height="62" rx="3"/>
+  <text class="head" x="360" y="52" text-anchor="middle">I3  Hostile scripted model</text>
+  <text class="ucy" x="360" y="69" text-anchor="middle">replaces the model</text>
+  <text class="ucy" x="360" y="83" text-anchor="middle">makes attacker's calls</text>
+
+  <rect class="test" x="480" y="30" width="260" height="62" rx="3"/>
+  <text class="head" x="610" y="52" text-anchor="middle">I2  Planted tool results</text>
+  <text class="ucy" x="610" y="69" text-anchor="middle">instructions inside carrier data</text>
+  <text class="ucy" x="610" y="83" text-anchor="middle">fake approvals · data requests</text>
+
+  <!-- Trust boundary -->
+  <rect class="boundary" x="146" y="160" width="460" height="232" rx="6"/>
+  <text class="sec" x="160" y="180">Your application: code under test</text>
+
+  <!-- Main flow -->
+  <rect class="human" x="20" y="200" width="112" height="56" rx="14"/>
+  <text class="head" x="76" y="224" text-anchor="middle">Customer</text>
+  <text class="sub" x="76" y="241" text-anchor="middle">signed in</text>
+
+  <rect class="app" x="160" y="200" width="124" height="56" rx="3"/>
+  <text class="head" x="222" y="222" text-anchor="middle">Chat entry</text>
+  <text class="chk" x="222" y="240" text-anchor="middle">ID from session</text>
+
+  <rect class="app" x="310" y="200" width="124" height="56" rx="3"/>
+  <text class="head" x="372" y="222" text-anchor="middle">Agent loop</text>
+  <text class="chk" x="372" y="240" text-anchor="middle">budget limits</text>
+
+  <rect class="app" x="460" y="200" width="132" height="56" rx="3"/>
+  <text class="head" x="526" y="222" text-anchor="middle">Tool runner</text>
+  <text class="chk" x="526" y="240" text-anchor="middle">arg + owner checks</text>
+
+  <rect class="lane" x="626" y="200" width="114" height="56" rx="3"/>
+  <text class="head" x="683" y="222" text-anchor="middle">Carrier</text>
+  <text class="sub" x="683" y="240" text-anchor="middle">and records</text>
+
+  <line class="flow" x1="134" y1="228" x2="158" y2="228" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="286" y1="228" x2="308" y2="228" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="436" y1="228" x2="458" y2="228" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="594" y1="228" x2="624" y2="228" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+
+  <!-- Below the flow -->
+  <rect class="app" x="300" y="310" width="144" height="56" rx="3"/>
+  <text class="head" x="372" y="332" text-anchor="middle">Logs and state</text>
+  <text class="chk" x="372" y="350" text-anchor="middle">simple values · per customer</text>
+  <line class="flow" x1="372" y1="258" x2="372" y2="308" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="460" y="310" width="132" height="56" rx="3"/>
+  <text class="head" x="526" y="332" text-anchor="middle">Approval prompt</text>
+  <text class="chk" x="526" y="350" text-anchor="middle">human checkpoint</text>
+  <line class="flow" x1="526" y1="258" x2="526" y2="308" marker-end="url(#arrow)"/>
+
+  <!-- Test inputs, bottom -->
+  <rect class="test" x="262" y="420" width="220" height="56" rx="3"/>
+  <text class="head" x="372" y="442" text-anchor="middle">I5  Canary checks</text>
+  <text class="ucy" x="372" y="460" text-anchor="middle">data that shouldn't be there</text>
+
+  <rect class="test" x="500" y="420" width="240" height="56" rx="3"/>
+  <text class="head" x="620" y="442" text-anchor="middle">I4  Approval answers</text>
+  <text class="ucy" x="620" y="460" text-anchor="middle">no · no answer · yes</text>
+
+  <!-- Injection arrows -->
+  <line class="inject" x1="222" y1="94" x2="222" y2="196" marker-end="url(#arrow-cyan)"/>
+  <line class="inject" x1="372" y1="94" x2="372" y2="196" marker-end="url(#arrow-cyan)"/>
+  <line class="inject" x1="610" y1="94" x2="610" y2="222" marker-end="url(#arrow-cyan)"/>
+  <line class="inject" x1="372" y1="368" x2="372" y2="416" marker-end="url(#arrow-cyan)"/>
+  <line class="inject" x1="560" y1="418" x2="545" y2="370" marker-end="url(#arrow-cyan)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="508" width="26" height="14" class="test"/>
+  <text class="note" x="54" y="519">Test input, adversarial by design</text>
+  <rect x="330" y="508" width="26" height="14" class="app"/>
+  <text class="note" x="364" y="519">Code under test, with its control</text>
+  <line x1="20" y1="540" x2="46" y2="540" class="boundary"/>
+  <text class="note" x="54" y="544">Trust boundary</text>
+  <line x1="330" y1="540" x2="356" y2="540" class="inject" marker-end="url(#arrow-cyan)"/>
+  <text class="note" x="364" y="544">Where the test enters or reads</text>
+</svg>

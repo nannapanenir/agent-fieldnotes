@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="640" viewBox="0 0 760 640" role="img" aria-labelledby="title desc">
+  <title id="title">Threat model of the shipment agent</title>
+  <desc id="desc">Data-flow diagram of the shipment agent with ten numbered threats. Outside the application, on the left, is the signed-in customer, whose input is untrusted. Inside the application boundary, the trusted code: the chat entry point, which takes the customer ID from the session; the agent loop with step, time, and token limits; the tool runner with argument, owner, and call-limit checks; the approval prompt, a human checkpoint that shows values from records; conversation state keyed by customer ID; shipment records with owners and addresses; and logs that take simple values only. Outside on the right, drawn dashed as untrusted: the model provider, whose output is untrusted and which sees the conversation; the carrier API, whose data is untrusted; and dependencies and CI, which hold packages and the API key. Flows: the customer talks to the chat entry; the chat entry talks to the loop; the loop reads and writes conversation state and calls the model provider; the loop calls the tool runner; the tool runner calls the carrier API and reads shipment records; the tool runner sends write requests to the approval prompt, which asks the customer. Dependencies and CI feed into the application. Threat markers: T1 on the customer's input; T6 on the loop; T9 on the conversation state flow; T3 on the call from the loop to the tool runner; T2, T7, and T4 on the flow between the tool runner and the carrier API; T5 on the approval flow to the customer; T8 at the logs; T10 at dependencies and CI. The table in the article describes each threat, its control, its test, and its residual risk.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: solid outlined boxes = your code, dashed boxes = outside your control and untrusted,
+    the large outline = the application's trust boundary, numbered circles = threats in the article's table.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 10px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .ucy { font: 500 10px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .sec { font: 600 12px 'DM Sans', system-ui, sans-serif; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .mk { font: 700 10px 'DM Mono', ui-monospace, monospace; fill: #171a12; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.5; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .ext { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; stroke-dasharray: 5 4; }
+      .boundary { fill: none; stroke: #a4a99f; stroke-width: 1.4; }
+      .flow { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+      .marker { fill: #c7f36b; stroke: #171a16; stroke-width: 2; }
+    </style>
+  </defs>
+  <rect width="760" height="640" fill="#171a16"/>
+
+  <!-- Trust boundary -->
+  <rect class="boundary" x="180" y="36" width="402" height="466" rx="6"/>
+  <text class="sec" x="196" y="56">Your application: trusted code</text>
+
+  <!-- Customer -->
+  <rect class="human" x="20" y="72" width="130" height="56" rx="14"/>
+  <text class="head" x="85" y="95" text-anchor="middle">Customer</text>
+  <text class="ucy" x="85" y="113" text-anchor="middle">input untrusted</text>
+
+  <!-- Column A -->
+  <rect class="app" x="200" y="72" width="160" height="46" rx="3"/>
+  <text class="head" x="280" y="91" text-anchor="middle">Chat entry</text>
+  <text class="sub" x="280" y="107" text-anchor="middle">ID from the session</text>
+
+  <rect class="app" x="200" y="160" width="160" height="46" rx="3"/>
+  <text class="head" x="280" y="179" text-anchor="middle">Agent loop</text>
+  <text class="sub" x="280" y="195" text-anchor="middle">step · time · tokens</text>
+
+  <rect class="app" x="200" y="250" width="160" height="56" rx="3"/>
+  <text class="head" x="280" y="269" text-anchor="middle">Tool runner</text>
+  <text class="sub" x="280" y="285" text-anchor="middle">argument checks</text>
+  <text class="sub" x="280" y="298" text-anchor="middle">owner · call limits</text>
+
+  <rect class="app" x="200" y="350" width="160" height="56" rx="3"/>
+  <text class="head" x="280" y="369" text-anchor="middle">Approval prompt</text>
+  <text class="sub" x="280" y="385" text-anchor="middle">human checkpoint</text>
+  <text class="sub" x="280" y="398" text-anchor="middle">values from records</text>
+
+  <!-- Column B -->
+  <rect class="app" x="400" y="72" width="160" height="46" rx="3"/>
+  <text class="head" x="480" y="91" text-anchor="middle">Conversation state</text>
+  <text class="sub" x="480" y="107" text-anchor="middle">keyed by customer ID</text>
+
+  <rect class="app" x="400" y="340" width="160" height="46" rx="3"/>
+  <text class="head" x="480" y="359" text-anchor="middle">Shipment records</text>
+  <text class="sub" x="480" y="375" text-anchor="middle">owners · addresses</text>
+
+  <rect class="app" x="400" y="436" width="160" height="46" rx="3"/>
+  <text class="head" x="480" y="455" text-anchor="middle">Logs</text>
+  <text class="sub" x="480" y="471" text-anchor="middle">simple values only</text>
+
+  <!-- External -->
+  <rect class="ext" x="610" y="150" width="130" height="66" rx="3"/>
+  <text class="head" x="675" y="172" text-anchor="middle">Model provider</text>
+  <text class="ucy" x="675" y="189" text-anchor="middle">output untrusted</text>
+  <text class="sub" x="675" y="204" text-anchor="middle">sees conversation</text>
+
+  <rect class="ext" x="610" y="250" width="130" height="56" rx="3"/>
+  <text class="head" x="675" y="272" text-anchor="middle">Carrier API</text>
+  <text class="ucy" x="675" y="290" text-anchor="middle">data untrusted</text>
+
+  <rect class="ext" x="610" y="436" width="130" height="56" rx="3"/>
+  <text class="head" x="675" y="458" text-anchor="middle">Dependencies, CI</text>
+  <text class="sub" x="675" y="476" text-anchor="middle">packages · API key</text>
+
+  <!-- Flows -->
+  <line class="flow" x1="152" y1="95" x2="198" y2="95" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="280" y1="120" x2="280" y2="158" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="362" y1="170" x2="400" y2="120" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="362" y1="183" x2="608" y2="183" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="280" y1="208" x2="280" y2="248" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="362" y1="278" x2="608" y2="278" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="362" y1="298" x2="400" y2="342" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="280" y1="308" x2="280" y2="348"  marker-end="url(#arrow)"/>
+  <path class="flow" d="M198,378 H85 V130" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line class="flow" x1="608" y1="464" x2="584" y2="464" marker-end="url(#arrow)"/>
+
+  <!-- Threat markers -->
+  <g>
+    <circle class="marker" cx="166" cy="72" r="13"/><text class="mk" x="166" y="76" text-anchor="middle">T1</text>
+    <circle class="marker" cx="302" cy="139" r="13"/><text class="mk" x="302" y="143" text-anchor="middle">T6</text>
+    <circle class="marker" cx="404" cy="152" r="13"/><text class="mk" x="404" y="156" text-anchor="middle">T9</text>
+    <circle class="marker" cx="302" cy="228" r="13"/><text class="mk" x="302" y="232" text-anchor="middle">T3</text>
+    <circle class="marker" cx="452" cy="259" r="13"/><text class="mk" x="452" y="263" text-anchor="middle">T2</text>
+    <circle class="marker" cx="492" cy="259" r="13"/><text class="mk" x="492" y="263" text-anchor="middle">T7</text>
+    <circle class="marker" cx="452" cy="298" r="13"/><text class="mk" x="452" y="302" text-anchor="middle">T4</text>
+    <circle class="marker" cx="140" cy="398" r="13"/><text class="mk" x="140" y="402" text-anchor="middle">T5</text>
+    <circle class="marker" cx="380" cy="459" r="13"/><text class="mk" x="380" y="463" text-anchor="middle">T8</text>
+    <circle class="marker" cx="675" cy="418" r="13"/><text class="mk" x="675" y="422" text-anchor="middle">T10</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="20" y="540" width="26" height="14" class="app"/>
+  <text class="note" x="54" y="551">Your code</text>
+  <rect x="160" y="540" width="26" height="14" class="ext"/>
+  <text class="note" x="194" y="551">Outside your control, untrusted</text>
+  <line x1="440" y1="547" x2="470" y2="547" class="boundary"/>
+  <text class="note" x="478" y="551">Trust boundary</text>
+  <circle class="marker" cx="33" cy="584" r="11"/><text class="mk" x="33" y="588" text-anchor="middle">Tn</text>
+  <text class="note" x="54" y="588">Threat, described in the table below</text>
+  <line x1="440" y1="584" x2="470" y2="584" class="flow" marker-end="url(#arrow)"/>
+  <text class="note" x="478" y="588">Data flow</text>
+</svg>

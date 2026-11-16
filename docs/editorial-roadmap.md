@@ -30,8 +30,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 5 | security/threat-modeling-an-agent.md | in PR | Adds security/shipment-agent-threat-model.svg (markers T1 to T10 match the table). |
 | 5 | security/evaluating-agent-security.md | in PR | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
-| 6 | frameworks/framework-comparison-by-use-case.md | next | |
-| 7 | deployment/reliability-cost-and-runaway-loops.md | planned | |
+| 6 | frameworks/framework-comparison-by-use-case.md | in PR | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
+| 7 | deployment/reliability-cost-and-runaway-loops.md | next | |
 | 7 | deployment/deploying-an-agent.md | planned | |
 | 8 | deployment/what-is-microsoft-foundry.md | planned | New in the Foundry track. |
 | 8 | deployment/choose-an-azure-agent-hosting-option.md | planned | Now also covers Azure Container Apps. |

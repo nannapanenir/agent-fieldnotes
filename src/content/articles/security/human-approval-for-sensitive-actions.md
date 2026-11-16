@@ -4,6 +4,7 @@ description: Which agent actions need a person's approval, what the approver mus
 topic: Security
 level: Intermediate
 publishedAt: 2026-11-14
+updatedAt: 2026-11-16
 order: 8
 readingMinutes: 9
 tags: [security, human-in-the-loop, approvals, owasp, nist]
@@ -62,7 +63,9 @@ A few details make the difference:
 
 An approval that lives only in the conversation isn't enforced. If the model asks "Shall I go ahead?" and the customer types "yes," the model decides what that "yes" means, and injected text can supply a fake "yes" or a fake question. The approval has to be a separate control, such as a button the application handles, that the model can't press.
 
-The application should also bind each approval to one exact action. If the model changes any argument after the approval, such as a different date, the approval no longer applies:
+The application should also bind each approval to one exact action. If the model changes any argument after the approval, such as a different date, the approval no longer applies. Here's that binding in TypeScript and Python; pick a language with the tabs, and the choice applies to every example on the site. The Python version takes the approval store as a parameter and uses the standard library for hashing and IDs:
+
+<div class="code-tabs">
 
 ```ts
 type ProposedAction = { tool: string; args: Record<string, string | number> };
@@ -120,7 +123,103 @@ export async function checkApproval(
 }
 ```
 
+```python
+import hashlib
+import json
+import math
+import secrets
+import time
+from dataclasses import dataclass
+from typing import Literal, Protocol
+
+
+@dataclass(frozen=True)
+class ProposedAction:
+    tool: str
+    args: dict[str, str | float]  # float also accepts int
+
+
+@dataclass
+class Approval:
+    id: str
+    customer_id: str
+    action_hash: str
+    expires_at: int  # milliseconds since the epoch
+    decision: Literal["pending", "approved", "rejected"]
+
+
+type ApprovalCheck = Literal["ok", "missing", "pending", "rejected", "expired", "mismatch", "already_used"]
+
+
+# Defined elsewhere in the app.
+class ApprovalStore(Protocol):
+    async def insert(self, approval: Approval) -> None: ...
+    async def get(self, approval_id: str) -> Approval | None: ...
+    async def mark_used(self, approval_id: str, at: int) -> bool: ...  # atomic: True only the first time
+
+
+APPROVAL_TTL_MS = 15 * 60_000
+
+
+def now_ms() -> int:
+    return int(time.time() * 1000)
+
+
+def sha256_hex(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+# Numbers compare the way JSON.stringify writes them: 1.0 is 1, -0.0 is 0, NaN and infinity are null.
+def _plain(value: str | float) -> str | float | None:
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            return None
+        if value.is_integer():
+            return int(value)
+    return value
+
+
+# Same tool and same arguments always produce the same string, whatever the key order.
+def canonical(action: ProposedAction) -> str:
+    pairs = [[key, _plain(action.args[key])] for key in sorted(action.args)]
+    return json.dumps([action.tool, pairs], separators=(",", ":"), ensure_ascii=False)
+
+
+async def request_approval(
+    action: ProposedAction, customer_id: str, approvals: ApprovalStore, now: int | None = None
+) -> Approval:
+    approval = Approval(
+        id=secrets.token_urlsafe(16),
+        customer_id=customer_id,
+        action_hash=sha256_hex(canonical(action)),
+        expires_at=(now if now is not None else now_ms()) + APPROVAL_TTL_MS,
+        decision="pending",
+    )
+    await approvals.insert(approval)
+    return approval  # the approval UI records the decision; the model has no tool for it
+
+
+async def check_approval(
+    approval_id: str, action: ProposedAction, customer_id: str, approvals: ApprovalStore, now: int | None = None
+) -> ApprovalCheck:
+    at = now if now is not None else now_ms()
+    approval = await approvals.get(approval_id)
+    if approval is None or approval.customer_id != customer_id:
+        return "missing"
+    if approval.decision != "approved":
+        return approval.decision
+    if at > approval.expires_at:
+        return "expired"
+    if approval.action_hash != sha256_hex(canonical(action)):
+        return "mismatch"
+    return "ok" if await approvals.mark_used(approval.id, at) else "already_used"
+```
+
+</div>
+
 The tool gateway calls `checkApproval` immediately before running the tool, and runs it only on `"ok"`. Each approval works once, for one customer, for one exact set of arguments, within 15 minutes.
+
+The Python `canonical` function writes numbers the way JavaScript's `JSON.stringify` does, so `1` and `1.0` count as the same argument in both versions, and both accept and reject the same actions.
 
 ## The approval lifecycle
 

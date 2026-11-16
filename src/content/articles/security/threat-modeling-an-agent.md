@@ -11,13 +11,13 @@ featured: false
 draft: false
 ---
 
-A threat model is a written answer to four questions about a system: what are we working on, what can go wrong, what are we going to do about it, and did we do a good enough job? Security engineer Adam Shostack popularized these questions, and the Threat Modeling Manifesto is built around them. For an agent, the answers have to cover more than the code, because the agent's behavior also depends on a model you don't control and on text from people and systems you don't trust.
+A threat model is a written answer to four questions about a system. Security engineer Adam Shostack created this four-question framework: "What are we working on? What can go wrong? What are we going to do about it? Did we do a good job?" For an agent, the answers have to cover more than the code, because the agent's behavior also depends on a model you don't control and on text from people and systems you don't trust.
 
 This article threat-models one specific agent: the shipment assistant built in the Stage 4 tutorials, from [Build a Minimal Agent](/learn/architecture/build-a-minimal-agent/) to [Evaluate Agent Behavior Locally](/learn/architecture/evaluate-agent-behavior-locally/). It has three tools (`getShipmentStatus`, `listMyShipments`, and `requestRedelivery`), a signed-in customer, an approval prompt before any write, conversation state, and an evaluation suite. By the end you'll have a threat register for it: ten threats, each with its controls, its test, and the risk that remains.
 
 ## Organize the work with the NIST AI RMF
 
-NIST's AI Risk Management Framework (AI RMF 1.0, January 2023) groups AI risk work into four functions. They make a good skeleton for a threat model, because each one answers a different part of the job:
+NIST's AI Risk Management Framework (AI RMF 1.0, released January 26, 2023) groups AI risk work into four functions. They make a good skeleton for a threat model, because each one answers a different part of the job:
 
 | Function | In this threat model |
 | --- | --- |
@@ -80,8 +80,8 @@ For each flow that crosses the boundary, ask what an attacker could put on it an
 
 - Agent Goal Hijack (ASI01): text in the customer's messages or the carrier's data redirects the agent.
 - Tool Misuse and Exploitation (ASI02): the agent's real tools are used in harmful ways.
-- Identity and Privilege Abuse (ASI03): the agent acts for someone other than the signed-in customer.
-- Supply chain risk (ASI04): a compromised dependency or leaked credential.
+- Identity and Privilege Abuse (ASI03): the agent acts for someone other than the signed-in customer, or a leaked credential lets someone act as the application.
+- Agentic Supply Chain Vulnerabilities (ASI04): a compromised dependency in the code that builds and runs the agent.
 - Memory and Context Poisoning (ASI06): planted text in conversation state affects later answers.
 - Cascading Failures (ASI08): one fault, such as a failing carrier, spreads into wrong answers or wasted work.
 - Human-Agent Trust Exploitation (ASI09): the customer approves something they didn't mean to.
@@ -109,7 +109,7 @@ Each threat gets a row: the controls that limit it, the test that shows the cont
 | T7 | A carrier failure becomes an invented answer or a false booking | ASI08 | Classified tool errors; no automatic write retries; `write_outcome_unknown` reported as unknown | `carrier-down-status`, `carrier-down-booking` | The model's wording of a partial answer can still mislead |
 | T8 | Customer data or secrets end up in logs | None (NIST Data Privacy) | Logger accepts only simple values; error class names logged, never messages; API key only in the environment | None yet | Conversation text is still sent to the model provider |
 | T9 | Planted text in conversation state skews later answers, or one customer's conversation reaches another | ASI06 | State keyed by the session's customer ID; in memory only, trimmed to 10 turns | None yet | Planted text can persist within one customer's conversation for up to 10 turns |
-| T10 | A compromised dependency or leaked API key | ASI04 | Lockfile with `npm ci`, or pinned pip installs; API key only in the CI job that calls the model; no secrets on fork pull requests | `review:dependency-update` | A malicious release of a pinned dependency is caught only by review |
+| T10 | A compromised dependency or leaked API key | ASI03, ASI04 | Lockfile with `npm ci`, or pinned pip installs; API key only in the CI job that calls the model; no secrets on fork pull requests | `review:dependency-update` | A malicious release of a pinned dependency is caught only by review |
 
 The rows marked "None yet" are the most useful output of the exercise. T6, T8, and T9 have controls in the code but nothing that would notice if a change broke them. The next article adds those tests.
 

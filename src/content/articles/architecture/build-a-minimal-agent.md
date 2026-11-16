@@ -4,6 +4,7 @@ description: Write the smallest working shipment-tracking agent yourself in Type
 topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15
+updatedAt: 2026-11-16
 order: 10
 readingMinutes: 15
 tags: [architecture, tutorial, typescript, python, agent-loop, tools]
@@ -323,13 +324,20 @@ function errorOutput(error: string): ToolOutput {
   return { content: JSON.stringify({ error }), isError: true };
 }
 
+// Checked by hand, with the same rules as the Python version's pydantic model:
+// an object with exactly one argument, trackingId, as a string.
+function validArgs(input: unknown): input is { trackingId: string } {
+  if (typeof input !== "object" || input === null || Array.isArray(input)) return false;
+  return Object.keys(input).length === 1 && typeof (input as Record<string, unknown>).trackingId === "string";
+}
+
 // What your code runs. It checks everything itself, whatever the model sent.
 export async function runTool(name: string, input: unknown): Promise<ToolOutput> {
   if (name !== getShipmentStatusTool.name) return errorOutput("unknown_tool");
+  if (!validArgs(input)) return errorOutput("invalid_arguments");
 
-  const trackingId =
-    typeof input === "object" && input !== null ? (input as Record<string, unknown>).trackingId : undefined;
-  if (typeof trackingId !== "string" || !TRACKING_ID.test(trackingId)) return errorOutput("invalid_tracking_id");
+  const { trackingId } = input;
+  if (!TRACKING_ID.test(trackingId)) return errorOutput("invalid_tracking_id");
 
   const shipment = SHIPMENTS[trackingId];
   if (!shipment) return errorOutput("not_found");
@@ -343,10 +351,11 @@ export async function runTool(name: string, input: unknown): Promise<ToolOutput>
 ```python
 # agent/tools.py
 import json
+import re
 from dataclasses import dataclass
 
 from anthropic.types.beta import BetaToolParam
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, ValidationError
 
 
 @dataclass(frozen=True)
@@ -394,10 +403,13 @@ GET_SHIPMENT_STATUS_TOOL: BetaToolParam = {
 }
 
 
-# The handler validates the arguments itself with pydantic, whatever the model sent.
+# The handler validates the arguments itself with pydantic: exactly one argument, tracking_id, as a string.
 class ShipmentStatusArgs(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    tracking_id: str = Field(pattern=r"^[A-Z0-9]{10,22}$")
+    model_config = ConfigDict(extra="forbid", strict=True)
+    tracking_id: str
+
+
+TRACKING_ID = re.compile(r"[A-Z0-9]{10,22}")
 
 
 @dataclass(frozen=True)
@@ -418,6 +430,8 @@ async def run_tool(name: str, tool_input: object) -> ToolOutput:
     try:
         args = ShipmentStatusArgs.model_validate(tool_input)
     except ValidationError:
+        return error_output("invalid_arguments")
+    if not TRACKING_ID.fullmatch(args.tracking_id):
         return error_output("invalid_tracking_id")
 
     shipment = SHIPMENTS.get(args.tracking_id)
@@ -437,7 +451,7 @@ async def run_tool(name: str, tool_input: object) -> ToolOutput:
 
 Three choices here carry the security of the whole agent:
 
-- The schema is strict, so the model's arguments match it, and the handler checks the format again anyway, because the handler is the part you control. The Python version does that check with a pydantic model, which also rejects unexpected fields; the TypeScript version checks the one field by hand.
+- The schema is strict, so the model's arguments match it, and the handler checks them again anyway, because the handler is the part you control. Missing, unknown, or wrong-typed arguments return `invalid_arguments`, and a tracking number in the wrong format returns `invalid_tracking_id`. The TypeScript version checks the arguments by hand; the Python version uses a pydantic model with the same rules, so both reject the same inputs.
 - Errors come back as short codes such as `not_found`, so the model can explain the problem without seeing internals.
 - The handler drops the carrier note. The injected instruction in the second shipment can't reach the model because the model never receives that field.
 

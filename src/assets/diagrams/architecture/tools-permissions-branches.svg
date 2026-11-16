@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="680" viewBox="0 0 760 680" role="img" aria-labelledby="title desc">
+  <title id="title">An approved write and a rejected ID-tampering attempt</title>
+  <desc id="desc">Sequence diagram with four participants: the customer signed in as c-100, the model, the tool runner in the application, and the shipment data. Branch A, an approved write: A1, the model proposes requestRedelivery for package 784 on November 20. A2, the runner checks that the tool is known, the call limit, the arguments, and that c-100 owns the package. A3, the runner shows the customer an approval prompt with exact values from the records. A4, the customer types yes. A5, the runner books the redelivery and returns scheduled to the model. Branch B, an ID-tampering attempt: B1, the customer asks about package 786. B2, the model proposes getShipmentStatus for 786. B3, the runner looks the package up and finds its owner is c-200. B4, the ownership check fails and returns not_found, the same answer as for a package that doesn't exist. B5, the model tells the customer it can't find that package on their account.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: solid arrows = calls, dashed arrows = proposals or responses, checks are boxed and labeled.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9ce6db"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .sec { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #c7f36b; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .ulbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #9ce6db; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .life { stroke: rgba(235,243,225,.22); stroke-width: 1; stroke-dasharray: 3 4; }
+    </style>
+  </defs>
+  <rect width="760" height="680" fill="#171a16"/>
+
+  <!-- Participants -->
+  <rect class="human" x="20" y="20" width="140" height="48" rx="14"/>
+  <text class="head" x="90" y="42" text-anchor="middle">Customer</text>
+  <text class="sub" x="90" y="58" text-anchor="middle">signed in as c-100</text>
+  <rect class="lane" x="240" y="20" width="120" height="48" rx="3"/>
+  <text class="head" x="300" y="42" text-anchor="middle">Model</text>
+  <text class="sub" x="300" y="58" text-anchor="middle">proposes only</text>
+  <rect class="app" x="430" y="20" width="140" height="48" rx="3"/>
+  <text class="head" x="500" y="42" text-anchor="middle">Tool runner</text>
+  <text class="sub" x="500" y="58" text-anchor="middle">application code</text>
+  <rect class="lane" x="620" y="20" width="120" height="48" rx="3"/>
+  <text class="head" x="680" y="42" text-anchor="middle">Shipment data</text>
+  <text class="sub" x="680" y="58" text-anchor="middle">has owners</text>
+
+  <line class="life" x1="90" y1="68" x2="90" y2="612"/>
+  <line class="life" x1="300" y1="68" x2="300" y2="612"/>
+  <line class="life" x1="500" y1="68" x2="500" y2="612" style="stroke:#c7f36b"/>
+  <line class="life" x1="680" y1="68" x2="680" y2="612"/>
+
+  <!-- Branch A -->
+  <text class="sec" x="20" y="98">A  Approved write</text>
+  <text class="ulbl" x="400" y="126" text-anchor="middle">A1  requestRedelivery(784, Nov 20)</text>
+  <line x1="300" y1="134" x2="496" y2="134" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <rect class="app" x="385" y="148" width="230" height="28" rx="3"/>
+  <text class="chk" x="500" y="166" text-anchor="middle">A2  tool, limit, args, owner c-100</text>
+  <text class="lbl" x="295" y="200" text-anchor="middle">A3  approval prompt with exact values from records</text>
+  <line x1="500" y1="208" x2="94" y2="208" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text class="lbl" x="295" y="234" text-anchor="middle">A4  yes</text>
+  <line x1="90" y1="242" x2="496" y2="242" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text class="lbl" x="590" y="268" text-anchor="middle">A5  book redelivery</text>
+  <line x1="500" y1="276" x2="676" y2="276" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text class="ulbl" x="400" y="302" text-anchor="middle">scheduled</text>
+  <line x1="500" y1="310" x2="304" y2="310" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+
+  <line x1="20" y1="336" x2="740" y2="336" stroke="rgba(235,243,225,.18)" stroke-width="1"/>
+
+  <!-- Branch B -->
+  <text class="sec" x="20" y="364">B  ID tampering: another customer's package</text>
+  <text class="lbl" x="195" y="394" text-anchor="middle">B1  "Where is 786?"</text>
+  <line x1="90" y1="402" x2="296" y2="402" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text class="ulbl" x="400" y="428" text-anchor="middle">B2  getShipmentStatus(786)</text>
+  <line x1="300" y1="436" x2="496" y2="436" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <text class="lbl" x="590" y="462" text-anchor="middle">B3  look up 786</text>
+  <line x1="500" y1="470" x2="676" y2="470" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text class="ulbl" x="590" y="494" text-anchor="middle">owner: c-200</text>
+  <line x1="680" y1="502" x2="504" y2="502" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <rect class="app" x="385" y="516" width="230" height="28" rx="3"/>
+  <text class="chk" x="500" y="534" text-anchor="middle">B4  owner check fails: not_found</text>
+  <text class="ulbl" x="400" y="566" text-anchor="middle">not_found, same as missing</text>
+  <line x1="500" y1="574" x2="304" y2="574" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrow-cyan)"/>
+  <text class="lbl" x="195" y="596" text-anchor="middle">B5  "I can't find that package"</text>
+  <line x1="300" y1="604" x2="94" y2="604" stroke="#f0f0e8" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <line x1="20" y1="650" x2="50" y2="650" stroke="#f0f0e8" stroke-width="1.4"/>
+  <text class="note" x="58" y="654">Solid: a call.</text>
+  <line x1="190" y1="650" x2="220" y2="650" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="note" x="228" y="654">Dashed: a proposal or response.</text>
+  <rect x="480" y="643" width="26" height="14" class="app"/>
+  <text class="note" x="514" y="654">Outlined: a check in code.</text>
+</svg>

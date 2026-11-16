@@ -19,15 +19,15 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 2 | architecture/orchestration-patterns.md | published | Adds five pattern-*.svg diagrams. |
 | 3 | security/trust-boundaries-for-agents.md | published | Further-reading update (OWASP Agentic Top 10 2026, NIST AI 600-1) is in this PR. |
 | 3 | security/tool-permissions-and-excessive-agency.md | published | Adds security/scoped-token-flow.svg. |
-| 3 | security/prompt-injection-in-agent-systems.md | in PR | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
-| 3 | security/agent-memory-and-data-exposure.md | in PR | Adds security/data-exposure-paths.svg. |
-| 3 | security/sandboxing-and-code-execution.md | in PR | Adds security/sandbox-containment.svg. |
-| 3 | security/human-approval-for-sensitive-actions.md | in PR | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
-| 4 | architecture/build-a-minimal-agent-in-typescript.md | next | |
-| 4 | architecture/add-tools-and-permissions.md | planned | |
-| 4 | architecture/add-state-and-handle-tool-errors.md | planned | |
-| 4 | architecture/evaluate-agent-behavior-locally.md | planned | |
-| 5 | security/threat-modeling-an-agent.md | planned | |
+| 3 | security/prompt-injection-in-agent-systems.md | published | Adds security/injection-without-controls.svg and security/injection-with-controls.svg. |
+| 3 | security/agent-memory-and-data-exposure.md | published | Adds security/data-exposure-paths.svg. |
+| 3 | security/sandboxing-and-code-execution.md | published | Adds security/sandbox-containment.svg. |
+| 3 | security/human-approval-for-sensitive-actions.md | published | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
+| 4 | architecture/build-a-minimal-agent.md | in PR | Adds architecture/minimal-agent-run.svg. TypeScript and Python in code tabs; tested with @anthropic-ai/sdk 1.8.0 on Node.js 22.23 and anthropic 2.8.0 with pydantic 2.14 on Python 3.12.3. Renamed from build-a-minimal-agent-in-typescript.md so the title names no language. |
+| 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. TypeScript and Python suites in code tabs; the CI workflow runs both. |
+| 5 | security/threat-modeling-an-agent.md | next | |
 | 5 | security/evaluating-agent-security.md | planned | |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
 | 6 | frameworks/framework-comparison-by-use-case.md | planned | |
@@ -51,6 +51,7 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 ## Writing rules
 
 - Cite OWASP LLM Top 10 IDs from the 2026 edition (for example LLM03:2026 Excessive Agency) and name the edition.
+- Every code example ships in TypeScript and Python inside a `<div class="code-tabs">`, TypeScript first. Names follow each language (`getShipmentStatus` / `get_shipment_status`); prose uses the TypeScript names. Count `readingMinutes` from prose plus one language.
 
 ## Stage 8 notes (Microsoft Foundry)
 
@@ -103,17 +104,17 @@ The sequence is to compare the three Azure hosting options, follow the one tutor
 - Security: OWASP ASI09 (Human-Agent Trust Exploitation), and the Human-AI Configuration risk in NIST AI 600-1, including automation bias. An approval step reduces risk only if it is enforced in the application and the approver gets meaningful information.
 - Visual: The approval lifecycle: proposed, pending, approved, rejected, timed out. Format: Mermaid state diagram exported to SVG. Add an optional static mockup of an approval card, labeled "Illustrative mockup", showing the exact action and data.
 
-#### architecture/build-a-minimal-agent-in-typescript.md
-- Question: What does the smallest working agent look like when I write it myself in TypeScript, without a framework?
+#### architecture/build-a-minimal-agent.md
+- Question: What does the smallest working agent look like when I write it myself in TypeScript or Python, without a framework?
 - Outcome: The reader runs a local shipment-tracking agent with one model client, one read-only mock tool, a bounded loop with step, time, and token limits, and structured logs. That gives them the baseline that `choosing-an-agent-framework` asks for.
-- Prereqs: `the-agent-loop`, `tool-calling-and-control-flow`. Requires Node.js and an API key or Entra ID access for one model provider.
+- Prereqs: `the-agent-loop`, `tool-calling-and-control-flow`. Requires Node.js or Python and an API key or Entra ID access for one model provider.
 - Security: No write tools yet, an explicit stop on every limit, tool output treated as untrusted, and no secrets in source, prompts, or logs.
 - Visual: The project layout and what happens during one run. Format: Numbered tutorial steps. A text code block for the project file tree. A Mermaid sequence diagram of one run that shows where each limit is checked. Terminal output as a code block, not a screenshot.
 
 #### architecture/add-tools-and-permissions.md
 - Question: How do I add more tools to my agent, including one that changes data, without giving it more authority than the task needs?
 - Outcome: The reader adds a second read tool and one write tool (for example, "request a delivery reschedule"). They define strict argument schemas, enforce per-user authorization inside the tool handler, separate read and write permissions, and require explicit approval before the write runs.
-- Prereqs: `build-a-minimal-agent-in-typescript`, `tool-permissions-and-excessive-agency`, `human-approval-for-sensitive-actions`.
+- Prereqs: `build-a-minimal-agent`, `tool-permissions-and-excessive-agency`, `human-approval-for-sensitive-actions`.
 - Security: Puts least privilege into code (OWASP ASI02 and ASI03). Show an ID-tampering attempt, such as asking about another user's shipment, being rejected by the server-side check rather than by the prompt.
 - Visual: How read and write tools differ, and how an ID-tampering attempt is rejected. Format: Numbered tutorial steps. A Markdown permissions table. A Mermaid sequence diagram with two branches: an approved write, and a rejected attempt to read another user's shipment.
 

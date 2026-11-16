@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="690" viewBox="0 0 760 690" role="img" aria-labelledby="title desc">
+  <title id="title">How the evaluation harness runs and gates a change</title>
+  <desc id="desc">Flowchart with eight numbered steps. 1, load the versioned cases from cases.ts. Steps 2 to 6 repeat for each case and each trial. 2, reset: clear the bookings and set the carrier mode. 3, run the real agent code, meaning the loop, the tool runner, and the trimming, with every tool call recorded and approval prompts answered by the case. The model is either the real model, claude-opus-5-5, or the rule-based fake. 4, record a transcript of the outcome, reply, tool calls, approval prompts, and bookings. 5, code checks on tools, arguments, bookings, approvals, and leaks. 6, a model grader, drawn as a dashed box, judges one claim about the reply, only for cases with a rubric and only after the code checks pass; it is skipped with the fake model. A failed check or a failed rubric fails the trial. An arrow loops from step 6 back to step 2 for the next trial or case. 7, print PASS, FAIL, or ERROR for each case and save the transcripts to evals/results. 8, the exit code is 1 if any case failed, so in CI the change can't merge.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: outlined boxes = code, the dashed box = the only step that calls a second model.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .sec { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #c7f36b; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .grader { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.4; stroke-dasharray: 6 4; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="690" fill="#171a16"/>
+
+  <!-- 1 -->
+  <rect class="lane" x="110" y="20" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="40" text-anchor="middle">1  Load the cases</text>
+  <text class="sub" x="290" y="57" text-anchor="middle">cases.ts · suite 2026-11-15.1</text>
+  <line class="step" x1="290" y1="66" x2="290" y2="116" marker-end="url(#arrow)"/>
+
+  <!-- Loop frame -->
+  <rect x="20" y="84" width="720" height="394" rx="6" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <text class="sec" x="490" y="106">For each case and each trial</text>
+
+  <!-- 2 -->
+  <rect class="app" x="110" y="118" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="138" text-anchor="middle">2  Reset</text>
+  <text class="chk" x="290" y="155" text-anchor="middle">clear bookings · set carrier mode</text>
+  <line class="step" x1="290" y1="164" x2="290" y2="186" marker-end="url(#arrow)"/>
+
+  <!-- 3 -->
+  <rect class="app" x="110" y="188" width="360" height="60" rx="3"/>
+  <text class="head" x="290" y="208" text-anchor="middle">3  Run the real agent code</text>
+  <text class="chk" x="290" y="225" text-anchor="middle">loop · tool runner · trimming</text>
+  <text class="sub" x="290" y="240" text-anchor="middle">tool calls recorded, approvals answered by the case</text>
+  <line class="step" x1="474" y1="218" x2="516" y2="218" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <rect class="lane" x="520" y="188" width="200" height="60" rx="3"/>
+  <text class="head" x="620" y="208" text-anchor="middle">Model</text>
+  <text class="sub" x="620" y="225" text-anchor="middle">real: claude-opus-5-5</text>
+  <text class="sub" x="620" y="240" text-anchor="middle">or fake: rule-based</text>
+  <line class="step" x1="290" y1="248" x2="290" y2="270" marker-end="url(#arrow)"/>
+
+  <!-- 4 -->
+  <rect class="app" x="110" y="272" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="292" text-anchor="middle">4  Record a transcript</text>
+  <text class="chk" x="290" y="309" text-anchor="middle">reply · tool calls · approvals · bookings</text>
+  <line class="step" x1="290" y1="318" x2="290" y2="340" marker-end="url(#arrow)"/>
+
+  <!-- 5 -->
+  <rect class="app" x="110" y="342" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="362" text-anchor="middle">5  Code checks</text>
+  <text class="chk" x="290" y="379" text-anchor="middle">tools · arguments · bookings · leaks</text>
+  <line class="step" x1="290" y1="388" x2="290" y2="408" marker-end="url(#arrow)"/>
+
+  <!-- 6 -->
+  <rect class="grader" x="110" y="410" width="360" height="52" rx="3"/>
+  <text class="head" x="290" y="430" text-anchor="middle">6  Model grader, if the case has a rubric</text>
+  <text class="ucy" x="290" y="449" text-anchor="middle">after checks pass · skipped with --fake</text>
+
+  <!-- Failure box -->
+  <rect class="lane" x="520" y="342" width="200" height="120" rx="3"/>
+  <text class="head" x="620" y="392" text-anchor="middle">Trial fails</text>
+  <text class="sub" x="620" y="410" text-anchor="middle">a check or the rubric</text>
+  <text class="sub" x="620" y="424" text-anchor="middle">didn't hold</text>
+  <line class="step" x1="470" y1="365" x2="518" y2="365" marker-end="url(#arrow)"/>
+  <line class="step" x1="470" y1="436" x2="518" y2="436" marker-end="url(#arrow)"/>
+
+  <!-- Loop back -->
+  <path class="step" d="M110,436 H52 V141 H108" marker-end="url(#arrow)"/>
+
+  <line class="step" x1="290" y1="462" x2="290" y2="502" marker-end="url(#arrow)"/>
+
+  <!-- 7 -->
+  <rect class="app" x="110" y="504" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="524" text-anchor="middle">7  Print PASS, FAIL, or ERROR</text>
+  <text class="chk" x="290" y="541" text-anchor="middle">transcripts saved to evals/results/</text>
+  <line class="step" x1="290" y1="550" x2="290" y2="572" marker-end="url(#arrow)"/>
+
+  <!-- 8 -->
+  <rect class="app" x="110" y="574" width="360" height="46" rx="3"/>
+  <text class="head" x="290" y="594" text-anchor="middle">8  Exit code 1 if any case failed</text>
+  <text class="chk" x="290" y="611" text-anchor="middle">the gate</text>
+  <line class="step" x1="470" y1="597" x2="518" y2="597" marker-end="url(#arrow)"/>
+  <rect class="lane" x="520" y="574" width="200" height="46" rx="3"/>
+  <text class="head" x="620" y="594" text-anchor="middle">In CI</text>
+  <text class="sub" x="620" y="611" text-anchor="middle">the change can't merge</text>
+
+  <!-- Legend -->
+  <rect x="20" y="650" width="26" height="14" class="app"/>
+  <text class="note" x="54" y="661">Outlined: code.</text>
+  <rect x="210" y="650" width="26" height="14" class="grader"/>
+  <text class="note" x="244" y="661">Dashed: calls a second model.</text>
+  <line x1="480" y1="657" x2="510" y2="657" stroke="#f0f0e8" stroke-width="1.4"/>
+  <text class="note" x="518" y="661">Arrow: next step.</text>
+</svg>

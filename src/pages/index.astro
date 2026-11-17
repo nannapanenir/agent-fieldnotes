@@ -1,19 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import ArticleCard from '../components/ArticleCard.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import { TOPICS, articleHref, articlesInTopic, getPublishedArticles, latestArticles } from '../lib/articles';
 
-const articles = (await getCollection('articles', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order || b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const articles = await getPublishedArticles();
 const featured = articles.find((article) => article.data.featured) ?? articles[0];
-const recent = articles.filter((article) => article.id !== featured?.id).slice(0, 3);
-const topics = [
-  { name: 'Foundations', desc: 'Build the mental model first.' },
-  { name: 'Architecture', desc: 'Understand the pieces and control flow.' },
-  { name: 'Frameworks', desc: 'Choose tools with clear tradeoffs.' },
-  { name: 'Deployment', desc: 'Run, evaluate, and operate systems.' },
-  { name: 'Security', desc: 'Map risks and apply layered controls.' },
-];
+const latest = latestArticles(articles, 6, featured);
+const PATH_LINKS = 4; // titles shown per topic on the homepage; /learn/ lists them all
+const shortTitle = (title: string) => title.split(':')[0];
+const path = TOPICS.map((topic) => ({ ...topic, posts: articlesInTopic(articles, topic.name) }));
 const base = import.meta.env.BASE_URL;
 const siteSchema = Astro.site ? {
   '@context': 'https://schema.org',
@@ -73,7 +68,7 @@ const siteSchema = Astro.site ? {
       <div><span class="eyebrow">Latest fieldnotes</span><h2>Learn one useful idea at a time.</h2></div>
       <p>Short, connected guides to architecture choices, engineering practice, and the risks that come with giving software tools.</p>
     </div>
-    {recent.length > 0 ? <div class="article-grid">{recent.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">More fieldnotes are on the way. Start with the fundamentals above.</p>}
+    {latest.length > 0 ? <div class="article-grid">{latest.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">More fieldnotes are on the way. Start with the fundamentals above.</p>}
   </section>
 
   <section class="path-section">
@@ -83,7 +78,23 @@ const siteSchema = Astro.site ? {
         <p>Follow a deliberate progression. Each topic folder contains Markdown files that become readable pages automatically.</p>
       </div>
       <div class="path-grid">
-        {topics.map((topic, index) => <a class="path-step" href={`${base}learn/#${topic.name.toLowerCase()}`}><span class="path-number">0{index + 1} / 05</span><h3>{topic.name}</h3><p>{topic.desc}</p></a>)}
+        {path.map((topic, index) => (
+          <div class:list={['path-step', { 'path-step-soon': topic.posts.length === 0 }]}>
+            <span class="path-number">0{index + 1} / 05</span>
+            <h3>{topic.posts.length > 0 ? <a href={`${base}learn/#${topic.slug}`}>{topic.name}</a> : topic.name}</h3>
+            <p>{topic.short}</p>
+            {topic.posts.length > 0 ? (
+              <>
+                <ol class="path-links">
+                  {topic.posts.slice(0, PATH_LINKS).map((article) => <li><a href={articleHref(article)}>{shortTitle(article.data.title)}</a></li>)}
+                </ol>
+                {topic.posts.length > PATH_LINKS && <a class="path-more" href={`${base}learn/#${topic.slug}`}>All {topic.posts.length} {topic.name.toLowerCase()} fieldnotes <span aria-hidden="true">↗</span></a>}
+              </>
+            ) : (
+              <span class="path-soon">Coming soon</span>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   </section>

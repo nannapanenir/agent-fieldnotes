@@ -11,6 +11,8 @@ const { article } = Astro.props;
 const { Content, headings } = await render(article);
 const date = article.data.publishedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 const base = import.meta.env.BASE_URL;
+const topicSlug = article.data.topic.toLowerCase();
+const toc = headings.filter((heading) => heading.depth === 2).map((heading) => ({ ...heading, security: /secur/i.test(heading.text) }));
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -40,21 +42,91 @@ const articleSchema = {
 ---
 
 <SiteLayout title={`${article.data.title} — Agent Fieldnotes`} description={article.data.description} article structuredData={articleSchema}>
-  <header class="article-hero">
-    <div class="article-hero-inner">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={base}>Home</a><span>/</span><a href={`${base}learn/`}>Learning path</a><span>/</span><span>{article.data.topic}</span></nav>
-      <span class="eyebrow">{article.data.topic} · {article.data.level}</span>
+  <header class="layout article-head">
+    <div class="main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={base}>Home</a><span aria-hidden="true">/</span><a href={`${base}learn/`}>Learning path</a><span aria-hidden="true">/</span><a href={`${base}learn/#${topicSlug}`}>{article.data.topic}</a>
+      </nav>
+      <div class="kicker">{article.data.topic}, {article.data.level.toLowerCase()} level</div>
       <h1>{article.data.title}</h1>
-      <p class="article-dek">{article.data.description}</p>
-      <div class="article-byline"><span class="topic-label">FIELDNOTE</span><span>{date}</span><span>{article.data.readingMinutes ?? 5} min read</span></div>
+      <p class="summary">{article.data.description}</p>
+      <div class="meta"><span>Published <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{date}</time></span><span>{article.data.readingMinutes ?? 5} min read</span></div>
     </div>
   </header>
-  <div class="article-shell">
-    <aside class="article-aside" aria-label="On this page">
-      <div class="aside-title">On this page</div>
-      <nav class="toc-list">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>
-      <a class="back-link" href={`${base}learn/`}><span aria-hidden="true">←</span> All fieldnotes</a>
+  <hr class="divider" />
+  <div class="layout article-body">
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <nav class="toc-list">
+        {toc.map((heading) => <a class:list={{ 'is-security': heading.security }} href={`#${heading.slug}`}>{heading.text}</a>)}
+      </nav>
+      <a class="back-link" href={`${base}learn/`}>← All fieldnotes</a>
     </aside>
-    <article class="prose"><Content /></article>
+    <article class="prose main"><Content /></article>
   </div>
 </SiteLayout>
+
+<script>
+  // Marks the On this page link for the section being read.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc-list a'));
+  const sections = links
+    .map((link) => document.getElementById(decodeURIComponent(link.hash.slice(1))))
+    .filter((heading): heading is HTMLElement => heading !== null);
+  let frame = 0;
+  const update = () => {
+    frame = 0;
+    const line = window.innerHeight * 0.25;
+    let current = -1;
+    sections.forEach((heading, index) => { if (heading.getBoundingClientRect().top <= line) current = index; });
+    links.forEach((link, index) => {
+      if (index === current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  if (sections.length > 0) {
+    addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
+    addEventListener('resize', update);
+    update();
+  }
+</script>
+
+<style>
+  .layout {
+    max-width: 1400px; margin: 0 auto; padding: 56px var(--af-gutter) 0;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, var(--af-measure)) minmax(0, 1fr);
+    column-gap: 56px; row-gap: 48px; align-items: start;
+  }
+  .main { grid-column: 2; grid-row: 1; min-width: 0; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
+  .breadcrumbs a { color: var(--af-muted); }
+  .breadcrumbs a:hover { color: var(--af-ink); }
+  .kicker { margin-top: 28px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
+  h1 { margin: 10px 0 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); overflow-wrap: break-word; }
+  .summary { margin: 20px 0 0; color: var(--af-ink-soft); font-size: 21px; line-height: 1.55; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
+  .divider { margin: 48px 0 0; border: 0; border-top: 1px solid var(--af-line); }
+  .article-body { padding-bottom: 96px; }
+
+  .toc { grid-column: 3; grid-row: 1; max-width: 240px; min-width: 0; position: sticky; top: 24px; font-family: var(--af-font-display); font-size: var(--af-meta); }
+  .toc-title { margin-bottom: 12px; font-weight: 700; }
+  .toc-list { display: flex; flex-direction: column; padding-left: 16px; border-left: 1.5px solid var(--af-line); }
+  .toc-list a { margin-left: -17.5px; padding: 6px 0 6px 16px; border-left: 3px solid transparent; color: var(--af-ink-soft); line-height: 1.4; text-decoration: none; }
+  .toc-list a:hover { color: var(--af-ink); text-decoration: underline; text-underline-offset: 3px; }
+  .toc-list a.is-security { color: var(--af-boundary-ink); }
+  .toc-list a[aria-current] { border-left-color: var(--af-ink); color: var(--af-ink); font-weight: 700; }
+  .back-link { display: inline-block; margin-top: 24px; padding: 8px 0; font-weight: 600; text-decoration: none; }
+  .back-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 1040px) {
+    .layout { grid-template-columns: minmax(0, var(--af-measure)); justify-content: center; }
+    .main, .toc { grid-column: 1; }
+    .toc { grid-row: 1; max-width: none; position: static; }
+    .article-body .main { grid-row: 2; }
+  }
+  @media (max-width: 600px) {
+    .layout { padding: 40px 20px 0; row-gap: 40px; }
+    .summary { font-size: 19px; }
+    .divider { margin-top: 40px; }
+    .article-body { padding-bottom: 72px; }
+  }
+</style>

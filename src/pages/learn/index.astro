@@ -8,16 +8,15 @@ const articles = await getPublishedArticles();
 
 <SiteLayout title="Learning path — Agent Fieldnotes" description="A sequenced guide to AI agents, architecture, frameworks, deployment, and security.">
   <section class="page-intro">
-    <span class="eyebrow">The field guide</span>
     <h1>Learn agents in order.</h1>
     <p>Start with the building blocks, follow how systems make decisions, then explore frameworks, deployment, and security. Each Markdown file becomes a page at the matching route.</p>
   </section>
   <div id="topics">
   {TOPICS.map((topic) => {
     const posts = articlesInTopic(articles, topic.name);
-    return <section class="topic-section" id={topic.slug}>
-      <div class="topic-heading"><h2>{topic.name}</h2><span>{String(posts.length).padStart(2, '0')} FIELDNOTES</span></div>
-      <p style="color:var(--muted);font-size:13px;line-height:1.6;max-width:650px;margin:0 0 20px">{topic.description}</p>
+    return <section class:list={['topic-section', { 'topic-security': topic.slug === 'security' }]} id={topic.slug}>
+      <div class="topic-heading"><h2>{topic.name}</h2><span>{posts.length} {posts.length === 1 ? 'note' : 'notes'}</span></div>
+      <p class="topic-intro">{topic.description}</p>
       {posts.length ? <div class="article-grid">{posts.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">This section is planned. Its topic folder is ready for the first Markdown article.</p>}
     </section>;
   })}

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="620" viewBox="0 0 760 620" role="img" aria-labelledby="title desc">
+  <title id="title">The release path for an agent change</title>
+  <desc id="desc">Flowchart from a change to full rollout. A change to the code, the prompt, the model, or a dependency goes through three gates. Gate 1 runs on every pull request: install from the lockfile, type checks, evaluations with the fake model, control tests, and the threat-model check. Gate 2 runs on the release candidate: real-model evaluations with at least three trials, checked by the release gate script. Gate 3 is a human checkpoint: the owner signs off on threat model changes and residual risk. A failure at any gate leads, by a dashed arrow, to Blocked, and from there back to the change. After the gates, the same artifact and configuration deploy to staging with staging keys, then roll out to 5 percent of customers while the team watches the budget_breach, circuit_open, and spend alerts, then to 100 percent. From the staged rollout a dashed arrow leads to Roll back, which restores the previous artifact, prompt, and model. From full rollout a dashed arrow leads to the kill switch, which sets the agent to read_only or off without a deploy.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: gates are labeled Gate 1 to 3, the human gate says Human checkpoint, solid arrows = promotion, dashed arrows = block or roll back.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-acid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c7f36b"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .gate { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .human { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.6; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+      .back { stroke: #c7f36b; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect width="760" height="620" fill="#171a16"/>
+
+  <rect class="lane" x="110" y="20" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="40" text-anchor="middle">Change</text>
+  <text class="sub" x="280" y="57" text-anchor="middle">code · prompt · model · dependency</text>
+  <line class="step" x1="280" y1="66" x2="280" y2="88" marker-end="url(#arrow)"/>
+
+  <rect class="gate" x="110" y="90" width="340" height="62" rx="3"/>
+  <text class="head" x="280" y="110" text-anchor="middle">Gate 1: every pull request</text>
+  <text class="chk" x="280" y="127" text-anchor="middle">lockfile install · type checks</text>
+  <text class="chk" x="280" y="142" text-anchor="middle">fake-model evals · controls · threat model</text>
+  <line class="step" x1="280" y1="152" x2="280" y2="174" marker-end="url(#arrow)"/>
+
+  <rect class="gate" x="110" y="176" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="196" text-anchor="middle">Gate 2: release candidate</text>
+  <text class="chk" x="280" y="213" text-anchor="middle">real-model evals, 3+ trials · release gate</text>
+  <line class="step" x1="280" y1="222" x2="280" y2="244" marker-end="url(#arrow)"/>
+
+  <rect class="human" x="110" y="246" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="266" text-anchor="middle">Gate 3: Human checkpoint</text>
+  <text class="ucy" x="280" y="283" text-anchor="middle">owner signs off on threats and residual risk</text>
+  <line class="step" x1="280" y1="292" x2="280" y2="314" marker-end="url(#arrow)"/>
+
+  <rect class="lane" x="110" y="316" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="336" text-anchor="middle">Deploy to staging</text>
+  <text class="sub" x="280" y="353" text-anchor="middle">same artifact and config · staging keys</text>
+  <line class="step" x1="280" y1="362" x2="280" y2="384" marker-end="url(#arrow)"/>
+
+  <rect class="lane" x="110" y="386" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="406" text-anchor="middle">Staged rollout: 5% of customers</text>
+  <text class="sub" x="280" y="423" text-anchor="middle">watch budget_breach · circuit_open · spend</text>
+  <line class="step" x1="280" y1="432" x2="280" y2="454" marker-end="url(#arrow)"/>
+
+  <rect class="lane" x="110" y="456" width="340" height="46" rx="3"/>
+  <text class="head" x="280" y="476" text-anchor="middle">100% of customers</text>
+  <text class="sub" x="280" y="493" text-anchor="middle">alerts and an on-call owner</text>
+
+  <!-- Blocked path -->
+  <rect class="lane" x="500" y="166" width="230" height="62" rx="3"/>
+  <text class="head" x="615" y="187" text-anchor="middle">Blocked</text>
+  <text class="sub" x="615" y="204" text-anchor="middle">fix the change,</text>
+  <text class="sub" x="615" y="219" text-anchor="middle">then start again</text>
+  <line class="back" x1="450" y1="130" x2="498" y2="180" marker-end="url(#arrow-acid)"/>
+  <line class="back" x1="450" y1="199" x2="498" y2="199" marker-end="url(#arrow-acid)"/>
+  <line class="back" x1="450" y1="262" x2="498" y2="216" marker-end="url(#arrow-acid)"/>
+  <polyline class="back" points="615,166 615,43 452,43" marker-end="url(#arrow-acid)"/>
+
+  <!-- Roll back and kill switch -->
+  <rect class="gate" x="500" y="386" width="230" height="46" rx="3"/>
+  <text class="head" x="615" y="406" text-anchor="middle">Code: roll back</text>
+  <text class="chk" x="615" y="423" text-anchor="middle">previous artifact, prompt, model</text>
+  <line class="back" x1="450" y1="409" x2="498" y2="409" marker-end="url(#arrow-acid)"/>
+
+  <rect class="gate" x="500" y="456" width="230" height="46" rx="3"/>
+  <text class="head" x="615" y="476" text-anchor="middle">Code: kill switch</text>
+  <text class="chk" x="615" y="493" text-anchor="middle">read_only or off, no deploy</text>
+  <line class="back" x1="450" y1="479" x2="498" y2="479" marker-end="url(#arrow-acid)"/>
+
+  <!-- Legend -->
+  <rect x="30" y="532" width="700" height="72" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <line class="step" x1="48" y1="555" x2="88" y2="555" marker-end="url(#arrow)"/>
+  <text class="lbl" x="98" y="559">promotion to the next stage</text>
+  <line class="back" x1="330" y1="555" x2="370" y2="555" marker-end="url(#arrow-acid)"/>
+  <text class="lbl" x="380" y="559">blocked, or rolled back</text>
+  <rect class="gate" x="48" y="574" width="28" height="16" rx="2"/>
+  <text class="lbl" x="86" y="586">automated gate or control</text>
+  <rect class="human" x="270" y="574" width="28" height="16" rx="2"/>
+  <text class="lbl" x="308" y="586">Human checkpoint</text>
+  <rect class="lane" x="460" y="574" width="28" height="16" rx="2"/>
+  <text class="lbl" x="498" y="586">stage or state</text>
+</svg>

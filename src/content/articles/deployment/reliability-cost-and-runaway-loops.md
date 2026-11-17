@@ -1188,7 +1188,7 @@ Limits stop one bad run. Alerts tell you when bad runs become a pattern. Every l
 | `model_response` (sum of `usd`) | Spend in the last hour above a set amount for the whole service | Many customers' runs adding up; the per-customer cap can't see this |
 | `wrap_up_failed` | Any repeated failures | Partial answers have stopped working, so customers get bare errors |
 
-The fifth rule matters most for cost. Per-question and per-customer budgets can't stop a thousand new accounts each spending just under their limit. A total spend alert, with an owner who can act on it, covers that case. The next article, Deploying an Agent, adds a kill switch that owner can use.
+The fifth rule matters most for cost. Per-question and per-customer budgets can't stop a thousand new accounts each spending just under their limit. A total spend alert, with an owner who can act on it, covers that case. [Deploying an Agent](/learn/deployment/deploying-an-agent/) adds a kill switch that owner can use.
 
 Give every rule an owner who gets the alert and knows what to do with it.
 
@@ -1206,4 +1206,4 @@ The NIST AI Risk Management Framework (AI RMF 1.0, January 2023) puts this kind 
 
 ## What to learn next
 
-The next article, Deploying an Agent, collects everything from Stages 4 to 7 into a release checklist: evaluations passing, the threat model reviewed, limits and approvals enforced, secrets out of code, and a kill switch with an owner who knows when to use it.
+The next article, [Deploying an Agent](/learn/deployment/deploying-an-agent/), collects everything from Stages 4 to 7 into a release checklist: evaluations passing, the threat model reviewed, limits and approvals enforced, secrets out of code, and a kill switch with an owner who knows when to use it.

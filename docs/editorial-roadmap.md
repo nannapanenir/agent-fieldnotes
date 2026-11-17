@@ -32,8 +32,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
 | 6 | frameworks/framework-comparison-by-use-case.md | published | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
 | 7 | deployment/reliability-cost-and-runaway-loops.md | in PR | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
-| 7 | deployment/deploying-an-agent.md | next | |
-| 8 | deployment/what-is-microsoft-foundry.md | planned | New in the Foundry track. |
+| 7 | deployment/deploying-an-agent.md | in PR | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
+| 8 | deployment/what-is-microsoft-foundry.md | next | New in the Foundry track. |
 | 8 | deployment/choose-an-azure-agent-hosting-option.md | planned | Now also covers Azure Container Apps. |
 | 8 | deployment/foundry-models.md | planned | New. |
 | 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="560" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+  <title id="title">How LangGraph and the OpenAI Agents SDK pause a write for approval</title>
+  <desc id="desc">Two columns, each showing five steps of an approval for the shipment agent's requestRedelivery tool. Left, LangGraph, which pauses inside the tool: 1, the model proposes the write, which is untrusted. 2, the tool starts, checks ownership, then calls interrupt(). 3, the checkpointer saves the thread, as it does at every step. 4, the customer answers, a human checkpoint. 5, Command(resume) is sent on the same thread, and the tool re-runs from the top, then books. A note says anything before interrupt() runs twice. Right, the OpenAI Agents SDK, which stops before the tool: 1, the model proposes the write. 2, the run stops before execute, because the tool has needsApproval. 3, you save the RunState string, which includes the context, so keep it server-side. 4, the customer answers. 5, you load it with the context from the server session and approve, and the tool runs once, then books. A note says snapshots aren't checked for tampering.</desc>
+  <!--
+    Hand-authored source (generated once from a short script, then committed as is). Edit this file directly.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: the dashed box = model output, untrusted; outlined = your code; rounded white = human checkpoint; grey = storage.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 10px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 10px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 10px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .sec { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #c7f36b; }
+      .note { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #d4d8cf; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.5; }
+      .human { fill: #232822; stroke: #f0f0e8; stroke-width: 2.2; }
+      .ext { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; stroke-dasharray: 5 4; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .flow { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="560" fill="#171a16"/>
+  <text class="sec" x="195" y="38" text-anchor="middle">LangGraph: pause inside the tool</text>
+  <rect class="ext" x="20" y="58" width="350" height="58" rx="3"/>
+  <text class="head" x="195" y="82" text-anchor="middle">1  Model proposes the write</text>
+  <text class="ucy" x="195" y="101" text-anchor="middle">requestRedelivery(...)  untrusted</text>
+  <line class="flow" x1="195" y1="118" x2="195" y2="136" marker-end="url(#arrow)"/>
+  <rect class="app" x="20" y="138" width="350" height="58" rx="3"/>
+  <text class="head" x="195" y="162" text-anchor="middle">2  Tool starts, then interrupt()</text>
+  <text class="chk" x="195" y="181" text-anchor="middle">ownership checked first</text>
+  <line class="flow" x1="195" y1="198" x2="195" y2="216" marker-end="url(#arrow)"/>
+  <rect class="lane" x="20" y="218" width="350" height="58" rx="3"/>
+  <text class="head" x="195" y="242" text-anchor="middle">3  Checkpointer saves the thread</text>
+  <text class="sub" x="195" y="261" text-anchor="middle">a checkpoint at every step</text>
+  <line class="flow" x1="195" y1="278" x2="195" y2="296" marker-end="url(#arrow)"/>
+  <rect class="human" x="20" y="298" width="350" height="58" rx="14"/>
+  <text class="head" x="195" y="322" text-anchor="middle">4  Customer answers</text>
+  <text class="sub" x="195" y="341" text-anchor="middle">human checkpoint</text>
+  <line class="flow" x1="195" y1="358" x2="195" y2="376" marker-end="url(#arrow)"/>
+  <rect class="app" x="20" y="378" width="350" height="58" rx="3"/>
+  <text class="head" x="195" y="402" text-anchor="middle">5  Command(resume) on the thread</text>
+  <text class="chk" x="195" y="421" text-anchor="middle">tool re-runs from the top, then books</text>
+  <rect x="20" y="460" width="350" height="34" rx="3" fill="#1d211b" stroke="#c7f36b" stroke-dasharray="2 3"/>
+  <text class="note" x="195" y="481" text-anchor="middle">Anything before interrupt() runs twice</text>
+  <text class="sec" x="565" y="38" text-anchor="middle">OpenAI Agents SDK: stop before the tool</text>
+  <rect class="ext" x="390" y="58" width="350" height="58" rx="3"/>
+  <text class="head" x="565" y="82" text-anchor="middle">1  Model proposes the write</text>
+  <text class="ucy" x="565" y="101" text-anchor="middle">requestRedelivery(...)  untrusted</text>
+  <line class="flow" x1="565" y1="118" x2="565" y2="136" marker-end="url(#arrow)"/>
+  <rect class="app" x="390" y="138" width="350" height="58" rx="3"/>
+  <text class="head" x="565" y="162" text-anchor="middle">2  Run stops before execute</text>
+  <text class="chk" x="565" y="181" text-anchor="middle">needsApproval on the tool</text>
+  <line class="flow" x1="565" y1="198" x2="565" y2="216" marker-end="url(#arrow)"/>
+  <rect class="lane" x="390" y="218" width="350" height="58" rx="3"/>
+  <text class="head" x="565" y="242" text-anchor="middle">3  You save the RunState string</text>
+  <text class="sub" x="565" y="261" text-anchor="middle">includes context: keep it server-side</text>
+  <line class="flow" x1="565" y1="278" x2="565" y2="296" marker-end="url(#arrow)"/>
+  <rect class="human" x="390" y="298" width="350" height="58" rx="14"/>
+  <text class="head" x="565" y="322" text-anchor="middle">4  Customer answers</text>
+  <text class="sub" x="565" y="341" text-anchor="middle">human checkpoint</text>
+  <line class="flow" x1="565" y1="358" x2="565" y2="376" marker-end="url(#arrow)"/>
+  <rect class="app" x="390" y="378" width="350" height="58" rx="3"/>
+  <text class="head" x="565" y="402" text-anchor="middle">5  Load with server context, approve</text>
+  <text class="chk" x="565" y="421" text-anchor="middle">tool runs once, then books</text>
+  <rect x="390" y="460" width="350" height="34" rx="3" fill="#1d211b" stroke="#c7f36b" stroke-dasharray="2 3"/>
+  <text class="note" x="565" y="481" text-anchor="middle">Snapshots aren't checked for tampering</text>
+
+  <!-- Legend -->
+  <rect x="20" y="512" width="26" height="14" class="ext"/>
+  <text class="note" x="54" y="523">Model output, untrusted</text>
+  <rect x="236" y="512" width="26" height="14" class="app"/>
+  <text class="note" x="270" y="523">Your code</text>
+  <rect x="380" y="512" width="26" height="14" class="lane"/>
+  <text class="note" x="414" y="523">Stored state</text>
+  <rect x="540" y="512" width="26" height="14" rx="5" class="human"/>
+  <text class="note" x="574" y="523">Human checkpoint</text>
+</svg>

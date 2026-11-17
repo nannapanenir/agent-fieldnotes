@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="640" viewBox="0 0 760 640" role="img" aria-labelledby="title desc">
+  <title id="title">Budget guards around the agent loop</title>
+  <desc id="desc">Flowchart. A question from the signed-in customer, which is untrusted, first meets the daily spend ledger. If the customer has used today's limit, the run never starts and the customer gets a daily-limit reply with no model call. Otherwise the run budget is checked: steps, time, tokens, and spend. If any budget is used up, the loop makes one wrap-up call with tools switched off and at most 1,024 output tokens, gives the customer a partial answer, logs a budget_breach event, and adds the spend to the ledger. Breach, spend, and open-circuit events feed the alert rules. If the budget has room, the model is called with a timeout equal to the time left in the run, and the usage on the response is recorded: one more step, its tokens, and its cost in dollars. If the model answered, the reply goes to the customer and the spend goes to the ledger. If it asked for tools, the tool runner applies its limits and timeouts, carrier reads go through the carrier's circuit breaker, which fails fast while open, and the loop returns to the budget check.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Meaning never depends on color: box labels say Code or Model, solid arrows = the normal path, dashed arrows = a limit was reached, the dashed box = untrusted.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-acid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c7f36b"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .lane { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; }
+      .untrusted { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; stroke-dasharray: 5 4; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+      .limit { stroke: #c7f36b; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect width="760" height="640" fill="#171a16"/>
+
+  <!-- Main path -->
+  <rect class="untrusted" x="100" y="20" width="300" height="46" rx="3"/>
+  <text class="head" x="250" y="40" text-anchor="middle">Question from the customer</text>
+  <text class="ucy" x="250" y="57" text-anchor="middle">signed in · text untrusted</text>
+  <line class="step" x1="250" y1="66" x2="250" y2="88" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="100" y="90" width="300" height="46" rx="3"/>
+  <text class="head" x="250" y="110" text-anchor="middle">Code: daily spend ledger</text>
+  <text class="chk" x="250" y="127" text-anchor="middle">spent today &lt; $5.00 for this customer</text>
+  <line class="step" x1="250" y1="136" x2="250" y2="158" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="100" y="160" width="300" height="46" rx="3"/>
+  <text class="head" x="250" y="180" text-anchor="middle">Code: run budget check</text>
+  <text class="chk" x="250" y="197" text-anchor="middle">steps · time · tokens · spend</text>
+  <line class="step" x1="250" y1="206" x2="250" y2="228" marker-end="url(#arrow)"/>
+
+  <rect class="lane" x="100" y="230" width="300" height="46" rx="3"/>
+  <text class="head" x="250" y="250" text-anchor="middle">Model: one call</text>
+  <text class="sub" x="250" y="267" text-anchor="middle">timeout = time left in this run</text>
+  <line class="step" x1="250" y1="276" x2="250" y2="298" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="100" y="300" width="300" height="46" rx="3"/>
+  <text class="head" x="250" y="320" text-anchor="middle">Code: record usage</text>
+  <text class="chk" x="250" y="337" text-anchor="middle">step +1 · tokens · cost in USD</text>
+  <line class="step" x1="180" y1="346" x2="170" y2="378" marker-end="url(#arrow)"/>
+  <line class="step" x1="320" y1="346" x2="330" y2="378" marker-end="url(#arrow)"/>
+
+  <rect class="lane" x="100" y="380" width="140" height="62" rx="3"/>
+  <text class="head" x="170" y="401" text-anchor="middle">If it answered</text>
+  <text class="sub" x="170" y="418" text-anchor="middle">reply to customer</text>
+  <text class="sub" x="170" y="433" text-anchor="middle">add spend to ledger</text>
+
+  <rect class="app" x="260" y="380" width="140" height="62" rx="3"/>
+  <text class="head" x="330" y="401" text-anchor="middle">If it asked for</text>
+  <text class="head" x="330" y="418" text-anchor="middle">tools: runner</text>
+  <text class="chk" x="330" y="434" text-anchor="middle">limits · timeouts</text>
+  <line class="step" x1="330" y1="442" x2="330" y2="468" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="260" y="470" width="140" height="46" rx="3"/>
+  <text class="head" x="330" y="490" text-anchor="middle">Carrier breaker</text>
+  <text class="chk" x="330" y="507" text-anchor="middle">open: fail fast</text>
+
+  <!-- Back to the budget check -->
+  <polyline class="step" points="330,516 330,540 60,540 60,183 98,183" marker-end="url(#arrow)"/>
+
+  <!-- Limit paths -->
+  <line class="limit" x1="400" y1="113" x2="468" y2="113" marker-end="url(#arrow-acid)"/>
+  <rect class="lane" x="470" y="90" width="260" height="46" rx="3"/>
+  <text class="head" x="600" y="110" text-anchor="middle">Daily-limit reply</text>
+  <text class="sub" x="600" y="127" text-anchor="middle">no model call, nothing spent</text>
+
+  <line class="limit" x1="400" y1="183" x2="468" y2="183" marker-end="url(#arrow-acid)"/>
+  <rect class="lane" x="470" y="160" width="260" height="46" rx="3"/>
+  <text class="head" x="600" y="180" text-anchor="middle">Model: wrap-up call</text>
+  <text class="sub" x="600" y="197" text-anchor="middle">tools off · ≤ 1,024 output tokens</text>
+  <line class="limit" x1="600" y1="206" x2="600" y2="228" marker-end="url(#arrow-acid)"/>
+
+  <rect class="app" x="470" y="230" width="260" height="62" rx="3"/>
+  <text class="head" x="600" y="251" text-anchor="middle">Code: partial answer</text>
+  <text class="chk" x="600" y="268" text-anchor="middle">log budget_breach</text>
+  <text class="chk" x="600" y="283" text-anchor="middle">add spend to ledger</text>
+  <line class="step" x1="600" y1="292" x2="600" y2="328" marker-end="url(#arrow)"/>
+
+  <rect class="app" x="470" y="330" width="260" height="62" rx="3"/>
+  <text class="head" x="600" y="351" text-anchor="middle">Alert rules on the logs</text>
+  <text class="chk" x="600" y="368" text-anchor="middle">breach rate · spend per hour</text>
+  <text class="chk" x="600" y="383" text-anchor="middle">circuit open</text>
+
+  <!-- Legend -->
+  <rect x="30" y="566" width="700" height="62" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <line class="step" x1="48" y1="587" x2="88" y2="587" marker-end="url(#arrow)"/>
+  <text class="lbl" x="98" y="591">normal path</text>
+  <line class="limit" x1="210" y1="587" x2="250" y2="587" marker-end="url(#arrow-acid)"/>
+  <text class="lbl" x="260" y="591">a limit was reached</text>
+  <rect class="untrusted" x="420" y="579" width="28" height="16" rx="2"/>
+  <text class="lbl" x="458" y="591">untrusted input</text>
+  <rect class="app" x="48" y="603" width="28" height="16" rx="2"/>
+  <text class="lbl" x="86" y="615">Code: enforced by your application</text>
+  <rect class="lane" x="420" y="603" width="28" height="16" rx="2"/>
+  <text class="lbl" x="458" y="615">Model, or what the customer sees</text>
+</svg>

@@ -12,6 +12,7 @@ const articles = await getPublishedArticles();
     <h1>Learn agents in order.</h1>
     <p>Start with the building blocks, follow how systems make decisions, then explore frameworks, deployment, and security. Each Markdown file becomes a page at the matching route.</p>
   </section>
+  <div id="topics">
   {TOPICS.map((topic) => {
     const posts = articlesInTopic(articles, topic.name);
     return <section class="topic-section" id={topic.slug}>
@@ -20,4 +21,5 @@ const articles = await getPublishedArticles();
       {posts.length ? <div class="article-grid">{posts.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">This section is planned. Its topic folder is ready for the first Markdown article.</p>}
     </section>;
   })}
+  </div>
 </SiteLayout>

@@ -318,6 +318,13 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   .path-step { min-height: 165px; padding: 20px 18px; border-right: 1px solid var(--line); }
   .path-step:last-child { border-right: 0; } .path-number { color: var(--acid); font: 11px 'DM Mono', monospace; }
   .path-step h3 { margin: 25px 0 8px; font: 600 14px 'Manrope', sans-serif; } .path-step p { margin: 0; color: var(--soft); font-size: 11px; line-height: 1.5; }
+  .path-step { display: flex; flex-direction: column; } .path-step h3 a:hover, .path-links a:hover, .path-more:hover { color: var(--acid); }
+  .path-links { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; counter-reset: path; }
+  .path-links li { counter-increment: path; display: grid; grid-template-columns: 18px 1fr; font-size: 12px; line-height: 1.4; }
+  .path-links li::before { content: counter(path, decimal-leading-zero); color: var(--soft); font: 10px/1.7 'DM Mono', monospace; }
+  .path-links a { color: var(--text-2); }
+  .path-more { margin-top: auto; padding-top: 14px; color: var(--acid); font: 10px 'DM Mono', monospace; }
+  .path-soon { margin-top: 14px; align-self: start; padding: 3px 8px; border: 1px dashed var(--line); color: var(--soft); font: 10px 'DM Mono', monospace; }
   .security-callout { width: min(1160px, calc(100% - 56px)); margin: 0 auto 78px; display: grid; grid-template-columns: 1fr auto; gap: 25px; align-items: center; padding: 30px 34px; border: 1px solid rgba(var(--cyan-rgb), .18); background: var(--callout-bg); }
   .security-callout h2 { margin: 0 0 7px; font: 500 25px 'Manrope', sans-serif; letter-spacing: -.04em; }
   .security-callout p { max-width: 670px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }

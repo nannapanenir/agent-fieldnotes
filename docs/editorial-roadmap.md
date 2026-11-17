@@ -23,17 +23,17 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 3 | security/agent-memory-and-data-exposure.md | published | Adds security/data-exposure-paths.svg. |
 | 3 | security/sandboxing-and-code-execution.md | published | Adds security/sandbox-containment.svg. |
 | 3 | security/human-approval-for-sensitive-actions.md | published | Adds security/approval-lifecycle.svg and security/approval-card-mockup.svg (labeled illustrative mockup). |
-| 4 | architecture/build-a-minimal-agent.md | in PR | Adds architecture/minimal-agent-run.svg. TypeScript and Python in code tabs; tested with @anthropic-ai/sdk 1.8.0 on Node.js 22.23 and anthropic 2.8.0 with pydantic 2.14 on Python 3.12.3. Renamed from build-a-minimal-agent-in-typescript.md so the title names no language. |
-| 4 | architecture/add-tools-and-permissions.md | in PR | Adds architecture/tools-permissions-branches.svg. TypeScript and Python in code tabs. |
-| 4 | architecture/add-state-and-handle-tool-errors.md | in PR | Adds architecture/tool-outcomes.svg. TypeScript and Python in code tabs. |
-| 4 | architecture/evaluate-agent-behavior-locally.md | in PR | Adds architecture/eval-harness.svg. TypeScript and Python suites in code tabs; the CI workflow runs both. |
-| 5 | security/threat-modeling-an-agent.md | in PR | Adds security/shipment-agent-threat-model.svg (markers T1 to T10 match the table). |
-| 5 | security/evaluating-agent-security.md | in PR | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
+| 4 | architecture/build-a-minimal-agent.md | published | Adds architecture/minimal-agent-run.svg. TypeScript and Python in code tabs; tested with @anthropic-ai/sdk 1.8.0 on Node.js 22.23 and anthropic 2.8.0 with pydantic 2.14 on Python 3.12.3. Renamed from build-a-minimal-agent-in-typescript.md so the title names no language. |
+| 4 | architecture/add-tools-and-permissions.md | published | Adds architecture/tools-permissions-branches.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/add-state-and-handle-tool-errors.md | published | Adds architecture/tool-outcomes.svg. TypeScript and Python in code tabs. |
+| 4 | architecture/evaluate-agent-behavior-locally.md | published | Adds architecture/eval-harness.svg. TypeScript and Python suites in code tabs; the CI workflow runs both. |
+| 5 | security/threat-modeling-an-agent.md | published | Adds security/shipment-agent-threat-model.svg (markers T1 to T10 match the table). |
+| 5 | security/evaluating-agent-security.md | published | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
-| 6 | frameworks/framework-comparison-by-use-case.md | in PR | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
-| 7 | deployment/reliability-cost-and-runaway-loops.md | next | |
-| 7 | deployment/deploying-an-agent.md | planned | |
-| 8 | deployment/what-is-microsoft-foundry.md | planned | New in the Foundry track. |
+| 6 | frameworks/framework-comparison-by-use-case.md | published | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
+| 7 | deployment/reliability-cost-and-runaway-loops.md | in PR | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
+| 7 | deployment/deploying-an-agent.md | in PR | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
+| 8 | deployment/what-is-microsoft-foundry.md | next | New in the Foundry track. |
 | 8 | deployment/choose-an-azure-agent-hosting-option.md | planned | Now also covers Azure Container Apps. |
 | 8 | deployment/foundry-models.md | planned | New. |
 | 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">The carrier circuit breaker's three states</title>
+  <desc id="desc">State diagram with three states. Closed: calls pass through to the carrier and failures are counted. Open: calls are rejected at once and the tool returns upstream_unavailable without retrying. Half-open: one trial call goes through and any other call is rejected. Transition 1, closed to open: five failures with no success between them; the circuit opens and a 30-second cooldown starts. Transition 2, open to half-open: the cooldown has passed and the next call becomes the trial. Transition 3, half-open to closed: the trial succeeds and the failure count resets. Transition 4, half-open to open: the trial fails and the cooldown starts again.</desc>
+  <!--
+    Hand-authored source. Edit this file directly; there is no separate generator.
+    Colors follow src/layouts/SiteLayout.astro: bg #171a16, ink #f0f0e8, muted #a4a99f, acid #c7f36b, cyan #9ce6db.
+    Arrows carry numbered markers instead of labels; the legend explains each number.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .num { font: 600 12px 'DM Mono', ui-monospace, monospace; fill: #171a16; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .state { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+      .badge { fill: #c7f36b; stroke: #171a16; stroke-width: 2; }
+    </style>
+  </defs>
+  <rect width="760" height="520" fill="#171a16"/>
+
+  <!-- States -->
+  <rect class="state" x="40" y="40" width="230" height="90" rx="6"/>
+  <text class="head" x="155" y="70" text-anchor="middle">Closed</text>
+  <text class="sub" x="155" y="92" text-anchor="middle">calls go to the carrier</text>
+  <text class="sub" x="155" y="108" text-anchor="middle">failures are counted</text>
+
+  <rect class="state" x="490" y="40" width="230" height="90" rx="6"/>
+  <text class="head" x="605" y="70" text-anchor="middle">Open</text>
+  <text class="sub" x="605" y="92" text-anchor="middle">calls rejected at once</text>
+  <text class="sub" x="605" y="108" text-anchor="middle">upstream_unavailable, no retry</text>
+
+  <rect class="state" x="265" y="250" width="230" height="90" rx="6"/>
+  <text class="head" x="380" y="280" text-anchor="middle">Half-open</text>
+  <text class="sub" x="380" y="302" text-anchor="middle">one trial call goes through</text>
+  <text class="sub" x="380" y="318" text-anchor="middle">other calls rejected</text>
+
+  <!-- 1: closed to open -->
+  <line class="step" x1="270" y1="85" x2="488" y2="85" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="379" cy="85" r="12"/><text class="num" x="379" y="89" text-anchor="middle">1</text>
+
+  <!-- 2: open to half-open -->
+  <path class="step" d="M660,130 C660,220 580,295 497,295" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="634" cy="232" r="12"/><text class="num" x="634" y="236" text-anchor="middle">2</text>
+
+  <!-- 4: half-open to open -->
+  <path class="step" d="M440,250 C450,190 520,170 550,132" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="482" cy="188" r="12"/><text class="num" x="482" y="192" text-anchor="middle">4</text>
+
+  <!-- 3: half-open to closed -->
+  <path class="step" d="M265,295 C170,295 120,220 120,132" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="143" cy="240" r="12"/><text class="num" x="143" y="244" text-anchor="middle">3</text>
+
+  <!-- Legend -->
+  <rect x="40" y="370" width="680" height="130" rx="4" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <circle class="badge" cx="66" cy="396" r="11"/><text class="num" x="66" y="400" text-anchor="middle">1</text>
+  <text class="lbl" x="88" y="400">Five failures with no success between them: open, and start a 30-second cooldown.</text>
+  <circle class="badge" cx="66" cy="424" r="11"/><text class="num" x="66" y="428" text-anchor="middle">2</text>
+  <text class="lbl" x="88" y="428">The cooldown has passed: the next call becomes the trial.</text>
+  <circle class="badge" cx="66" cy="452" r="11"/><text class="num" x="66" y="456" text-anchor="middle">3</text>
+  <text class="lbl" x="88" y="456">The trial succeeds: close, and reset the failure count.</text>
+  <circle class="badge" cx="66" cy="480" r="11"/><text class="num" x="66" y="484" text-anchor="middle">4</text>
+  <text class="lbl" x="88" y="484">The trial fails: open again, and restart the cooldown.</text>
+</svg>

@@ -1,0 +1,108 @@
+@import './tokens.css';
+
+/* Site-wide styles. Every color, font and size comes from tokens.css; components add their own scoped styles. */
+
+:root {
+  color-scheme: light;
+  background: var(--af-paper);
+  color: var(--af-ink);
+  font-family: var(--af-font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; min-width: 320px; background: var(--af-paper); }
+h1, h2, h3, p { margin-top: 0; }
+a { color: var(--af-ink); }
+a:hover { color: var(--af-ink-strong); }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--af-boundary); outline-offset: 3px; }
+button, input { font: inherit; }
+.skip-link { position: absolute; top: -60px; left: 16px; z-index: 10; padding: 10px 14px; background: var(--af-ink); color: var(--af-paper); font-family: var(--af-font-display); }
+.skip-link:hover { color: var(--af-paper); }
+.skip-link:focus { top: 12px; }
+
+/* Article body (Markdown output) */
+.prose { color: var(--af-ink); font-family: var(--af-font-body); font-size: var(--af-body); line-height: 1.75; }
+.prose > :first-child { margin-top: 0; }
+.prose h2 { margin: 56px 0 16px; font: 750 var(--af-h2)/1.2 var(--af-font-display); font-stretch: var(--af-stretch-h2); scroll-margin-top: 24px; }
+.prose h3 { margin: 36px 0 12px; font: 700 22px/1.3 var(--af-font-display); scroll-margin-top: 24px; }
+.prose h4 { margin: 28px 0 8px; font: 700 18px/1.35 var(--af-font-display); }
+.prose p { margin: 0 0 24px; }
+.prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.prose ul, .prose ol { margin: 0 0 24px; padding-left: 26px; }
+.prose li { margin: 0 0 8px; padding-left: 4px; }
+.prose li > ul, .prose li > ol { margin: 8px 0 0; }
+.prose strong { font-weight: 600; }
+.prose hr { margin: 48px 0; border: 0; border-top: 1px solid var(--af-line); }
+.prose code { padding: 1px 5px; border: 1px solid var(--af-line); border-radius: var(--af-radius); background: var(--af-paper-raised); font: .84em var(--af-font-code); }
+.prose pre { overflow: auto; margin: 28px 0; padding: 20px; border-radius: var(--af-radius); background: var(--af-code-bg); color: var(--af-code-ink); font: 14px/1.7 var(--af-font-code); }
+.prose pre code { padding: 0; border: 0; background: transparent; font: inherit; }
+/* Shiki writes both palettes as CSS variables; the code background is always dark, so use the dark one. */
+.prose pre.astro-code { background: var(--af-code-bg); }
+.prose pre.astro-code span { color: var(--shiki-dark); }
+.prose table { width: 100%; margin: 28px 0; border-collapse: collapse; font-size: 16px; line-height: 1.55; }
+.prose th { font: 700 15px/1.4 var(--af-font-display); text-align: left; background: var(--af-paper-raised); }
+.prose th, .prose td { padding: 12px 14px; border: 1px solid var(--af-line); vertical-align: top; }
+.prose thead th { border-bottom: 1.5px solid var(--af-ink); }
+.prose blockquote { margin: 28px 0; padding: 4px 0 4px 20px; border-left: 1.5px solid var(--af-ink); color: var(--af-ink-soft); }
+.prose figure { margin: 36px 0; }
+.prose figcaption { margin-top: 12px; color: var(--af-muted); font-size: var(--af-meta); line-height: 1.5; }
+/* Diagrams are drawn on their own dark background; the frame only adds the drafting border and scrolling. */
+.prose .diagram-frame { overflow-x: auto; border: 1px solid var(--af-line); }
+.prose .diagram-frame p { margin: 0; }
+.prose .diagram-frame img { display: block; width: 100%; min-width: 560px; height: auto; }
+
+/* Code tabs: the layout script turns a TypeScript + Python pair into tabs. */
+.prose .code-tabs { margin: 28px 0; }
+.prose .code-tabs > pre { margin: 0; }
+.prose .code-tabs:not(.is-enhanced) > pre + pre { margin-top: 16px; }
+.prose .code-tabs:not(.is-enhanced) > pre::before { display: block; margin: -4px 0 12px; color: var(--af-code-ink); font: 600 13px var(--af-font-display); }
+.prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(1)::before { content: 'TypeScript'; }
+.prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(2)::before { content: 'Python'; }
+.prose .code-tabs-list { display: flex; flex-wrap: wrap; border: 1px solid var(--af-ink); border-bottom: 0; border-radius: var(--af-radius) var(--af-radius) 0 0; background: var(--af-paper-raised); }
+.prose .code-tab { margin: 0; padding: 10px 16px; border: 0; border-right: 1px solid var(--af-line); background: transparent; color: var(--af-ink-soft); font: 600 14px var(--af-font-display); cursor: pointer; }
+.prose .code-tab:hover { color: var(--af-ink); }
+.prose .code-tab[aria-selected="true"] { background: var(--af-code-bg); color: var(--af-code-ink); }
+.prose .code-tabs.is-enhanced > pre { border-radius: 0 0 var(--af-radius) var(--af-radius); }
+.prose .code-tab:focus-visible, .prose .code-tabs > pre:focus-visible { outline: 2px solid var(--af-boundary); outline-offset: -2px; }
+
+@media (max-width: 600px) {
+  .prose { font-size: 18px; }
+  .prose h2 { font-size: 26px; }
+  .prose table { display: block; overflow-x: auto; }
+}
+
+/* Shared page parts: page intros, topic sections, article cards (learning path, about, 404). */
+.page-intro { max-width: var(--af-page-max); margin: 0 auto; padding: var(--af-section-pad) var(--af-gutter) 40px; }
+.page-intro h1 { margin: 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); }
+.page-intro p { max-width: 36em; margin: 24px 0 0; color: var(--af-ink-soft); font-size: var(--af-lead); line-height: 1.6; }
+.topic-section { max-width: var(--af-page-max); margin: 0 auto; padding: 32px var(--af-gutter) 56px; scroll-margin-top: 16px; }
+.topic-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1.5px solid var(--af-ink); }
+.topic-heading h2 { margin: 0; font: 750 30px/1.15 var(--af-font-display); font-stretch: var(--af-stretch-h2); }
+.topic-heading span { color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
+.topic-security .topic-heading { border-bottom: 2px dashed var(--af-boundary); }
+.topic-intro { max-width: 40em; margin: 0 0 24px; color: var(--af-ink-soft); font-size: 17px; line-height: 1.6; }
+.article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.article-card { border: 1.5px solid var(--af-ink); border-radius: var(--af-radius); background: var(--af-paper); }
+.article-card.is-security { background: var(--af-boundary-bg); }
+.article-card-link { height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 22px 24px; text-decoration: none; }
+.article-card-link:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+.article-card-link:focus-visible { outline-offset: -4px; }
+.article-card-meta, .article-card-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--af-muted); font: 14px var(--af-font-display); }
+.article-card.is-security .article-card-meta { color: var(--af-boundary-ink); }
+.article-card h3 { margin: 0; font: 700 21px/1.25 var(--af-font-display); }
+.article-card p { margin: 0; color: var(--af-ink-soft); font-size: 16px; line-height: 1.55; }
+.article-card-foot { margin-top: auto; padding-top: 6px; }
+.empty-state { padding: 32px; border: 1px dashed var(--af-line); color: var(--af-muted); text-align: center; }
+.button-primary { display: inline-block; padding: 14px 22px; border-radius: var(--af-radius); background: var(--af-ink); color: var(--af-paper); font: 600 16px var(--af-font-display); text-decoration: none; }
+.button-primary:hover { background: var(--af-ink-strong); color: var(--af-paper); }
+.not-found { max-width: var(--af-page-max); margin: 0 auto; padding: 96px var(--af-gutter); }
+.not-found h1 { margin: 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); }
+.not-found p { margin: 24px 0 32px; color: var(--af-ink-soft); font-size: var(--af-lead); }
+@media (max-width: 600px) {
+  .page-intro, .topic-section, .not-found { padding-left: 20px; padding-right: 20px; }
+  .page-intro { padding-top: 48px; }
+  .article-grid { grid-template-columns: 1fr; }
+}

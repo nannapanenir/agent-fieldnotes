@@ -27,11 +27,13 @@
   --af-font-code:    "JetBrains Mono", ui-monospace, monospace;
   --af-stretch-h1:   120%;
   --af-stretch-h2:   110%;
-  --af-h1:   clamp(40px, 5.4vw, 72px);
-  --af-h2:   30px;   /* article h2; homepage section h2 is 36px */
-  --af-body: 19px;   /* article body, line-height 1.7 */
-  --af-lead: 20px;
-  --af-meta: 15px;
+  --af-h1:   clamp(2.5rem, 5.4vw, 4.5rem);
+  --af-h2:   1.875rem;   /* article h2; homepage section h2 is 36px */
+  --af-body: 1.1875rem;   /* article body, line-height 1.7 */
+  --af-lead: 1.25rem;
+  --af-meta: 0.9375rem;
+  --af-section-lead: 1.125rem; /* 18px: serif lead under a section heading */
+  --af-supporting:   1.0625rem; /* 17px: card summaries, short serif notes, footer tagline */
 
   /* Layout */
   --af-page-max:    1200px;
@@ -41,6 +43,4 @@
   --af-radius:      2px;    /* drafting look: nearly square corners */
 }
 
-/* Google Fonts link for <head>:
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
-*/
+/* Fonts are self-hosted: see fonts.css and src/assets/fonts/README.md. */

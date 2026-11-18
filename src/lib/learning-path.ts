@@ -1,5 +1,5 @@
 import roadmap from '../../docs/editorial-roadmap.md?raw';
-import { articleHref, type Article } from './articles';
+import type { Article } from './articles';
 
 // The eight stages of the learning path, in order. Published notes join a stage through their
 // `stage` frontmatter; notes not published yet come from the status tracker in docs/editorial-roadmap.md.
@@ -77,8 +77,57 @@ export function learningPath(published: Article[]) {
   return { stages, publishedCount: byId.size, plannedCount: planned.size };
 }
 
-// Where a stage card on the homepage links: its first published note, if any.
-export const stageHref = (stage: Stage) => {
-  const first = stage.notes.find((note) => note.kind === 'published');
-  return first?.kind === 'published' ? articleHref(first.article) : undefined;
+
+export interface PathPosition {
+  stage: Stage;
+  // 1-based position among the stage's notes, and the stage's note count.
+  index: number;
+  count: number;
+  previous?: Article;
+  next?: Article;
+}
+
+// Where an article sits on the learning path, and its published neighbours in reading order.
+// Returns undefined for an article that has no stage.
+export function pathPosition(stages: Stage[], article: Article): PathPosition | undefined {
+  const stage = stages.find((entry) => entry.notes.some((note) => note.id === article.id));
+  if (!stage) return undefined;
+  const ordered = stages.flatMap((entry) =>
+    entry.notes.flatMap((note) => (note.kind === 'published' ? [note.article] : [])),
+  );
+  const at = ordered.findIndex((entry) => entry.id === article.id);
+  return {
+    stage,
+    index: stage.notes.findIndex((note) => note.id === article.id) + 1,
+    count: stage.notes.length,
+    previous: ordered[at - 1],
+    next: ordered[at + 1],
+  };
+}
+
+// Where a stage section sits on /learn/.
+export const stageAnchor = (stage: Stage) => `${import.meta.env.BASE_URL}learn/#stage-${stage.number}`;
+
+// Reading time of a stage's published notes, from their readingMinutes (5 when a note has none).
+export const stageMinutes = (stage: Stage) =>
+  stage.notes.reduce((total, note) => total + (note.kind === 'published' ? (note.article.data.readingMinutes ?? 5) : 0), 0);
+
+export const formatMinutes = (minutes: number) => {
+  if (minutes < 60) return `${minutes} min`;
+  const rest = minutes % 60;
+  return rest === 0 ? `${Math.floor(minutes / 60)} h` : `${Math.floor(minutes / 60)} h ${rest} min`;
 };
+
+const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
+
+// "Stage 1 · 3 notes · 31 min" for a fully published stage; otherwise its publishing status, which readers still need.
+export const stageSummary = (stage: Stage, stageCount: number) =>
+  stage.status === 'published'
+    ? `Stage ${stage.number} · ${plural(stage.notes.length)} · ${formatMinutes(stageMinutes(stage))}`
+    : `Stage ${stage.number} of ${stageCount}, ${stage.status}`;
+
+// "39 notes · 6 h 40 min" once everything is published; until then, how much of the plan is live.
+export const pathSummary = (stages: Stage[], publishedCount: number, plannedCount: number) =>
+  publishedCount === plannedCount
+    ? `${plural(publishedCount)} · ${formatMinutes(stages.reduce((total, stage) => total + stageMinutes(stage), 0))}`
+    : `${publishedCount} notes published of ${plannedCount} planned`;

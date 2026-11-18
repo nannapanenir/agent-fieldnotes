@@ -6,6 +6,8 @@ level: Beginner
 publishedAt: 2026-11-04
 updatedAt: 2026-11-16
 order: 5
+stage: 2
+stageOrder: 2
 readingMinutes: 9
 tags: [architecture, tools, state, memory, fundamentals]
 featured: false

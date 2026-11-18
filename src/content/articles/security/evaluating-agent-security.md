@@ -5,6 +5,8 @@ topic: Security
 level: Intermediate
 publishedAt: 2026-11-16
 order: 10
+stage: 5
+stageOrder: 2
 readingMinutes: 16
 tags: [security, evaluation, testing, owasp, nist, typescript, python]
 featured: false

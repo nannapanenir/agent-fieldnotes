@@ -6,6 +6,8 @@ level: Beginner
 publishedAt: 2026-11-03
 updatedAt: 2026-11-05
 order: 1
+stage: 1
+stageOrder: 1
 readingMinutes: 8
 tags: [agents, fundamentals, llms, workflows, chatbots]
 featured: true

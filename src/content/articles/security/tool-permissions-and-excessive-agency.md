@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-11
 updatedAt: 2026-11-16
 order: 2
+stage: 3
+stageOrder: 2
 readingMinutes: 10
 tags: [security, permissions, least-privilege, excessive-agency, owasp]
 featured: false

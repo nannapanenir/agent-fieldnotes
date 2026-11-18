@@ -5,6 +5,8 @@ topic: Deployment
 level: Intermediate
 publishedAt: 2026-11-17
 order: 1
+stage: 7
+stageOrder: 1
 readingMinutes: 26
 tags: [deployment, reliability, cost, circuit-breaker, typescript, python]
 featured: false

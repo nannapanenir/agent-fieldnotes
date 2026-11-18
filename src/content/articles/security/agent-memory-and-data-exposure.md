@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-14
 updatedAt: 2026-11-16
 order: 6
+stage: 3
+stageOrder: 4
 readingMinutes: 9
 tags: [security, memory, privacy, data-exposure, owasp]
 featured: false

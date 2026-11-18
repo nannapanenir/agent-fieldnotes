@@ -5,6 +5,8 @@ topic: Security
 level: Intermediate
 publishedAt: 2026-11-16
 order: 9
+stage: 5
+stageOrder: 1
 readingMinutes: 13
 tags: [security, threat-modeling, owasp, nist, agents]
 featured: false

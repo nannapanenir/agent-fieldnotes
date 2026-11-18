@@ -12,6 +12,9 @@ const articles = defineCollection({
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     order: z.number().default(100),
+    // Learning-path stage (1-8, see docs/editorial-roadmap.md) and position within that stage.
+    stage: z.number().int().min(1).max(8).optional(),
+    stageOrder: z.number().default(100),
     readingMinutes: z.number().int().positive().optional(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),

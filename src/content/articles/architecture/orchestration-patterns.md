@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-09
 updatedAt: 2026-11-16
 order: 9
+stage: 2
+stageOrder: 6
 readingMinutes: 11
 tags: [architecture, orchestration, workflows, multi-agent, security]
 featured: false

@@ -1,0 +1,98 @@
+---
+// Footer credit: the designer's name, with a profile card shown on hover and on keyboard focus.
+// The card is only a description of the link; tapping or clicking the name opens the portfolio.
+const PORTFOLIO = 'https://nannapanenir.github.io/rportfolio-website/';
+const TAGS = ['Angular', 'React', 'TypeScript', 'Java', 'Agentic AI', 'Agentic security'];
+---
+
+<span class="credit">
+  <a
+    class="credit-link"
+    href={PORTFOLIO}
+    target="_blank"
+    rel="noopener"
+    aria-label="Designed and built by Ramgopal, opens portfolio in a new tab"
+    aria-describedby="footer-credit-card"
+  >Designed and built by Ramgopal</a>
+  <span class="card-wrap">
+    <span class="card" role="tooltip" id="footer-credit-card">
+      <span class="card-head">
+        <span class="initials" aria-hidden="true">RN</span>
+        <span>
+          <span class="name">Ramgopal</span>
+          <span class="role">Full-stack AI and agentic engineer</span>
+        </span>
+      </span>
+      <span class="bio">Builds enterprise interfaces and applied AI. Writes Agent Fieldnotes to learn agents in public.</span>
+      <span class="tags">{TAGS.map((tag) => <span>{tag}</span>)}</span>
+      <span class="freelance">
+        <span class="freelance-title">Open for freelance work.</span>
+        <span class="freelance-text">Websites and AI features. Reach out for a quote.</span>
+      </span>
+    </span>
+  </span>
+</span>
+
+<script>
+  // Escape hides the card until the pointer or focus leaves the credit (WCAG 1.4.13, dismissible).
+  for (const credit of document.querySelectorAll<HTMLElement>('.credit')) {
+    const reset = () => credit.classList.remove('is-dismissed');
+    credit.addEventListener('keydown', (event) => { if (event.key === 'Escape') credit.classList.add('is-dismissed'); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && credit.matches(':hover')) credit.classList.add('is-dismissed'); });
+    credit.addEventListener('mouseleave', reset);
+    credit.addEventListener('focusout', reset);
+  }
+</script>
+
+<style>
+  .credit { position: relative; display: inline-block; }
+  .credit-link {
+    display: inline-block; padding: 10px 0; color: var(--af-paper);
+    text-decoration: underline dotted; text-underline-offset: 4px;
+  }
+  .credit-link:hover { color: var(--af-paper-raised); text-decoration-style: solid; }
+  .credit-link:focus-visible { outline-color: var(--af-boundary-tag); }
+
+  /* The wrapper's transparent bottom padding bridges the gap, so the pointer can move onto the card. */
+  .card-wrap {
+    position: absolute; right: 0; bottom: 100%; z-index: 10; padding-bottom: 16px;
+    opacity: 0; visibility: hidden; transform: translateY(4px); pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease, visibility .15s;
+  }
+  @media (hover: hover) {
+    .credit:not(.is-dismissed):hover .card-wrap { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  }
+  .credit:not(.is-dismissed):has(.credit-link:focus-visible) .card-wrap { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  @media (prefers-reduced-motion: reduce) { .card-wrap { transition: none; transform: none; } }
+
+  .card {
+    position: relative; display: block; box-sizing: border-box; width: 320px; max-width: calc(100vw - 40px); padding: 18px;
+    border: 1.5px solid var(--af-ink); border-radius: var(--af-radius); background: var(--af-paper-raised);
+    color: var(--af-ink); font-family: var(--af-font-display); text-align: left; white-space: normal;
+  }
+  /* Arrow pointing down at the name: a navy triangle with a paper one inside it. */
+  .card::before, .card::after { content: ''; position: absolute; width: 0; height: 0; border-style: solid; }
+  .card::before { right: 56px; bottom: -11px; border-width: 11px 10px 0; border-color: var(--af-ink) transparent transparent; }
+  .card::after { right: 57.5px; bottom: -8px; border-width: 9px 8.5px 0; border-color: var(--af-paper-raised) transparent transparent; }
+
+  /* On narrow screens the credit wraps under the footer note at the left edge, so the card opens to the right. */
+  @media (max-width: 600px) {
+    .card-wrap { right: auto; left: 0; }
+    .card::before { right: auto; left: 56px; }
+    .card::after { right: auto; left: 57.5px; }
+  }
+
+  .card-head { display: flex; gap: 14px; align-items: center; }
+  .initials {
+    flex: none; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+    background: var(--af-ink); color: var(--af-paper); font-weight: 800; font-stretch: 115%; font-size: 18px;
+  }
+  .name { display: block; font-weight: 750; font-size: 18px; line-height: 1.2; }
+  .role { display: block; margin-top: 2px; color: var(--af-muted); font-size: 14px; }
+  .bio { display: block; margin-top: 14px; color: var(--af-ink-soft); font: 15px/1.55 var(--af-font-body); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; font-size: 13px; }
+  .tags span { padding: 3px 8px; border: 1px solid var(--af-line); }
+  .freelance { display: block; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--af-line); font-size: 14px; line-height: 1.45; }
+  .freelance-title { display: block; font-weight: 700; }
+  .freelance-text { display: block; color: var(--af-ink-soft); }
+</style>

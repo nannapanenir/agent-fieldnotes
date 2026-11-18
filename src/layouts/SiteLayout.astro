@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import FooterCredit from '../components/FooterCredit.astro';
 import { TOPICS } from '../lib/articles';
 
 const {
@@ -76,7 +77,10 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
           <a href="https://github.com/nannapanenir/agent-fieldnotes">GitHub</a>
         </nav>
       </div>
-      <div class="site-footer-note">Written and drawn in public, {new Date().getFullYear()}</div>
+      <div class="site-footer-note">
+        <span>Written and drawn in public, {new Date().getFullYear()}</span>
+        <FooterCredit />
+      </div>
     </footer>
     <script>
       // Code tabs: a <div class="code-tabs"> holding a TypeScript block, then a Python block, becomes a tab switcher.
@@ -194,7 +198,8 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   .site-footer-links a.is-security { color: var(--af-boundary-tag); }
   .site-footer-heading { margin-bottom: 6px; font-weight: 700; }
   .site-footer-note {
-    max-width: var(--af-page-max); margin: 0 auto; padding: 20px var(--af-gutter) 32px;
+    max-width: var(--af-page-max); margin: 0 auto; padding: 10px var(--af-gutter) 22px;
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 24px;
     border-top: 1px solid var(--af-footer-line); color: var(--af-footer-ink); font-size: 14px;
   }
   @media (max-width: 600px) {

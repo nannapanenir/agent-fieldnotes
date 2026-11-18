@@ -129,8 +129,9 @@ const siteSchema = Astro.site ? {
     max-width: var(--af-page-max); margin: 0 auto; padding: var(--af-section-pad) var(--af-gutter) 88px;
     display: flex; flex-wrap: wrap; gap: 56px; align-items: center;
   }
-  .hero-text { flex: 1 1 420px; min-width: 0; }
-  h1 { margin: 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); letter-spacing: -0.01em; }
+  /* Most of the spare width goes to the text, so the capped headline sets in four lines beside the figure. */
+  .hero-text { flex: 9 1 420px; min-width: 0; }
+  h1 { margin: 0; font: 800 clamp(2.5rem, 4.4vw, 3.75rem)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); letter-spacing: -0.01em; }
   .hero-lead { margin: 28px 0 0; max-width: 34em; color: var(--af-ink-soft); font-size: var(--af-lead); line-height: 1.6; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
   .button { border-radius: var(--af-radius); font: 600 1rem var(--af-font-display); text-decoration: none; }

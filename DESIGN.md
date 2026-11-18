@@ -186,7 +186,7 @@ A restrained navy-and-paper palette where amber has exactly one meaning.
 **Character:** A wide, heavy engineering grotesk sets titles like the title block of a drawing; a calm, optical-size serif carries long explanations without fatigue.
 
 ### Hierarchy
-- **Display** (800, clamp(40px, 5.4vw, 72px), 1.02, 120% width): Page titles: homepage hero, article and learning-path h1.
+- **Display** (800, clamp(40px, 5.4vw, 72px), 1.02, 120% width): Page titles: article and learning-path h1. The homepage hero caps lower, at clamp(40px, 4.4vw, 60px), so its headline sets in four lines beside the figure and both buttons sit above a 768px-high laptop fold.
 - **Headline** (750, 36px, 1.1, 110% width): Homepage and learning-path section headings. In articles, h2 is 30px with 1.2 line height (26px under 600px).
 - **Title** (700, 18–24px, 1.2–1.3): Card titles, sheet names, stage note titles, article h3 (22px), names in the footer profile card (18px).
 - **Lead** (400, 20–21px, 1.55–1.6, Soft Ink): Intro paragraphs and article summaries, max about 34–36em.

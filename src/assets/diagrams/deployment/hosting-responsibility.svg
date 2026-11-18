@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="552" viewBox="0 0 760 552" role="img" aria-labelledby="title desc">
+  <title id="title">Who manages what in the three Azure hosting options</title>
+  <desc id="desc">Grid comparing three ways to host the shipment agent on Azure: a Foundry prompt agent, a Foundry hosted agent, and your own container on Azure Container Apps. Each row is a layer, and each cell says You, Azure, or Both. Endpoint and authentication: Azure for the prompt agent and the hosted agent, which use Microsoft Entra ID, and You for Container Apps, where you configure ingress and authentication. Orchestration code: Azure runs the prompt agent from your configuration; for the hosted agent and Container Apps it is your container. Runtime and compute: Azure for the prompt agent and the hosted agent, which runs each session in its own sandbox; Both for Container Apps, where Azure runs the containers and you set scale rules. Runtime identity: Azure creates an agent identity for the prompt agent and the hosted agent; for Container Apps you enable and grant a managed identity. Network: Both for the two Foundry options, through the Foundry resource rules and, for hosted agents, your virtual network for outbound traffic; You for Container Apps, through the environment virtual network. Telemetry: Both for the Foundry options, with Foundry tracing, plus your own OpenTelemetry for hosted agents; You for Container Apps. Image and patching: no image for the prompt agent; your image and dependencies for the hosted agent and Container Apps.</desc>
+  <!-- Hand-authored source (generated once by a script, then kept as the source). Colors follow src/layouts/SiteLayout.astro. Every cell states You, Azure, or Both in text. -->
+  <defs><style>
+    .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+    .row { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+    .who { font: 600 13px 'DM Mono', ui-monospace, monospace; }
+    .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+    .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+  </style></defs>
+  <rect width="760" height="552" fill="#171a16"/>
+  <text class="head" x="273" y="50" text-anchor="middle">Prompt agent</text>
+  <text class="head" x="459" y="50" text-anchor="middle">Hosted agent</text>
+  <text class="head" x="645" y="50" text-anchor="middle">Container Apps</text>
+  <text class="row" x="20" y="102">Endpoint and auth</text>
+  <rect x="184" y="74" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="273" y="94" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="273" y="111" text-anchor="middle">Entra ID on the project</text>
+  <rect x="370" y="74" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="459" y="94" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="459" y="111" text-anchor="middle">Entra ID, per-agent URL</text>
+  <rect x="556" y="74" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="94" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="111" text-anchor="middle">ingress + auth setup</text>
+  <text class="row" x="20" y="158">Orchestration code</text>
+  <rect x="184" y="130" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="273" y="150" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="273" y="167" text-anchor="middle">you write config only</text>
+  <rect x="370" y="130" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="459" y="150" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="459" y="167" text-anchor="middle">your container</text>
+  <rect x="556" y="130" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="150" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="167" text-anchor="middle">your container</text>
+  <text class="row" x="20" y="214">Runtime and compute</text>
+  <rect x="184" y="186" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="273" y="206" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="273" y="223" text-anchor="middle">fully managed</text>
+  <rect x="370" y="186" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="459" y="206" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="459" y="223" text-anchor="middle">per-session sandbox</text>
+  <rect x="556" y="186" width="178" height="48" rx="3" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="645" y="206" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="sub" x="645" y="223" text-anchor="middle">you set scale rules</text>
+  <text class="row" x="20" y="270">Runtime identity</text>
+  <rect x="184" y="242" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="273" y="262" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="273" y="279" text-anchor="middle">agent identity</text>
+  <rect x="370" y="242" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="459" y="262" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="459" y="279" text-anchor="middle">agent identity</text>
+  <rect x="556" y="242" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="262" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="279" text-anchor="middle">managed identity</text>
+  <text class="row" x="20" y="326">Network</text>
+  <rect x="184" y="298" width="178" height="48" rx="3" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="273" y="318" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="sub" x="273" y="335" text-anchor="middle">Foundry resource rules</text>
+  <rect x="370" y="298" width="178" height="48" rx="3" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="459" y="318" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="sub" x="459" y="335" text-anchor="middle">+ your VNet egress</text>
+  <rect x="556" y="298" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="318" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="335" text-anchor="middle">environment VNet</text>
+  <text class="row" x="20" y="382">Telemetry</text>
+  <rect x="184" y="354" width="178" height="48" rx="3" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="273" y="374" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="sub" x="273" y="391" text-anchor="middle">Foundry tracing</text>
+  <rect x="370" y="354" width="178" height="48" rx="3" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="459" y="374" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="sub" x="459" y="391" text-anchor="middle">Foundry + your OTel</text>
+  <rect x="556" y="354" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="374" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="391" text-anchor="middle">you wire it up</text>
+  <text class="row" x="20" y="438">Image and patching</text>
+  <rect x="184" y="410" width="178" height="48" rx="3" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="273" y="430" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="sub" x="273" y="447" text-anchor="middle">no image</text>
+  <rect x="370" y="410" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="459" y="430" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="459" y="447" text-anchor="middle">your image and deps</text>
+  <rect x="556" y="410" width="178" height="48" rx="3" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="645" y="430" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="sub" x="645" y="447" text-anchor="middle">your image and deps</text>
+  <rect x="20" y="482" width="720" height="54" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <rect x="38" y="500" width="54" height="20" rx="2" fill="#232822" stroke="#a4a99f" stroke-width="1.3"/>
+  <text class="who" x="65" y="515" text-anchor="middle" fill="#f0f0e8">Azure</text>
+  <text class="lbl" x="102" y="514">Azure manages it</text>
+  <rect x="268" y="500" width="54" height="20" rx="2" fill="#232822" stroke="#c7f36b" stroke-width="1.3"/>
+  <text class="who" x="295" y="515" text-anchor="middle" fill="#c7f36b">You</text>
+  <text class="lbl" x="332" y="514">you build and run it</text>
+  <rect x="498" y="500" width="54" height="20" rx="2" fill="#1d211b" stroke="#9ce6db" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text class="who" x="525" y="515" text-anchor="middle" fill="#9ce6db">Both</text>
+  <text class="lbl" x="562" y="514">Azure provides, you configure</text>
+</svg>

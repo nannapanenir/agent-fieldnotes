@@ -34,8 +34,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 7 | deployment/reliability-cost-and-runaway-loops.md | published | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
 | 7 | deployment/deploying-an-agent.md | published | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
 | 8 | deployment/what-is-microsoft-foundry.md | in PR | Adds deployment/foundry-five-parts.svg. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/choose-an-azure-agent-hosting-option.md | next | Now also covers Azure Container Apps. |
-| 8 | deployment/foundry-models.md | planned | New. |
+| 8 | deployment/choose-an-azure-agent-hosting-option.md | in PR | Adds deployment/hosting-responsibility.svg and deployment/hosting-decision.svg; comparison table is the text equivalent. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-models.md | next | New. |
 | 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |
 | 8 | deployment/deploy-a-hosted-agent-to-foundry.md | planned | Recheck supported SDKs and languages. |
 | 8 | deployment/microsoft-agent-framework-basics.md | planned | New. |

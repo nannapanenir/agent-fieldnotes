@@ -11,6 +11,23 @@ const shortTitle = (title: string) => title.split(':')[0];
 // A stage with nothing published yet shows its first few notes and a count of the rest.
 const PLANNED_PREVIEW = 4;
 const shownNotes = (stage: Stage) => stage.status === 'planned' ? stage.notes.slice(0, PLANNED_PREVIEW) : stage.notes;
+// The Security section: the stage 3 and stage 5 notes, in path order, each with a one-line summary
+// taken from its description.
+const SECURITY_STAGES = [3, 5];
+const SECURITY_SUMMARIES: Record<string, string> = {
+  'security/trust-boundaries-for-agents': 'Map the model, tools, retrieved content and application as separate boundaries.',
+  'security/tool-permissions-and-excessive-agency': 'Separate read and write tools, and use short-lived, user-scoped credentials.',
+  'security/prompt-injection-in-agent-systems': 'How injected text turns into a tool action, and the controls that limit the damage.',
+  'security/agent-memory-and-data-exposure': 'How memory, retrieval, logs and traces leak or get poisoned, and how to limit both.',
+  'security/sandboxing-and-code-execution': 'Choose an isolation level for code the agent runs, so a bad script stays contained.',
+  'security/human-approval-for-sensitive-actions': 'Which actions need a person\'s approval, and how to enforce it in code.',
+  'security/threat-modeling-an-agent': 'Threat-model the shipment assistant, from data flows to the risks you accept.',
+  'security/evaluating-agent-security': 'Add adversarial cases and control tests, and check that the tests can fail.',
+};
+const securityStages = stages.filter((stage) => SECURITY_STAGES.includes(stage.number));
+// Topics other than Security, which has its own section above.
+const indexTopics = TOPICS.filter((topic) => topic.slug !== 'security');
+const noteNumbers = new Map(stages.flatMap((stage) => stage.notes.map((note, index) => [note.id, `${stage.number}.${index + 1}`] as const)));
 const noteCount = (stage: Stage) => {
   const total = stage.notes.length;
   const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
@@ -52,6 +69,12 @@ const noteCount = (stage: Stage) => {
             <h2 id={`stage-${stage.number}-title`}>{stage.name}</h2>
             <p class="stage-description">{stage.description}</p>
             <div class="stage-count">{noteCount(stage)}</div>
+            {stage.number === 4 && (
+              <div class="before-start">
+                <p class="before-start-title">Before you start</p>
+                <p>The code in this stage runs on Node.js 22 or later, or Python 3.12 or later, and calls the Anthropic API, so you need an API key. Each note lists the exact versions it was tested on.</p>
+              </div>
+            )}
           </div>
           <ol class="notes">
             {notes.map((note, index) => {
@@ -86,20 +109,51 @@ const noteCount = (stage: Stage) => {
     );
   })}
 
+  <section class="security-notes" id="security" aria-labelledby="security-title">
+    <div class="security-inner">
+      <div class="security-about">
+        <h2 id="security-title">Security notes</h2>
+        <p class="security-lead">Stage 3 shows where agents get attacked and the controls that hold. Stage 5 threat-models and tests a real agent. Read them in this order.</p>
+      </div>
+      <div class="security-stages">
+        {securityStages.map((stage) => (
+          <div class="security-stage">
+            <h3><a href={`#stage-${stage.number}`}>Stage {stage.number}: {stage.name}</a></h3>
+            <ol class="security-list">
+              {stage.notes.map((note) => note.kind === 'published' && (
+                <li>
+                  <a href={articleHref(note.article)}>
+                    <span class="note-number">{noteNumbers.get(note.id)}</span>
+                    <span class="security-text">
+                      <span class="security-title">{shortTitle(note.article.data.title)}</span>
+                      <span class="security-summary">{SECURITY_SUMMARIES[note.id] ?? note.article.data.description}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="topics" id="topics" aria-labelledby="topics-title">
     <div class="topics-inner">
       <h2 id="topics-title">Browse by topic</h2>
-      <p class="topics-lead">The same notes, grouped by subject instead of reading order.</p>
+      <p class="topics-lead">The same notes, grouped by subject instead of reading order. Open a topic to see its notes.</p>
       <div class="topic-grid">
-        {TOPICS.map((topic) => {
+        {indexTopics.map((topic) => {
           const posts = articlesInTopic(articles, topic.name);
           return (
-            <section class:list={['topic', { 'is-security': topic.slug === 'security' }]} id={topic.slug} aria-labelledby={`topic-${topic.slug}`}>
+            <section class="topic" id={topic.slug} aria-labelledby={`topic-${topic.slug}`}>
               <h3 id={`topic-${topic.slug}`}>{topic.name}</h3>
-              <p class="topic-count">{posts.length} {posts.length === 1 ? 'note' : 'notes'}</p>
               <p class="topic-description">{topic.description}</p>
               {posts.length > 0 ? (
-                <ul>{posts.map((article) => <li><a href={articleHref(article)}>{shortTitle(article.data.title)}</a></li>)}</ul>
+                <details class="topic-notes">
+                  <summary>{posts.length} {posts.length === 1 ? 'note' : 'notes'}<svg class="topic-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" /></svg></summary>
+                  <ul>{posts.map((article) => <li><a href={articleHref(article)}><span class="topic-number">{noteNumbers.get(article.id)}</span>{shortTitle(article.data.title)}</a></li>)}</ul>
+                </details>
               ) : (
                 <p class="topic-empty">No notes published yet.</p>
               )}
@@ -122,7 +176,7 @@ const noteCount = (stage: Stage) => {
   .progress-bar { flex: 1 1 320px; max-width: 520px; height: 10px; display: flex; border: 1.5px solid var(--af-ink); }
   .progress-bar span { background: var(--af-ink); }
   .stage-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; margin: 40px 0 0; padding: 0; list-style: none; }
-  .stage-jump a { display: flex; flex-direction: column; height: 100%; padding: 10px 14px; text-decoration: none; }
+  .stage-jump a { display: flex; flex-direction: column; height: 100%; padding: 10px 11px; text-decoration: none; }
   .stage-jump a:hover .jump-name { text-decoration: underline; text-underline-offset: 3px; }
   .stage-jump a.is-published { border: 1.5px solid var(--af-ink); background: var(--af-paper); }
   .stage-jump a.is-in-progress { border: 1.5px dashed var(--af-ink); }
@@ -156,19 +210,46 @@ const noteCount = (stage: Stage) => {
   .note-unpublished .note-title { font-weight: 600; }
   .note-more { padding: 16px 0 0 60px; color: var(--af-muted); font-size: 16px; }
 
+  .before-start { max-width: 24em; margin-top: 24px; padding: 14px 16px; border: 1px solid var(--af-ink); background: var(--af-paper); }
+  .before-start p { margin: 0; color: var(--af-ink-soft); font: 16px/1.55 var(--af-font-body); }
+  .before-start .before-start-title { margin-bottom: 6px; color: var(--af-ink); font: 700 15px var(--af-font-display); }
+
+  /* Security notes: the boundary's dashed amber rule, as on the homepage. */
+  .security-notes { border-top: 1px solid var(--af-line); font-family: var(--af-font-display); scroll-margin-top: 16px; }
+  .security-inner { max-width: var(--af-page-max); margin: 0 auto; padding: var(--af-section-pad) var(--af-gutter); display: flex; flex-wrap: wrap; gap: 24px 64px; }
+  .security-about { flex: 1 1 300px; min-width: 0; }
+  .security-about h2 { margin: 0; font: 800 34px/1.1 var(--af-font-display); font-stretch: 115%; }
+  .security-lead { max-width: 22em; margin: 14px 0 0; color: var(--af-ink-soft); font: 18px/1.6 var(--af-font-body); }
+  .security-stages { flex: 2 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 40px; }
+  .security-stage h3 { margin: 0 0 12px; font: 600 15px var(--af-font-display); }
+  .security-stage h3 a { color: var(--af-boundary-ink); text-underline-offset: 3px; }
+  .security-list { margin: 0; padding: 0; list-style: none; border-top: 2px dashed var(--af-boundary); }
+  .security-list li { border-bottom: 1px solid var(--af-line); }
+  .security-list a { display: flex; gap: 4px 20px; align-items: baseline; padding: 16px 0; text-decoration: none; }
+  .security-list a:hover .security-title { text-decoration: underline; text-underline-offset: 4px; }
+  .security-list a:focus-visible { outline-offset: 2px; }
+  .security-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .security-title { font-weight: 700; font-size: 20px; line-height: 1.3; }
+  .security-summary { color: var(--af-ink-soft); font: 16px/1.5 var(--af-font-body); }
+
   .topics { border-top: 1px solid var(--af-line); font-family: var(--af-font-display); scroll-margin-top: 16px; }
   .topics-inner { max-width: var(--af-page-max); margin: 0 auto; padding: var(--af-section-pad) var(--af-gutter) 88px; }
   .topics h2 { margin: 0; font: 750 36px/1.1 var(--af-font-display); font-stretch: var(--af-stretch-h2); }
   .topics-lead { margin: 8px 0 32px; color: var(--af-ink-soft); font: 18px/1.6 var(--af-font-body); }
-  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px; }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; }
   .topic { min-width: 0; padding-top: 14px; border-top: 1.5px solid var(--af-ink); scroll-margin-top: 16px; }
-  .topic.is-security { border-top: 2px dashed var(--af-boundary); }
   .topic h3 { margin: 0; font: 700 22px/1.2 var(--af-font-display); }
-  .topic-count { margin: 4px 0 0; color: var(--af-muted); font-size: 14px; }
-  .topic.is-security .topic-count { color: var(--af-boundary-ink); }
   .topic-description { margin: 10px 0 0; color: var(--af-ink-soft); font: 16px/1.5 var(--af-font-body); }
-  .topic ul { margin: 12px 0 0; padding: 0; list-style: none; }
-  .topic li a { display: block; padding: 6px 0; font-size: 15px; line-height: 1.35; text-decoration: none; }
+  .topic-notes { margin-top: 12px; }
+  .topic-notes summary { display: inline-flex; align-items: center; gap: 8px; padding: 6px 0; color: var(--af-ink); font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; }
+  .topic-notes summary::-webkit-details-marker { display: none; }
+  .topic-notes summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .topic-chevron { width: 12px; height: 8px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform .15s ease; }
+  .topic-notes[open] .topic-chevron { transform: rotate(180deg); }
+  @media (prefers-reduced-motion: reduce) { .topic-chevron { transition: none; } }
+  .topic-number { flex: none; width: 32px; color: var(--af-muted); }
+  .topic ul { margin: 8px 0 0; padding: 0; list-style: none; }
+  .topic li a { display: flex; padding: 6px 0; font-size: 15px; line-height: 1.35; text-decoration: none; }
   .topic li a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .topic-empty { margin: 12px 0 0; color: var(--af-muted); font-size: 15px; }
 
@@ -182,5 +263,8 @@ const noteCount = (stage: Stage) => {
     .note-more { padding-left: 60px; }
     .intro { padding: 48px 20px 40px; }
     .stage-jump { grid-template-columns: 1fr 1fr; }
+    .security-inner { padding: 48px 20px; }
+    .security-about h2 { font-size: 30px; }
+    .security-title { font-size: 18px; }
   }
 </style>

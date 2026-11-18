@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400" role="img" aria-labelledby="title desc">
+  <title id="title">Anatomy of one traced agent turn</title>
+  <desc id="desc">A timeline of nested spans for one question to the shipment agent. The root span, invoke_agent shipment-hosted, covers the whole turn. Inside it, in time order: a chat span for the first model call to claude-opus-5-5, which ends asking for a tool; an execute_tool span for get_shipment_status, which itself contains an outbound HTTP call to the carrier; and a second chat span for the model call that writes the answer. Each span records its duration and attributes such as the model, token counts, and tool name. Attributes that hold content, such as tool arguments and results and message text, are marked as sensitive and belong in a restricted table.</desc>
+  <!--
+    Hand-authored source. Colors follow src/layouts/SiteLayout.astro.
+    Span names follow the OpenTelemetry GenAI operation names (invoke_agent, chat, execute_tool). Bars are labeled in text.
+  -->
+  <defs>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .span { font: 500 12px 'DM Mono', ui-monospace, monospace; fill: #171a16; }
+      .spanl { font: 500 12px 'DM Mono', ui-monospace, monospace; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .root { fill: #c7f36b; }
+      .chat { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .tool { fill: #232822; stroke: #9ce6db; stroke-width: 1.4; }
+      .http { fill: #1d211b; stroke: #a4a99f; stroke-width: 1; stroke-dasharray: 4 3; }
+      .axis { stroke: #a4a99f; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="760" height="400" fill="#171a16"/>
+  <text class="head" x="20" y="32">One question, as a trace: spans nest in time order</text>
+
+  <line class="axis" x1="20" y1="60" x2="740" y2="60"/>
+  <text class="sub" x="20" y="54">0 s</text>
+  <text class="sub" x="700" y="54">~4 s</text>
+
+  <rect class="root" x="20" y="72" width="720" height="34" rx="3"/>
+  <text class="span" x="32" y="94">invoke_agent shipment-hosted</text>
+
+  <rect class="chat" x="36" y="118" width="250" height="34" rx="3"/>
+  <text class="spanl" x="48" y="140">chat claude-opus-5-5</text>
+  <text class="sub" x="300" y="140">step 1: tokens in/out, stop = tool_use</text>
+
+  <rect class="tool" x="290" y="164" width="160" height="34" rx="3"/>
+  <text class="spanl" x="300" y="186">execute_tool</text>
+  <text class="sub" x="462" y="186">get_shipment_status</text>
+  <rect class="http" x="306" y="210" width="128" height="30" rx="3"/>
+  <text class="spanl" x="316" y="230">HTTP carrier</text>
+
+  <rect class="chat" x="454" y="252" width="270" height="34" rx="3"/>
+  <text class="spanl" x="466" y="274">chat claude-opus-5-5</text>
+  <text class="sub" x="36" y="274">step 2: writes the answer, stop = end_turn</text>
+
+  <rect x="20" y="304" width="720" height="82" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <text class="lbl" x="36" y="326">Safe to show widely: span names, durations, model, token counts, tool name, status.</text>
+  <text class="ucy" x="36" y="348">Sensitive: tool arguments and results, message text. Redact, or keep in a restricted table.</text>
+  <text class="sub" x="36" y="370">Calls your code makes directly appear only if that code is instrumented.</text>
+</svg>

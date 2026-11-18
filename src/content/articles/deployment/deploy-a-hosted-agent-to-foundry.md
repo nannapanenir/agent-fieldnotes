@@ -205,11 +205,15 @@ By default, a hosted agent's identity can call models "through the project endpo
 ```bash
 FOUNDRY_ID=$(az cognitiveservices account show --name shipment-foundry --resource-group shipment-agent-rg --query id --output tsv)
 
+AGENT_IDENTITY=$(az rest --method GET --resource "https://ai.azure.com" \
+  --url "https://shipment-foundry.services.ai.azure.com/api/projects/shipment-assistant/agents/shipment-hosted?api-version=v1" \
+  --query "instance_identity.principal_id" --output tsv)
+
 az role assignment create --role "53ca6127-db72-4b80-b1b0-d745d6d5456d" \
-  --assignee-object-id "<agent identity object ID>" --assignee-principal-type ServicePrincipal --scope "$FOUNDRY_ID"
+  --assignee-object-id "$AGENT_IDENTITY" --assignee-principal-type ServicePrincipal --scope "$FOUNDRY_ID"
 ```
 
-Find the agent identity's object ID in the agent's details in the Foundry portal. Learn's tip is that Foundry User grants more than this agent needs, and that a custom role with only the required data actions is tighter. This tutorial couldn't confirm the exact data actions for the Claude endpoint, so it uses Foundry User and records the gap as a residual risk.
+The middle command reads the agent identity's principal ID from the agent's details, as Learn's "Manage hosted agents" page shows. The `--resource` argument is required for `az rest` calls to Foundry Agent Service. Learn's tip is that Foundry User grants more than this agent needs, and that a custom role with only the required data actions is tighter. This tutorial couldn't confirm the exact data actions for the Claude endpoint, so it uses Foundry User and records the gap as a residual risk.
 
 Then let your application, and only your application, call this agent. Learn supports role assignments at the scope of a single agent for endpoint access:
 

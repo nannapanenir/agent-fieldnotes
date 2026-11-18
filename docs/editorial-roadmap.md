@@ -39,8 +39,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 8 | deployment/deploy-a-prompt-agent-to-foundry.md | in PR | Adds deployment/prompt-agent-flow.svg (markers 1 to 8 match the steps). Uses gpt-5-mini: Agent Service lists no Claude models on 2026-11-18. Function tools run client-side through the Stage 4 runner. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/deploy-a-hosted-agent-to-foundry.md | in PR | Adds deployment/hosted-agent-flow.svg (markers 1 to 8 match the steps). Container code is Python only: hosting protocol libraries exist for Python and .NET, not TypeScript, on 2026-11-18; the client is TypeScript and Python. Calls Claude through the agent identity. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/microsoft-agent-framework-basics.md | in PR | No diagram (no visual plan in the brief; the orchestration table maps to orchestration-patterns). Python only: Agent Framework ships for .NET, Python, and Go, not TypeScript. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/foundry-tools.md | next | New. |
-| 8 | deployment/foundry-iq.md | planned | New. |
+| 8 | deployment/foundry-tools.md | in PR | No diagram (no visual plan in the brief); the tool-kind and choice tables carry it. Adds an MCP tool definition (allowed_tools, per-tool require_approval, project connection) in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-iq.md | next | New. |
 | 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | planned | |
 | 8 | deployment/foundry-guardrails-and-content-safety.md | planned | New. |
 | 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | planned | New. |

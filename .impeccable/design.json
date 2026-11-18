@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T17:23:00.147Z",
+  "generatedAt": "2026-11-18T17:24:29.048Z",
   "title": "Design System: Agent Fieldnotes",
   "extensions": {
     "colorMeta": {
@@ -281,6 +281,14 @@
       "lead": {
         "displayName": "Lead",
         "purpose": "Intro paragraphs and article summaries."
+      },
+      "section-lead": {
+        "displayName": "Section Lead",
+        "purpose": "Serif line under a section heading."
+      },
+      "supporting": {
+        "displayName": "Supporting",
+        "purpose": "Card summaries, path count, footer tagline."
       },
       "body": {
         "displayName": "Body",

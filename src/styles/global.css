@@ -15,6 +15,9 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; min-width: 320px; background: var(--af-paper); }
 h1, h2, h3, p { margin-top: 0; }
+/* Headings wrap into even lines; paragraphs avoid leaving one word alone on the last line. */
+h1, h2, h3 { text-wrap: balance; }
+p, li, figcaption, blockquote { text-wrap: pretty; }
 a { color: var(--af-ink); }
 a:hover { color: var(--af-ink-strong); }
 /* Focus is drawn in ink on paper; amber stays reserved for security boundaries. The navy footer uses Boundary Tag Yellow. */
@@ -28,8 +31,8 @@ button, input { font: inherit; }
 .prose { color: var(--af-ink); font-family: var(--af-font-body); font-size: var(--af-body); line-height: 1.75; }
 .prose > :first-child { margin-top: 0; }
 .prose h2 { margin: 56px 0 16px; font: 750 var(--af-h2)/1.2 var(--af-font-display); font-stretch: var(--af-stretch-h2); scroll-margin-top: 24px; }
-.prose h3 { margin: 36px 0 12px; font: 700 22px/1.3 var(--af-font-display); scroll-margin-top: 24px; }
-.prose h4 { margin: 28px 0 8px; font: 700 18px/1.35 var(--af-font-display); }
+.prose h3 { margin: 36px 0 12px; font: 700 1.375rem/1.3 var(--af-font-display); scroll-margin-top: 24px; }
+.prose h4 { margin: 28px 0 8px; font: 700 1.125rem/1.35 var(--af-font-display); }
 .prose p { margin: 0 0 24px; }
 .prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .prose ul, .prose ol { margin: 0 0 24px; padding-left: 26px; }
@@ -38,13 +41,13 @@ button, input { font: inherit; }
 .prose strong { font-weight: 600; }
 .prose hr { margin: 48px 0; border: 0; border-top: 1px solid var(--af-line); }
 .prose code { padding: 1px 5px; border: 1px solid var(--af-line); border-radius: var(--af-radius); background: var(--af-paper-raised); font: .84em var(--af-font-code); }
-.prose pre { overflow: auto; margin: 28px 0; padding: 20px; border-radius: var(--af-radius); background: var(--af-code-bg); color: var(--af-code-ink); font: 14px/1.7 var(--af-font-code); }
+.prose pre { overflow: auto; margin: 28px 0; padding: 20px; border-radius: var(--af-radius); background: var(--af-code-bg); color: var(--af-code-ink); font: 0.875rem/1.7 var(--af-font-code); }
 .prose pre code { padding: 0; border: 0; background: transparent; font: inherit; }
 /* Shiki writes both palettes as CSS variables; the code background is always dark, so use the dark one. */
 .prose pre.astro-code { background: var(--af-code-bg); }
 .prose pre.astro-code span { color: var(--shiki-dark); }
-.prose table { width: 100%; margin: 28px 0; border-collapse: collapse; font-size: 16px; line-height: 1.55; }
-.prose th { font: 700 15px/1.4 var(--af-font-display); text-align: left; background: var(--af-paper-raised); }
+.prose table { width: 100%; margin: 28px 0; border-collapse: collapse; font-size: 1rem; line-height: 1.55; }
+.prose th { font: 700 0.9375rem/1.4 var(--af-font-display); text-align: left; background: var(--af-paper-raised); }
 .prose th, .prose td { padding: 12px 14px; border: 1px solid var(--af-line); vertical-align: top; }
 .prose thead th { border-bottom: 1.5px solid var(--af-ink); }
 .prose blockquote { margin: 28px 0; padding: 4px 0 4px 20px; border-left: 1.5px solid var(--af-ink); color: var(--af-ink-soft); }
@@ -59,11 +62,11 @@ button, input { font: inherit; }
 .prose .code-tabs { margin: 28px 0; }
 .prose .code-tabs > pre { margin: 0; }
 .prose .code-tabs:not(.is-enhanced) > pre + pre { margin-top: 16px; }
-.prose .code-tabs:not(.is-enhanced) > pre::before { display: block; margin: -4px 0 12px; color: var(--af-code-ink); font: 600 13px var(--af-font-display); }
+.prose .code-tabs:not(.is-enhanced) > pre::before { display: block; margin: -4px 0 12px; color: var(--af-code-ink); font: 600 0.8125rem var(--af-font-display); }
 .prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(1)::before { content: 'TypeScript'; }
 .prose .code-tabs:not(.is-enhanced) > pre:nth-of-type(2)::before { content: 'Python'; }
 .prose .code-tabs-list { display: flex; flex-wrap: wrap; border: 1px solid var(--af-ink); border-bottom: 0; border-radius: var(--af-radius) var(--af-radius) 0 0; background: var(--af-paper-raised); }
-.prose .code-tab { margin: 0; padding: 10px 16px; border: 0; border-right: 1px solid var(--af-line); background: transparent; color: var(--af-ink-soft); font: 600 14px var(--af-font-display); cursor: pointer; }
+.prose .code-tab { margin: 0; padding: 10px 16px; border: 0; border-right: 1px solid var(--af-line); background: transparent; color: var(--af-ink-soft); font: 600 0.875rem var(--af-font-display); cursor: pointer; }
 .prose .code-tab:hover { color: var(--af-ink); }
 .prose .code-tab[aria-selected="true"] { background: var(--af-code-bg); color: var(--af-code-ink); }
 .prose .code-tabs.is-enhanced > pre { border-radius: 0 0 var(--af-radius) var(--af-radius); }
@@ -72,8 +75,8 @@ button, input { font: inherit; }
 .prose .code-tab[aria-selected="true"]:focus-visible, .prose .code-tabs > pre:focus-visible, .prose pre:focus-visible { outline: 2px solid var(--af-code-ink); outline-offset: -4px; }
 
 @media (max-width: 600px) {
-  .prose { font-size: 18px; }
-  .prose h2 { font-size: 26px; }
+  .prose { font-size: 1.125rem; }
+  .prose h2 { font-size: 1.625rem; }
   .prose table { display: block; overflow-x: auto; }
 }
 
@@ -83,9 +86,9 @@ button, input { font: inherit; }
 .page-intro p { max-width: 36em; margin: 24px 0 0; color: var(--af-ink-soft); font-size: var(--af-lead); line-height: 1.6; }
 .topic-section { max-width: var(--af-page-max); margin: 0 auto; padding: 32px var(--af-gutter) 56px; scroll-margin-top: 16px; }
 .topic-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1.5px solid var(--af-ink); }
-.topic-heading h2 { margin: 0; font: 750 30px/1.15 var(--af-font-display); font-stretch: var(--af-stretch-h2); }
+.topic-heading h2 { margin: 0; font: 750 1.875rem/1.15 var(--af-font-display); font-stretch: var(--af-stretch-h2); }
 .topic-heading span { color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
-.button-primary { display: inline-block; padding: 14px 22px; border-radius: var(--af-radius); background: var(--af-ink); color: var(--af-paper); font: 600 16px var(--af-font-display); text-decoration: none; }
+.button-primary { display: inline-block; padding: 14px 22px; border-radius: var(--af-radius); background: var(--af-ink); color: var(--af-paper); font: 600 1rem var(--af-font-display); text-decoration: none; }
 .button-primary:hover { background: var(--af-ink-strong); color: var(--af-paper); }
 .not-found { max-width: var(--af-page-max); margin: 0 auto; padding: 96px var(--af-gutter); }
 .not-found h1 { margin: 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); }

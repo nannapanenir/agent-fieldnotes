@@ -149,7 +149,7 @@ const articleSchema = {
   .breadcrumbs a { color: var(--af-muted); }
   .breadcrumbs a:hover { color: var(--af-ink); }
   h1 { margin: 28px 0 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); overflow-wrap: break-word; }
-  .summary { margin: 20px 0 0; color: var(--af-ink-soft); font-size: 21px; line-height: 1.55; }
+  .summary { margin: 20px 0 0; color: var(--af-ink-soft); font-size: 1.3125rem; line-height: 1.55; }
   .meta { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
   .meta-path { color: var(--af-ink); font-weight: 600; }
   .meta-security { color: var(--af-boundary-ink); font-weight: 600; }
@@ -159,12 +159,12 @@ const articleSchema = {
   /* Next in the path: a published sheet card, so the path reads as part of the drawing set. */
   .path-nav { display: flex; flex-direction: column; gap: 16px; margin-top: 64px; padding-top: 32px; border-top: 1.5px solid var(--af-ink); font-family: var(--af-font-display); }
   .path-next { display: flex; flex-direction: column; gap: 6px; padding: 20px 22px; border: 1.5px solid var(--af-ink); background: var(--af-paper-raised); text-decoration: none; }
-  .path-label, .path-previous-label { color: var(--af-muted); font-size: 14px; }
-  .path-title { display: flex; align-items: baseline; gap: 12px; font-weight: 700; font-size: 22px; line-height: 1.25; }
+  .path-label, .path-previous-label { color: var(--af-muted); font-size: 0.875rem; }
+  .path-title { display: flex; align-items: baseline; gap: 12px; font-weight: 700; font-size: 1.375rem; line-height: 1.25; }
   .path-arrow { flex: none; width: 24px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-  .path-meta { color: var(--af-ink-soft); font-size: 15px; }
+  .path-meta { color: var(--af-ink-soft); font-size: 0.9375rem; }
   .path-next:hover .path-title { text-decoration: underline; text-underline-offset: 4px; }
-  .path-previous { display: flex; flex-direction: column; gap: 2px; align-self: flex-start; padding: 6px 0; font-size: 16px; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .path-previous { display: flex; flex-direction: column; gap: 2px; align-self: flex-start; padding: 6px 0; font-size: 1rem; font-weight: 600; line-height: 1.35; text-decoration: none; }
   .path-previous-label { font-weight: 400; }
   .path-previous:hover span:last-child { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -187,7 +187,7 @@ const articleSchema = {
   }
   @media (max-width: 600px) {
     .layout { padding: 40px 20px 0; row-gap: 40px; }
-    .summary { font-size: 19px; }
+    .summary { font-size: 1.1875rem; }
     .divider { margin-top: 40px; }
     .article-body { padding-bottom: 72px; }
   }

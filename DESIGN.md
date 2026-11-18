@@ -48,6 +48,16 @@ typography:
     fontSize: "20px"
     fontWeight: 400
     lineHeight: 1.6
+  section-lead:
+    fontFamily: "'Source Serif 4', Georgia, serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  supporting:
+    fontFamily: "'Source Serif 4', Georgia, serif"
+    fontSize: "1.0625rem"
+    fontWeight: 400
+    lineHeight: 1.55
   body:
     fontFamily: "'Source Serif 4', Georgia, serif"
     fontSize: "19px"
@@ -178,11 +188,15 @@ A restrained navy-and-paper palette where amber has exactly one meaning.
 ### Hierarchy
 - **Display** (800, clamp(40px, 5.4vw, 72px), 1.02, 120% width): Page titles: homepage hero, article and learning-path h1.
 - **Headline** (750, 36px, 1.1, 110% width): Homepage and learning-path section headings. In articles, h2 is 30px with 1.2 line height (26px under 600px).
-- **Title** (700, 20–24px, 1.2–1.3): Card titles, sheet names, stage note titles, article h3 (22px).
+- **Title** (700, 18–24px, 1.2–1.3): Card titles, sheet names, stage note titles, article h3 (22px), names in the footer profile card (18px).
 - **Lead** (400, 20–21px, 1.55–1.6, Soft Ink): Intro paragraphs and article summaries, max about 34–36em.
+- **Section lead** (400, 18px, 1.6, Soft Ink): The serif line under a section heading on the homepage and /learn/ (`--af-section-lead`).
+- **Supporting** (400, 17px, 1.55): Card summaries, the learning-path count, and the footer tagline (`--af-supporting`).
 - **Body** (400, 19px, 1.75): Article text in a 680px column (about 70 characters). 18px under 600px.
 - **Label** (400–700, 13–16px, Archivo): Nav, breadcrumbs, meta lines, sheet labels, table headers (700, 15px), code tabs (600, 14px).
 - **Code** (400, 14px, 1.7, JetBrains Mono): Code blocks; inline code at 0.84em with a ruled chip.
+
+All font sizes are set in rem (16px = 1rem) so a reader's browser text size scales the whole page; sizes above are given in px at the default size. Headings use `text-wrap: balance` and paragraphs `text-wrap: pretty`.
 
 ### Named Rules
 **The Two Voices Rule.** Archivo is the drawing's labelling (headings, navigation, meta, UI). Source Serif 4 is the explanation (body, leads, summaries, captions). Never set running prose in Archivo or UI controls in the serif.

@@ -1,0 +1,448 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T16:48:37.603Z",
+  "title": "Design System: Agent Fieldnotes",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "#EAF0F2",
+        "oklch": "oklch(95.1% 0.007 219.6)",
+        "tonalRamp": [
+          "#0A0C0C",
+          "#212526",
+          "#3C4142",
+          "#595F60",
+          "#7C8183",
+          "#A1A5A7",
+          "#C8CBCC",
+          "#EDEFEF"
+        ]
+      },
+      "paper-raised": {
+        "role": "neutral",
+        "displayName": "Raised Paper",
+        "canonical": "#F2F6F7",
+        "oklch": "oklch(97.0% 0.004 214.3)",
+        "tonalRamp": [
+          "#0A0B0C",
+          "#222425",
+          "#3D4041",
+          "#5B5E5F",
+          "#7D8182",
+          "#A2A5A6",
+          "#C9CBCB",
+          "#EEEEEF"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Drafting Navy",
+        "canonical": "#12304A",
+        "oklch": "oklch(30.0% 0.059 247.5)",
+        "tonalRamp": [
+          "#020C17",
+          "#102639",
+          "#27425C",
+          "#42617E",
+          "#6584A1",
+          "#8DA8C2",
+          "#BBCDDF",
+          "#E9EFF6"
+        ]
+      },
+      "ink-strong": {
+        "role": "primary",
+        "displayName": "Deep Navy",
+        "canonical": "#0A1E30",
+        "oklch": "oklch(22.9% 0.044 248.1)",
+        "tonalRamp": [
+          "#040C14",
+          "#172534",
+          "#2E4254",
+          "#4A6075",
+          "#6D8399",
+          "#94A7BA",
+          "#BFCCD9",
+          "#EAEFF4"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#2C4A62",
+        "oklch": "oklch(39.7% 0.054 243.9)",
+        "tonalRamp": [
+          "#020C16",
+          "#112637",
+          "#274359",
+          "#43617A",
+          "#66849E",
+          "#8EA8BF",
+          "#BBCDDD",
+          "#E9EFF5"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#3F5A70",
+        "oklch": "oklch(45.5% 0.048 243.7)",
+        "tonalRamp": [
+          "#030C15",
+          "#132635",
+          "#2A4356",
+          "#466177",
+          "#69849A",
+          "#90A8BC",
+          "#BDCDDB",
+          "#E9EFF4"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Blue",
+        "canonical": "#9DB3C4",
+        "oklch": "oklch(75.6% 0.035 241.2)",
+        "tonalRamp": [
+          "#050C12",
+          "#182630",
+          "#30424F",
+          "#4C6070",
+          "#6F8393",
+          "#96A7B5",
+          "#C0CCD6",
+          "#EBEFF2"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Grid Blue",
+        "canonical": "#DCE5EA",
+        "oklch": "oklch(91.7% 0.012 231.7)",
+        "tonalRamp": [
+          "#090C0D",
+          "#202528",
+          "#3A4145",
+          "#575F63",
+          "#7A8286",
+          "#9FA6AA",
+          "#C7CBCE",
+          "#EDEFF0"
+        ]
+      },
+      "boundary": {
+        "role": "secondary",
+        "displayName": "Boundary Amber",
+        "canonical": "#B37A06",
+        "oklch": "oklch(62.2% 0.129 75.8)",
+        "tonalRamp": [
+          "#1A0500",
+          "#3E1900",
+          "#633200",
+          "#865000",
+          "#AA7407",
+          "#CA9B55",
+          "#E5C598",
+          "#F8EDDD"
+        ]
+      },
+      "boundary-tag": {
+        "role": "secondary",
+        "displayName": "Boundary Tag Yellow",
+        "canonical": "#F2C14E",
+        "oklch": "oklch(83.4% 0.141 85.4)",
+        "tonalRamp": [
+          "#180600",
+          "#3B1C00",
+          "#5E3600",
+          "#815400",
+          "#A47800",
+          "#C59F48",
+          "#E1C792",
+          "#F7EEDB"
+        ]
+      },
+      "boundary-bg": {
+        "role": "secondary",
+        "displayName": "Boundary Wash",
+        "canonical": "#FFF6DC",
+        "oklch": "oklch(97.3% 0.035 91.1)",
+        "tonalRamp": [
+          "#0E0B04",
+          "#292414",
+          "#463F2C",
+          "#655D47",
+          "#888069",
+          "#ABA491",
+          "#CFCABD",
+          "#F0EEE9"
+        ]
+      },
+      "boundary-ink": {
+        "role": "secondary",
+        "displayName": "Boundary Brown",
+        "canonical": "#6B4A00",
+        "oklch": "oklch(43.4% 0.090 79.3)",
+        "tonalRamp": [
+          "#150800",
+          "#351F00",
+          "#573900",
+          "#785716",
+          "#9C7A40",
+          "#BDA070",
+          "#DCC8A8",
+          "#F5EDE2"
+        ]
+      },
+      "code-bg": {
+        "role": "neutral",
+        "displayName": "Code Navy",
+        "canonical": "#0F2638",
+        "oklch": "oklch(26.0% 0.045 244.4)",
+        "tonalRamp": [
+          "#040C14",
+          "#152634",
+          "#2C4254",
+          "#486175",
+          "#6B8399",
+          "#92A8BA",
+          "#BECDD9",
+          "#EAEFF4"
+        ]
+      },
+      "code-ink": {
+        "role": "neutral",
+        "displayName": "Code Paper",
+        "canonical": "#E4ECF1",
+        "oklch": "oklch(93.8% 0.011 234.8)",
+        "tonalRamp": [
+          "#090C0D",
+          "#202528",
+          "#3B4144",
+          "#585F63",
+          "#7A8186",
+          "#A0A6A9",
+          "#C7CBCE",
+          "#EDEFF0"
+        ]
+      },
+      "footer-ink": {
+        "role": "neutral",
+        "displayName": "Footer Ink",
+        "canonical": "#C9D6E0",
+        "oklch": "oklch(86.9% 0.020 240.8)",
+        "tonalRamp": [
+          "#080C0F",
+          "#1E252B",
+          "#374149",
+          "#545F68",
+          "#77828B",
+          "#9CA6AE",
+          "#C5CCD1",
+          "#ECEFF1"
+        ]
+      },
+      "footer-line": {
+        "role": "neutral",
+        "displayName": "Footer Rule",
+        "canonical": "#2E4F6B",
+        "oklch": "oklch(41.5% 0.061 245.6)",
+        "tonalRamp": [
+          "#020C17",
+          "#0E2639",
+          "#24435C",
+          "#40617E",
+          "#6384A1",
+          "#8CA8C2",
+          "#BACDDF",
+          "#E8EFF6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles (hero, article, learning-path h1)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Homepage and learning-path section headings."
+      },
+      "headline-article": {
+        "displayName": "Article Headline",
+        "purpose": "Article h2."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles, sheet names, note titles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Intro paragraphs and article summaries."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Article reading text at a 680px measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav, breadcrumbs, meta, sheet labels."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Code blocks."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "card-reveal",
+        "value": "opacity .15s ease, transform .15s ease",
+        "purpose": "Footer profile card reveal; disabled under prefers-reduced-motion."
+      },
+      {
+        "name": "scroll",
+        "value": "scroll-behavior: smooth",
+        "purpose": "In-page anchors; auto under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "600px"
+      },
+      {
+        "name": "article-toc",
+        "value": "1040px"
+      },
+      {
+        "name": "min-width",
+        "value": "320px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call to action; one per view.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Start with the basics</a>",
+      "css": ".ds-btn-primary{display:inline-block;padding:14px 22px;border-radius:2px;background:var(--af-ink);color:var(--af-paper);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-primary:hover{background:var(--af-ink-strong)}.ds-btn-primary:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined companion to the primary button.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">See the learning path</a>",
+      "css": ".ds-btn-secondary{display:inline-block;padding:12.5px 22px;border:1.5px solid var(--af-ink);border-radius:2px;color:var(--af-ink);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-secondary:hover{background:var(--af-paper-raised)}.ds-btn-secondary:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "description": "Site name and top-level links; current page bold with a 2px ink underline.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-name\" href=\"#\">Agent Fieldnotes</a><span class=\"ds-nav-links\"><a href=\"#\" aria-current=\"page\">Learning path</a><a href=\"#\">Topics</a><a href=\"#\">Security</a><a href=\"#\">About</a></span></nav>",
+      "css": ".ds-nav{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:20px 0;border-bottom:1px solid var(--af-line);font-family:var(--af-font-display)}.ds-nav a{color:var(--af-ink);text-decoration:none}.ds-nav-name{font-weight:750;font-size:20px;font-stretch:115%}.ds-nav-links{display:flex;gap:28px;font-size:16px}.ds-nav-links a{padding:10px 0}.ds-nav-links a:hover{text-decoration:underline;text-underline-offset:6px}.ds-nav-links a[aria-current=page]{padding-bottom:8px;border-bottom:2px solid var(--af-ink);font-weight:700}.ds-nav a:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+    },
+    {
+      "name": "Tool Chip",
+      "kind": "chip",
+      "description": "Allowed and blocked tool tags in figures.",
+      "html": "<span class=\"ds-chip\">read_file: allowed</span> <span class=\"ds-chip ds-chip-blocked\">send_email: blocked</span>",
+      "css": ".ds-chip{display:inline-block;padding:6px 10px;border:1px solid var(--af-line);background:var(--af-paper);color:var(--af-ink);font:14px var(--af-font-display)}.ds-chip-blocked{border-style:dashed;background:transparent;color:var(--af-muted);text-decoration:line-through}"
+    },
+    {
+      "name": "Start Card",
+      "kind": "card",
+      "refersTo": "card-start",
+      "description": "Topic card; security variant uses the boundary wash.",
+      "html": "<div class=\"ds-cards\"><a class=\"ds-card\" href=\"#\"><span class=\"ds-card-topic\">Architecture</span><span class=\"ds-card-title\">The Agent Loop, Step by Step</span><span class=\"ds-card-sum\">Follow a bounded agent from request to a safe stop.</span></a><a class=\"ds-card ds-card-sec\" href=\"#\"><span class=\"ds-card-topic\">Security</span><span class=\"ds-card-title\">Trust Boundaries for Agent Systems</span><span class=\"ds-card-sum\">Map each trust boundary before adding controls.</span></a></div>",
+      "css": ".ds-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1.5px solid var(--af-ink);background:var(--af-line)}.ds-card{display:flex;flex-direction:column;gap:12px;padding:24px;background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-card-sec{background:var(--af-boundary-bg)}.ds-card-topic{color:var(--af-muted);font:14px var(--af-font-display)}.ds-card-sec .ds-card-topic{color:var(--af-boundary-ink)}.ds-card-title{font:700 24px/1.2 var(--af-font-display)}.ds-card-sum{color:var(--af-ink-soft);font:17px/1.55 var(--af-font-body)}.ds-card:hover .ds-card-title{text-decoration:underline;text-underline-offset:4px}.ds-card:focus-visible{outline:2px solid var(--af-boundary);outline-offset:-4px}"
+    },
+    {
+      "name": "Learning-Path Sheet Card",
+      "kind": "card",
+      "refersTo": "sheet-card",
+      "description": "Stage card; border style encodes status.",
+      "html": "<div class=\"ds-sheets\"><a class=\"ds-sheet\" href=\"#\"><span class=\"ds-sheet-label\">Sheet 3 of 8, published</span><span class=\"ds-sheet-name\">Safe implementation</span></a><span class=\"ds-sheet ds-sheet-planned\"><span class=\"ds-sheet-label\">Sheet 4 of 8, planned</span><span class=\"ds-sheet-name\">Build locally</span></span></div>",
+      "css": ".ds-sheets{display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:var(--af-font-display)}.ds-sheet{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1.5px solid var(--af-ink);background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-sheet-planned{border:1px dashed var(--af-line);background:transparent;color:var(--af-muted)}.ds-sheet-label{color:var(--af-muted);font-size:13px}.ds-sheet-name{font-weight:700;font-size:20px}a.ds-sheet:hover .ds-sheet-name{text-decoration:underline;text-underline-offset:4px}a.ds-sheet:focus-visible{outline:2px solid var(--af-boundary);outline-offset:2px}"
+    },
+    {
+      "name": "Code Tabs",
+      "kind": "custom",
+      "refersTo": "code-tab-selected",
+      "description": "TypeScript/Python tabs joined to a dark code block.",
+      "html": "<div class=\"ds-tabs\"><div class=\"ds-tablist\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">TypeScript</button><button role=\"tab\" aria-selected=\"false\">Python</button></div><pre class=\"ds-pre\">const result = await runAgent(request);</pre></div>",
+      "css": ".ds-tablist{display:flex;border:1px solid var(--af-ink);border-bottom:0;border-radius:2px 2px 0 0;background:var(--af-paper-raised)}.ds-tablist button{margin:0;padding:10px 16px;border:0;border-right:1px solid var(--af-line);background:transparent;color:var(--af-ink-soft);font:600 14px var(--af-font-display);cursor:pointer}.ds-tablist button:hover{color:var(--af-ink)}.ds-tablist button[aria-selected=true]{background:var(--af-code-bg);color:var(--af-code-ink)}.ds-tablist button:focus-visible{outline:2px solid var(--af-boundary);outline-offset:-2px}.ds-pre{margin:0;padding:20px;border-radius:0 0 2px 2px;background:var(--af-code-bg);color:var(--af-code-ink);font:14px/1.7 var(--af-font-code)}"
+    },
+    {
+      "name": "Permission Boundary",
+      "kind": "custom",
+      "refersTo": "boundary-tag",
+      "description": "Dashed amber boundary with a label tab on a drafting-grid sheet.",
+      "html": "<div class=\"ds-grid-sheet\"><div class=\"ds-boundary\"><span class=\"ds-boundary-tag\">Permission boundary</span><div class=\"ds-step\"><span>Step 3</span><b>Check</b></div></div></div>",
+      "css": ".ds-grid-sheet{padding:40px 28px 28px;border:1px solid var(--af-line);background-color:var(--af-paper-raised);background-image:linear-gradient(var(--af-grid) 1px,transparent 1px),linear-gradient(90deg,var(--af-grid) 1px,transparent 1px);background-size:24px 24px;font-family:var(--af-font-display)}.ds-boundary{position:relative;padding:36px 24px 24px;border:2px dashed var(--af-boundary)}.ds-boundary-tag{position:absolute;top:-14px;left:18px;padding:4px 10px;background:var(--af-boundary-tag);color:var(--af-ink);font-weight:700;font-size:13px}.ds-step{display:flex;flex-direction:column;max-width:200px;padding:14px 16px;border:2px solid var(--af-boundary);background:var(--af-boundary-bg);color:var(--af-ink)}.ds-step span{color:var(--af-boundary-ink);font-size:13px}.ds-step b{font-size:20px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineer's Drafting Sheet",
+    "overview": "Every page is a technical drawing on cool paper. Navy ink draws the type, the rules and the frames; a pale blue-grey line does the quiet structural work; and one amber colour marks the edge of what an agent is allowed to touch. The learning path is a set of numbered sheets (\"Sheet 3 of 8\"), figures carry numbered captions, and diagrams sit on a drafting grid. The look serves the site's argument: security is drawn into the picture from the start, and the boundary is always visible.\n\nThe system is flat and precise. There are no shadows, gradients or soft corners. Depth comes from paper tone (paper vs. raised paper), line weight (1px structural, 1.5px emphatic, 2px boundary) and dash style (solid means \"exists\", dashed means \"boundary\", \"in progress\" or \"not yet\"). Typography does the expressive work: a wide, heavy Archivo for headings against a calm Source Serif 4 reading text.\n\nReading comes first. Article pages hold a 680px column of serif text with a sticky table of contents. Long code samples sit in dark navy blocks with TypeScript/Python tabs, and diagrams sit in ruled frames.",
+    "keyCharacteristics": [
+      "Navy ink on cool blue-grey paper; a single amber accent reserved for security boundaries.",
+      "Wide, heavy grotesk headings (Archivo, 110–120% width) over a serif reading face.",
+      "Flat surfaces; hierarchy from tone, line weight and dash style.",
+      "Near-square 2px corners everywhere.",
+      "Drafting vocabulary in the copy and the forms: sheets, figures, grids, numbered steps."
+    ],
+    "rules": [
+      {
+        "name": "The One Meaning Rule",
+        "body": "Amber means \"security boundary\" and nothing else. It marks dashed boundary lines, boundary labels, security cards, security links and the focus ring. Never use it for emphasis, warnings, highlights or decoration. This applies to diagrams as well as pages.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Carries Meaning Rule",
+        "body": "If a line or border is the only thing communicating a state or a grouping, draw it in ink or amber, never in Rule Blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Archivo is the drawing's labelling (headings, navigation, meta, UI). Source Serif 4 is the explanation (body, leads, summaries, captions). Never set running prose in Archivo or UI controls in the serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The Width Is the Weight Rule",
+        "body": "Display headings get their presence from width (`font-stretch` 110–120%) and weight 750–800, not from size beyond 72px or from colour.",
+        "section": "typography"
+      },
+      {
+        "name": "The Line Weight Rule",
+        "body": "Hierarchy is drawn, not lifted. Use 1px Rule Blue for structure, 1.5px ink for emphasis and selection, and 2px for boundaries. Don't add shadows, glows or blur.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Dash Means Something Rule",
+        "body": "A solid line means \"exists\" or \"published\". A dashed amber line means \"security boundary\". A dashed ink or Rule Blue line means \"in progress\", \"planned\" or \"blocked\". Never use dashes as decoration.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use every colour through its `--af-*` custom property in `src/styles/tokens.css`; never hard-code hex values in components.",
+      "Do keep article text at the 680px measure and 19px Source Serif 4 with 1.75 line height.",
+      "Do draw every new diagram in the site palette: Cool Paper or Raised Paper ground, Drafting Navy lines and text, Grid Blue grid, and amber only for boundaries. Number markers so they match the table or steps in the text.",
+      "Do give every diagram a text equivalent (a `<title>`/`<desc>`, plus a table or numbered list when the diagram carries steps).",
+      "Do keep focus visible with the 2px amber outline, and honour `prefers-reduced-motion`.",
+      "Do keep text at WCAG 2.2 AA contrast: use ink, Soft Ink or Muted Ink on paper, and Boundary Brown on Boundary Wash."
+    ],
+    "donts": [
+      "Don't use amber for anything except security boundaries (The One Meaning Rule).",
+      "Don't add shadows, gradients, glows, blur or rounded corners above 2px.",
+      "Don't use Rule Blue or Boundary Amber for text; they fail text contrast.",
+      "Don't set body prose in Archivo or headings in the serif.",
+      "Don't copy the old diagram palette (near-black olive `#171a16`, off-white `#f0f0e8`, mint `#9ce6db`, lime `#c7f36b`) into new work. See Known Drift."
+    ]
+  }
+}

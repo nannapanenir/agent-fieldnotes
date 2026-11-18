@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="640" viewBox="0 0 760 640" role="img" aria-labelledby="title desc">
+  <title id="title">From local code to a running hosted-agent session, and which identity does each job</title>
+  <desc id="desc">Three areas. Your machine holds the agent source (hosted/main.py with the Stage 4 and Stage 7 code, requirements.txt, and azure.yaml) and the Azure Developer CLI, signed in as you with Foundry Project Manager. The Foundry project holds the agent version shipment-hosted with its dedicated agent identity, the project managed identity, and a session sandbox, VM-isolated, one per session, running your code. The Foundry resource level holds the Claude deployment, reached at the resource's anthropic endpoint. Step 1: azd ai agent init creates azure.yaml for the source. Step 2: azd provision creates the project resources. Step 3: azd ai agent run tests the agent locally. Step 4: azd deploy uploads the source; Foundry builds the image, creates an agent version and its agent identity, and the project managed identity pulls the image. Step 5: you grant roles: Foundry User on the Foundry resource to the agent identity, so it can call Claude, and Foundry Agent Consumer on the agent to your application's identity. Step 6: your application, after signing the customer in, sends a request with the customer ID in metadata; the platform starts a session sandbox; the code calls Claude with the agent identity and runs read tools against your records. Step 7: verify with azd ai agent invoke and monitor, and with traces. Step 8: azd down removes the resources.</desc>
+  <!--
+    Hand-authored source. Colors follow src/layouts/SiteLayout.astro.
+    Numbered badges 1 to 8 match the tutorial steps. Arrows carry no labels.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .big { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .num { font: 600 12px 'DM Mono', ui-monospace, monospace; fill: #171a16; }
+      .zone { fill: #1b1f19; stroke: #a4a99f; stroke-width: 1; }
+      .app { fill: #232822; stroke: #c7f36b; stroke-width: 1.6; }
+      .box { fill: #232822; stroke: #a4a99f; stroke-width: 1.2; }
+      .idn { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.4; }
+      .badge { fill: #c7f36b; stroke: #171a16; stroke-width: 2; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="640" fill="#171a16"/>
+
+  <rect class="zone" x="20" y="20" width="230" height="520" rx="6"/>
+  <text class="big" x="36" y="46">Your machine</text>
+  <rect class="zone" x="270" y="20" width="290" height="520" rx="6"/>
+  <text class="big" x="286" y="46">Foundry project</text>
+  <rect class="zone" x="580" y="20" width="160" height="520" rx="6"/>
+  <text class="big" x="596" y="46">Resource level</text>
+
+  <!-- Left -->
+  <rect class="app" x="34" y="64" width="202" height="96" rx="3"/>
+  <text class="head" x="48" y="86">Code: agent source</text>
+  <text class="chk" x="48" y="106">hosted/main.py</text>
+  <text class="chk" x="48" y="123">agent/ (Stage 4, 7)</text>
+  <text class="chk" x="48" y="140">requirements, azure.yaml</text>
+  <rect class="idn" x="34" y="190" width="202" height="62" rx="3"/>
+  <text class="head" x="48" y="212">azd, signed in as you</text>
+  <text class="ucy" x="48" y="230">Foundry Project</text>
+  <text class="ucy" x="48" y="245">Manager</text>
+  <rect class="idn" x="34" y="380" width="202" height="78" rx="3"/>
+  <text class="head" x="48" y="402">Your application</text>
+  <text class="ucy" x="48" y="420">Foundry Agent Consumer</text>
+  <text class="sub" x="48" y="438">signs the customer in,</text>
+  <text class="sub" x="48" y="452">sends customer_id</text>
+
+  <!-- Middle -->
+  <rect class="box" x="284" y="64" width="262" height="62" rx="3"/>
+  <text class="head" x="298" y="86">Agent: shipment-hosted</text>
+  <text class="sub" x="298" y="104">versions 1, 2, ...; endpoint</text>
+  <text class="sub" x="298" y="118">protocol: responses</text>
+  <rect class="idn" x="284" y="146" width="262" height="46" rx="3"/>
+  <text class="head" x="298" y="166">Agent identity</text>
+  <text class="ucy" x="298" y="183">one per agent, used at run time</text>
+  <rect class="idn" x="284" y="212" width="262" height="46" rx="3"/>
+  <text class="head" x="298" y="232">Project managed identity</text>
+  <text class="ucy" x="298" y="249">platform jobs, such as image pulls</text>
+  <rect class="app" x="284" y="300" width="262" height="110" rx="3"/>
+  <text class="head" x="298" y="322">Session sandbox</text>
+  <text class="chk" x="298" y="341">VM-isolated, one per session</text>
+  <text class="chk" x="298" y="359">your code: budgets, breaker,</text>
+  <text class="chk" x="298" y="377">ownership check, read tools</text>
+  <text class="sub" x="298" y="397">$HOME persists across idle</text>
+  <rect class="box" x="284" y="440" width="262" height="46" rx="3"/>
+  <text class="head" x="298" y="460">Your records and carrier</text>
+  <text class="sub" x="298" y="477">reached only by your code</text>
+
+  <!-- Right -->
+  <rect class="box" x="594" y="300" width="132" height="78" rx="3"/>
+  <text class="head" x="606" y="322">Claude</text>
+  <text class="head" x="606" y="340">deployment</text>
+  <text class="sub" x="606" y="360">/anthropic</text>
+
+  <!-- 1 init -->
+  <circle class="badge" cx="222" cy="42" r="11"/><text class="num" x="222" y="46" text-anchor="middle">1</text>
+  <!-- 2 provision, 4 deploy -->
+  <line class="step" x1="236" y1="205" x2="282" y2="100" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="259" cy="152" r="11"/><text class="num" x="259" y="156" text-anchor="middle">4</text>
+  <line class="step" x1="236" y1="236" x2="282" y2="236" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="259" cy="236" r="11"/><text class="num" x="259" y="240" text-anchor="middle">2</text>
+  <!-- 3 local run -->
+  <line class="step" x1="135" y1="190" x2="135" y2="162" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="135" cy="176" r="11"/><text class="num" x="135" y="180" text-anchor="middle">3</text>
+  <!-- 5 grant roles -->
+  <polyline class="step" points="200,252 200,280 660,280 660,298" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="430" cy="280" r="11"/><text class="num" x="430" y="284" text-anchor="middle">5</text>
+  <!-- 6 invoke -->
+  <line class="step" x1="236" y1="410" x2="282" y2="370" marker-end="url(#arrow)"/>
+  <circle class="badge" cx="259" cy="390" r="11"/><text class="num" x="259" y="394" text-anchor="middle">6</text>
+  <line class="step" x1="546" y1="339" x2="592" y2="339" marker-end="url(#arrow)"/>
+  <line class="step" x1="415" y1="410" x2="415" y2="438" marker-end="url(#arrow)"/>
+
+  <!-- 7 and 8 -->
+  <rect class="box" x="34" y="478" width="202" height="46" rx="3"/>
+  <circle class="badge" cx="52" cy="501" r="10"/><text class="num" x="52" y="505" text-anchor="middle">7</text>
+  <text class="lbl" x="68" y="497">invoke, monitor,</text>
+  <text class="lbl" x="68" y="513">traces</text>
+  <circle class="badge" cx="182" cy="501" r="10"/><text class="num" x="182" y="505" text-anchor="middle">8</text>
+  <text class="lbl" x="196" y="505">down</text>
+
+  <!-- Legend -->
+  <rect x="20" y="556" width="720" height="70" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <circle class="badge" cx="42" cy="578" r="10"/><text class="num" x="42" y="582" text-anchor="middle">1</text>
+  <text class="lbl" x="60" y="582">numbers match the tutorial steps</text>
+  <rect class="app" x="300" y="570" width="28" height="16" rx="2"/>
+  <text class="lbl" x="338" y="582">Code: your code</text>
+  <rect class="idn" x="500" y="570" width="28" height="16" rx="2"/>
+  <text class="lbl" x="538" y="582">identity, with its role</text>
+  <rect class="box" x="32" y="598" width="28" height="16" rx="2"/>
+  <text class="lbl" x="70" y="610">resource or record</text>
+  <rect class="zone" x="300" y="598" width="28" height="16" rx="2"/>
+  <text class="lbl" x="338" y="610">where it lives</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">The shipment agent in an internal Azure Container Apps environment</title>
+  <desc id="desc">Network diagram. Your virtual network holds three subnets. The Container Apps environment subnet, /27 or larger with workload profiles, holds an internal environment with no public endpoint; its virtual IP is an internal load balancer address, and the shipment agent app runs there. A front-end subnet holds an optional Application Gateway with a web application firewall, which is the only public entry point and forwards to the internal environment. The private endpoint subnet holds private endpoints for the Foundry resource with the Claude deployment, Key Vault, and the container registry. Private DNS zones linked to the network resolve the environment's domain and each service to private addresses. Outbound traffic from the environment goes through your firewall or NAT gateway by a user-defined route, and only approved destinations such as the carrier API are allowed.</desc>
+  <!--
+    Hand-authored source. Colors follow src/layouts/SiteLayout.astro.
+    Meaning is in text; dashed box = outside your network.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .big { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .vnet { fill: #1b1f19; stroke: #c7f36b; stroke-width: 1.6; }
+      .subnet { fill: #232822; stroke: #a4a99f; stroke-width: 1.1; }
+      .box { fill: #2a3028; stroke: #a4a99f; stroke-width: 1; }
+      .ext { fill: #1d211b; stroke: #a4a99f; stroke-width: 1.2; stroke-dasharray: 6 4; }
+      .dns { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; }
+      .step { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="520" fill="#171a16"/>
+
+  <rect class="ext" x="110" y="20" width="200" height="60" rx="4"/>
+  <text class="head" x="124" y="44">Customers</text>
+  <text class="sub" x="124" y="62">public internet</text>
+
+  <rect class="vnet" x="20" y="100" width="720" height="300" rx="6"/>
+  <text class="big" x="36" y="124">Your virtual network</text>
+
+  <rect class="subnet" x="36" y="138" width="200" height="100" rx="4"/>
+  <text class="head" x="50" y="158">Front-end subnet</text>
+  <rect class="box" x="50" y="170" width="172" height="54" rx="3"/>
+  <text class="lbl" x="62" y="190">Application Gateway</text>
+  <text class="sub" x="62" y="208">with WAF, optional</text>
+
+  <rect class="subnet" x="252" y="138" width="230" height="160" rx="4"/>
+  <text class="head" x="266" y="158">Container Apps subnet</text>
+  <text class="chk" x="266" y="176">internal environment, /27+</text>
+  <text class="chk" x="266" y="192">no public endpoint</text>
+  <rect class="box" x="266" y="204" width="202" height="80" rx="3"/>
+  <text class="lbl" x="278" y="224">Shipment agent app</text>
+  <text class="sub" x="278" y="242">internal load balancer IP</text>
+  <text class="sub" x="278" y="258">managed identity</text>
+  <text class="sub" x="278" y="274">auth on ingress</text>
+
+  <rect class="subnet" x="498" y="138" width="226" height="160" rx="4"/>
+  <text class="head" x="512" y="158">Private endpoint subnet</text>
+  <rect class="box" x="512" y="170" width="198" height="34" rx="3"/><text class="lbl" x="524" y="192">PE: Foundry (Claude)</text>
+  <rect class="box" x="512" y="212" width="198" height="34" rx="3"/><text class="lbl" x="524" y="234">PE: Key Vault</text>
+  <rect class="box" x="512" y="254" width="198" height="34" rx="3"/><text class="lbl" x="524" y="276">PE: registry</text>
+
+  <rect class="dns" x="36" y="252" width="200" height="132" rx="4"/>
+  <text class="head" x="50" y="274">Private DNS zones</text>
+  <text class="ucy" x="50" y="294">linked to this network</text>
+  <text class="sub" x="50" y="314">environment domain and</text>
+  <text class="sub" x="50" y="330">each service resolve to</text>
+  <text class="sub" x="50" y="346">private addresses; zones</text>
+  <text class="sub" x="50" y="362">listed in the table below</text>
+
+  <rect class="ext" x="252" y="420" width="230" height="70" rx="4"/>
+  <text class="head" x="266" y="442">Your firewall or NAT</text>
+  <text class="sub" x="266" y="460">user-defined route; allows</text>
+  <text class="sub" x="266" y="476">only approved destinations</text>
+  <rect class="ext" x="510" y="420" width="214" height="70" rx="4"/>
+  <text class="head" x="524" y="442">Carrier API</text>
+  <text class="sub" x="524" y="460">an approved outbound</text>
+  <text class="sub" x="524" y="476">destination</text>
+
+  <line class="step" x1="205" y1="80" x2="205" y2="168" marker-end="url(#arrow)"/>
+  <line class="step" x1="222" y1="200" x2="264" y2="230" marker-end="url(#arrow)"/>
+  <line class="step" x1="468" y1="240" x2="510" y2="200" marker-end="url(#arrow)"/>
+  <line class="step" x1="367" y1="298" x2="367" y2="418" marker-end="url(#arrow)"/>
+  <line class="step" x1="482" y1="455" x2="508" y2="455" marker-end="url(#arrow)"/>
+
+  </svg>

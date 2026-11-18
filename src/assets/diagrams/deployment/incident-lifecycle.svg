@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">The incident lifecycle for an agent, and the containment options</title>
+  <desc id="desc">Flowchart. Detect: an alert fires or someone reports a problem. Triage: the on-call owner decides the severity and opens an incident. Contain, with four options from least to most disruptive: switch the agent to read_only so it can't take actions; disable the agent's endpoint or set the kill switch to off; revoke credentials or role assignments it holds; roll back to the previous version. Investigate: use traces, logs, tool calls, and approval records to find what happened and which customers were affected. Recover: restore service with a fix that has been through the release gates. Follow up: add the threat to the threat register, a test case to the evaluation suite, and an alert rule if one was missing. A dashed arrow from follow-up back to detect shows that each incident improves detection.</desc>
+  <!--
+    Hand-authored source. Colors follow src/layouts/SiteLayout.astro.
+    Solid arrows = the order of the phases; the dashed arrow = lessons feeding back into detection.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <marker id="arrow-acid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c7f36b"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .box { fill: #232822; stroke: #a4a99f; stroke-width: 1.2; }
+      .contain { fill: #1d211b; stroke: #c7f36b; stroke-width: 1.6; }
+      .opt { fill: #2a3028; stroke: #a4a99f; stroke-width: 1; }
+      .step { stroke: #f0f0e8; stroke-width: 1.4; fill: none; }
+      .back { stroke: #c7f36b; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect width="760" height="520" fill="#171a16"/>
+
+  <rect class="box" x="20" y="20" width="200" height="62" rx="3"/>
+  <text class="head" x="34" y="42">1. Detect</text>
+  <text class="sub" x="34" y="62">alert fires, or a report</text>
+  <line class="step" x1="220" y1="51" x2="268" y2="51" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="270" y="20" width="200" height="62" rx="3"/>
+  <text class="head" x="284" y="42">2. Triage</text>
+  <text class="sub" x="284" y="62">owner sets severity</text>
+  <line class="step" x1="370" y1="82" x2="370" y2="108" marker-end="url(#arrow)"/>
+
+  <rect class="contain" x="20" y="110" width="720" height="150" rx="4"/>
+  <text class="head" x="36" y="134">3. Contain: least to most disruptive</text>
+  <rect class="opt" x="36" y="148" width="164" height="96" rx="3"/>
+  <text class="lbl" x="48" y="170">a. read_only</text>
+  <text class="sub" x="48" y="190">answers still work,</text>
+  <text class="sub" x="48" y="206">no actions run</text>
+  <rect class="opt" x="212" y="148" width="164" height="96" rx="3"/>
+  <text class="lbl" x="224" y="170">b. Disable / off</text>
+  <text class="sub" x="224" y="190">endpoint rejects</text>
+  <text class="sub" x="224" y="206">all requests</text>
+  <rect class="opt" x="388" y="148" width="164" height="96" rx="3"/>
+  <text class="lbl" x="400" y="170">c. Revoke access</text>
+  <text class="sub" x="400" y="190">remove roles,</text>
+  <text class="sub" x="400" y="206">rotate keys</text>
+  <rect class="opt" x="564" y="148" width="160" height="96" rx="3"/>
+  <text class="lbl" x="576" y="170">d. Roll back</text>
+  <text class="sub" x="576" y="190">previous version</text>
+  <text class="sub" x="576" y="206">and config</text>
+  <line class="step" x1="370" y1="260" x2="370" y2="286" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="270" y="288" width="200" height="62" rx="3"/>
+  <text class="head" x="284" y="310">4. Investigate</text>
+  <text class="sub" x="284" y="330">traces, logs, approvals</text>
+  <line class="step" x1="470" y1="319" x2="518" y2="319" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="520" y="288" width="220" height="62" rx="3"/>
+  <text class="head" x="534" y="310">5. Recover</text>
+  <text class="sub" x="534" y="330">fix through the gates</text>
+  <line class="step" x1="630" y1="350" x2="630" y2="376" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="400" y="378" width="340" height="78" rx="3"/>
+  <text class="head" x="414" y="400">6. Follow up</text>
+  <text class="chk" x="414" y="420">threat register row, eval case,</text>
+  <text class="chk" x="414" y="436">alert rule if one was missing</text>
+  <polyline class="back" points="400,417 10,417 10,51 18,51" marker-end="url(#arrow-acid)"/>
+
+  <rect x="20" y="474" width="720" height="34" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <line class="step" x1="36" y1="491" x2="76" y2="491" marker-end="url(#arrow)"/><text class="lbl" x="86" y="495">next phase</text>
+  <line class="back" x1="200" y1="491" x2="240" y2="491" marker-end="url(#arrow-acid)"/><text class="lbl" x="250" y="495">lessons feed back into detection</text>
+</svg>

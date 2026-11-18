@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="580" viewBox="0 0 760 580" role="img" aria-labelledby="title desc">
+  <title id="title">Who holds which role, at which scope, for the shipment agent as a hosted agent</title>
+  <desc id="desc">Three columns: principal, role, and scope, with an arrow from each principal to its role and from the role to its scope. 1. Developer (human) holds Foundry User on Foundry project. 2. Release pipeline (workload identity) holds Foundry Project Manager on Foundry project. 3. Chat application (managed identity) holds Foundry Agent Consumer on one agent: shipment-hosted. 4. shipment-hosted (agent identity) holds Foundry User on Foundry resource (Claude). 5. shipment-hosted (agent identity) holds Shipments.Read app role on your shipment API. 6. Project identity (managed identity) holds Container Registry Repository Reader on container registry. 7. Project identity (managed identity) holds Log Analytics Data Reader on Log Analytics workspace. 8. Administrator (human, just in time) holds Role Based Access Control Administrator on resource group. Every principal type is written in text: human, workload identity, managed identity, or agent identity.</desc>
+  <!-- Hand-authored source (generated once by a script, then kept as the source). Colors follow src/layouts/SiteLayout.astro. Principal types are written in text, not shown by color. -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 14px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .name { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .type { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .role { font: 500 11.5px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .scope { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .p { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; }
+      .r { fill: #232822; stroke: #c7f36b; stroke-width: 1.4; }
+      .s { fill: #232822; stroke: #a4a99f; stroke-width: 1.2; }
+      .step { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="580" fill="#171a16"/>
+  <text class="head" x="135" y="56" text-anchor="middle">Principal (type)</text>
+  <text class="head" x="390" y="56" text-anchor="middle">Role</text>
+  <text class="head" x="630" y="56" text-anchor="middle">Scope</text>
+  <rect class="p" x="20" y="78" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="95">Developer</text>
+  <text class="type" x="32" y="111">human</text>
+  <line class="step" x1="250" y1="99.0" x2="288" y2="99.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="78" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="103" text-anchor="middle">Foundry User</text>
+  <line class="step" x1="490" y1="99.0" x2="518" y2="99.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="78" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="103">Foundry project</text>
+  <rect class="p" x="20" y="130" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="147">Release pipeline</text>
+  <text class="type" x="32" y="163">workload identity</text>
+  <line class="step" x1="250" y1="151.0" x2="288" y2="151.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="130" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="155" text-anchor="middle">Foundry Project Manager</text>
+  <line class="step" x1="490" y1="151.0" x2="518" y2="151.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="130" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="155">Foundry project</text>
+  <rect class="p" x="20" y="182" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="199">Chat application</text>
+  <text class="type" x="32" y="215">managed identity</text>
+  <line class="step" x1="250" y1="203.0" x2="288" y2="203.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="182" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="207" text-anchor="middle">Foundry Agent Consumer</text>
+  <line class="step" x1="490" y1="203.0" x2="518" y2="203.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="182" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="207">one agent: shipment-hosted</text>
+  <rect class="p" x="20" y="234" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="251">shipment-hosted</text>
+  <text class="type" x="32" y="267">agent identity</text>
+  <line class="step" x1="250" y1="255.0" x2="288" y2="255.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="234" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="259" text-anchor="middle">Foundry User</text>
+  <line class="step" x1="490" y1="255.0" x2="518" y2="255.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="234" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="259">Foundry resource (Claude)</text>
+  <rect class="p" x="20" y="286" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="303">shipment-hosted</text>
+  <text class="type" x="32" y="319">agent identity</text>
+  <line class="step" x1="250" y1="307.0" x2="288" y2="307.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="286" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="311" text-anchor="middle">Shipments.Read app role</text>
+  <line class="step" x1="490" y1="307.0" x2="518" y2="307.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="286" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="311">your shipment API</text>
+  <rect class="p" x="20" y="338" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="355">Project identity</text>
+  <text class="type" x="32" y="371">managed identity</text>
+  <line class="step" x1="250" y1="359.0" x2="288" y2="359.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="338" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="356" text-anchor="middle">Container Registry</text>
+  <text class="role" x="390" y="370" text-anchor="middle">Repository Reader</text>
+  <line class="step" x1="490" y1="359.0" x2="518" y2="359.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="338" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="363">container registry</text>
+  <rect class="p" x="20" y="390" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="407">Project identity</text>
+  <text class="type" x="32" y="423">managed identity</text>
+  <line class="step" x1="250" y1="411.0" x2="288" y2="411.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="390" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="415" text-anchor="middle">Log Analytics Data Reader</text>
+  <line class="step" x1="490" y1="411.0" x2="518" y2="411.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="390" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="415">Log Analytics workspace</text>
+  <rect class="p" x="20" y="442" width="230" height="42" rx="3"/>
+  <text class="name" x="32" y="459">Administrator</text>
+  <text class="type" x="32" y="475">human, just in time</text>
+  <line class="step" x1="250" y1="463.0" x2="288" y2="463.0" marker-end="url(#arrow)"/>
+  <rect class="r" x="290" y="442" width="200" height="42" rx="3"/>
+  <text class="role" x="390" y="460" text-anchor="middle">Role Based Access Control</text>
+  <text class="role" x="390" y="474" text-anchor="middle">Administrator</text>
+  <line class="step" x1="490" y1="463.0" x2="518" y2="463.0" marker-end="url(#arrow)"/>
+  <rect class="s" x="520" y="442" width="220" height="42" rx="3"/>
+  <text class="scope" x="532" y="467">resource group</text>
+  <rect x="20" y="508" width="720" height="58" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <rect class="p" x="38" y="520" width="28" height="14" rx="2"/><text class="lbl" x="76" y="532">principal, with its type in text</text>
+  <rect class="r" x="320" y="520" width="28" height="14" rx="2"/><text class="lbl" x="358" y="532">role it holds</text>
+  <rect class="s" x="520" y="520" width="28" height="14" rx="2"/><text class="lbl" x="558" y="532">scope of that role</text>
+  <text class="lbl" x="38" y="554">Read each row left to right: who, what they may do, and where. The table in the article is the full text equivalent.</text>
+</svg>

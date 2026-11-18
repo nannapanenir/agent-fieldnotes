@@ -31,22 +31,22 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 5 | security/evaluating-agent-security.md | published | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
 | 6 | frameworks/framework-comparison-by-use-case.md | published | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
-| 7 | deployment/reliability-cost-and-runaway-loops.md | in PR | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
-| 7 | deployment/deploying-an-agent.md | in PR | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
-| 8 | deployment/what-is-microsoft-foundry.md | next | New in the Foundry track. |
-| 8 | deployment/choose-an-azure-agent-hosting-option.md | planned | Now also covers Azure Container Apps. |
-| 8 | deployment/foundry-models.md | planned | New. |
-| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |
-| 8 | deployment/deploy-a-hosted-agent-to-foundry.md | planned | Recheck supported SDKs and languages. |
-| 8 | deployment/microsoft-agent-framework-basics.md | planned | New. |
-| 8 | deployment/foundry-tools.md | planned | New. |
-| 8 | deployment/foundry-iq.md | planned | New. |
-| 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | planned | |
-| 8 | deployment/foundry-guardrails-and-content-safety.md | planned | New. |
-| 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | planned | New. |
-| 8 | deployment/azure-networking-and-private-access.md | planned | |
-| 8 | deployment/monitor-version-and-roll-back-an-azure-agent.md | planned | |
-| 8 | deployment/monitoring-and-incident-response.md | planned | |
+| 7 | deployment/reliability-cost-and-runaway-loops.md | published | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
+| 7 | deployment/deploying-an-agent.md | published | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
+| 8 | deployment/what-is-microsoft-foundry.md | in PR | Adds deployment/foundry-five-parts.svg. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/choose-an-azure-agent-hosting-option.md | in PR | Adds deployment/hosting-responsibility.svg and deployment/hosting-decision.svg; comparison table is the text equivalent. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-models.md | in PR | No diagram (the brief has no visual plan; the deployment-type table carries it). Adds foundryCreateMessage / foundry_create_message in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | in PR | Adds deployment/prompt-agent-flow.svg (markers 1 to 8 match the steps). Uses gpt-5-mini: Agent Service lists no Claude models on 2026-11-18. Function tools run client-side through the Stage 4 runner. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/deploy-a-hosted-agent-to-foundry.md | in PR | Adds deployment/hosted-agent-flow.svg (markers 1 to 8 match the steps). Container code is Python only: hosting protocol libraries exist for Python and .NET, not TypeScript, on 2026-11-18; the client is TypeScript and Python. Calls Claude through the agent identity. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/microsoft-agent-framework-basics.md | in PR | No diagram (no visual plan in the brief; the orchestration table maps to orchestration-patterns). Python only: Agent Framework ships for .NET, Python, and Go, not TypeScript. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-tools.md | in PR | No diagram (no visual plan in the brief); the tool-kind and choice tables carry it. Adds an MCP tool definition (allowed_tools, per-tool require_approval, project connection) in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-iq.md | in PR | No diagram or code (no visual plan in the brief). Concept article: knowledge bases, agentic retrieval, query-time permissions, network boundaries, ASI06. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | in PR | Adds deployment/agent-identity-roles.svg (principal, role, scope; principal types in text); the table covers all three hosting options. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-guardrails-and-content-safety.md | in PR | No diagram or code (no visual plan in the brief); risk, intervention-point, and control tables carry it. Describes guardrails as a mitigation layer. Agent guardrails in preview on 2026-11-18. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | in PR | No diagram or code (no visual plan in the brief). States GA vs preview on 2026-11-18: tracing GA (workflow agents preview), evaluations GA with preview evaluators, red teaming GA, monitoring preview. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/azure-networking-and-private-access.md | in PR | Adds deployment/foundry-private-network.svg and deployment/container-apps-internal-network.svg; DNS zone table. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/monitor-version-and-roll-back-an-azure-agent.md | in PR | Adds deployment/agent-trace-anatomy.svg and deployment/agent-rollout.svg. Foundry endpoints route 100% to one version (no split, per Learn 2026-11-18); cohort routing in TypeScript and Python; Container Apps revision weights. Also fixes the hosted-agent tutorial's agent identity lookup. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/monitoring-and-incident-response.md | in PR | Adds deployment/incident-lifecycle.svg; the runbook stays a numbered Markdown list. Last article in Stage 8. Checked against Microsoft Learn 2026-11-18. |
 
 ## Writing rules
 
@@ -55,7 +55,7 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 
 ## Stage 8 notes (Microsoft Foundry)
 
-Stage 8 is a 14-article Microsoft Foundry track. Open decision for the user: keep these under the Deployment topic with a `foundry` tag (recommended, no code change), or add a Foundry topic to `src/content.config.ts`. Ask before starting Stage 8. Foundry changes monthly: recheck Microsoft Learn on the day you write each article and state the date checked. Microsoft's docs currently disagree on agent types, and visual workflows are documented as retiring on December 1, 2026.
+Stage 8 is a 14-article Microsoft Foundry track. Decided 2026-11-18: these articles use `topic: Deployment`, `stage: 8` (the Microsoft Foundry stage on the learning path), and the `foundry` tag. No code change. Foundry changes monthly: recheck Microsoft Learn on the day you write each article and state the date checked. Microsoft's docs currently disagree on agent types, and visual workflows are documented as retiring on December 1, 2026.
 
 New articles in this stage, in reading order alongside the existing entries below:
 

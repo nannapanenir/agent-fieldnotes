@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="600" viewBox="0 0 760 600" role="img" aria-labelledby="title desc">
+  <title id="title">Foundry Standard Setup with private networking</title>
+  <desc id="desc">Network diagram. Your virtual network has two subnets. The agent subnet, delegated to Microsoft.App/environments and /27 or larger, holds the agent client and hosted-agent sessions injected by Foundry. The private endpoint subnet holds private endpoints for the Foundry resource, Foundry IQ, Azure Storage, and Azure Cosmos DB, and optionally the container registry and Key Vault. Private DNS zones linked to the virtual network resolve each service name to its private endpoint. Outside the virtual network, the Foundry resource, Foundry IQ, Storage, and Cosmos DB all have public network access disabled, so requests from the internet are rejected. Your application reaches the Foundry project through the private endpoint, from inside the virtual network or from a peered network, VPN, or ExpressRoute. Outbound traffic from the agent subnet goes through your firewall, which allows only approved destinations, including the Microsoft Entra sign-in endpoints the agent needs.</desc>
+  <!--
+    Hand-authored source. Colors follow src/layouts/SiteLayout.astro.
+    Meaning is in text: every box names the resource and its network setting. Dashed box = outside your network.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0f0e8"/></marker>
+    <style>
+      .head { font: 600 13px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .big { font: 600 15px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .sub { font: 400 11px 'DM Mono', ui-monospace, monospace; fill: #a4a99f; }
+      .chk { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #c7f36b; }
+      .ucy { font: 500 11px 'DM Mono', ui-monospace, monospace; fill: #9ce6db; }
+      .lbl { font: 500 12px 'DM Sans', system-ui, sans-serif; fill: #f0f0e8; }
+      .vnet { fill: #1b1f19; stroke: #c7f36b; stroke-width: 1.6; }
+      .subnet { fill: #232822; stroke: #a4a99f; stroke-width: 1.1; }
+      .box { fill: #2a3028; stroke: #a4a99f; stroke-width: 1; }
+      .ext { fill: #1d211b; stroke: #a4a99f; stroke-width: 1.2; stroke-dasharray: 6 4; }
+      .dns { fill: #1d211b; stroke: #9ce6db; stroke-width: 1.3; }
+      .step { stroke: #f0f0e8; stroke-width: 1.3; fill: none; }
+    </style>
+  </defs>
+  <rect width="760" height="600" fill="#171a16"/>
+
+  <!-- VNet -->
+  <rect class="vnet" x="20" y="20" width="460" height="460" rx="6"/>
+  <text class="big" x="36" y="44">Your virtual network</text>
+
+  <rect class="subnet" x="36" y="58" width="428" height="112" rx="4"/>
+  <text class="head" x="50" y="78">Agent subnet</text>
+  <text class="chk" x="50" y="96">delegated to Microsoft.App/environments, /27+</text>
+  <rect class="box" x="50" y="108" width="190" height="48" rx="3"/>
+  <text class="lbl" x="62" y="128">Agent client</text>
+  <text class="sub" x="62" y="145">injected by Foundry</text>
+  <rect class="box" x="258" y="108" width="192" height="48" rx="3"/>
+  <text class="lbl" x="270" y="128">Hosted-agent sessions</text>
+  <text class="sub" x="270" y="145">outbound via this subnet</text>
+
+  <rect class="subnet" x="36" y="186" width="428" height="150" rx="4"/>
+  <text class="head" x="50" y="206">Private endpoint subnet</text>
+  <rect class="box" x="50" y="218" width="130" height="34" rx="3"/><text class="lbl" x="62" y="240">PE: Foundry</text>
+  <rect class="box" x="190" y="218" width="130" height="34" rx="3"/><text class="lbl" x="202" y="240">PE: Foundry IQ</text>
+  <rect class="box" x="330" y="218" width="120" height="34" rx="3"/><text class="lbl" x="342" y="240">PE: Storage</text>
+  <rect class="box" x="50" y="262" width="130" height="34" rx="3"/><text class="lbl" x="62" y="284">PE: Cosmos DB</text>
+  <rect class="box" x="190" y="262" width="130" height="34" rx="3"/><text class="lbl" x="202" y="284">PE: registry</text>
+  <rect class="box" x="330" y="262" width="120" height="34" rx="3"/><text class="lbl" x="342" y="284">PE: Key Vault</text>
+  <text class="sub" x="50" y="320">registry and Key Vault: when you use them</text>
+
+  <rect class="dns" x="36" y="352" width="428" height="62" rx="4"/>
+  <text class="head" x="50" y="372">Private DNS zones, linked to this network</text>
+  <text class="ucy" x="50" y="390">service name resolves to its private endpoint</text>
+  <text class="sub" x="50" y="406">full list of zones in the table below</text>
+
+  <rect class="box" x="36" y="426" width="428" height="42" rx="3"/>
+  <text class="lbl" x="50" y="444">Your application</text>
+  <text class="sub" x="50" y="460">here, or via peering, VPN, ExpressRoute</text>
+
+  <!-- Outside -->
+  <text class="big" x="500" y="44">Outside your network</text>
+  <rect class="ext" x="500" y="58" width="240" height="140" rx="4"/>
+  <text class="head" x="514" y="80">Foundry resource + project</text>
+  <text class="head" x="514" y="104">Foundry IQ</text>
+  <text class="head" x="514" y="128">Storage, Cosmos DB</text>
+  <text class="chk" x="514" y="156">public network access:</text>
+  <text class="chk" x="514" y="172">Disabled on every one</text>
+
+  <rect class="ext" x="500" y="226" width="240" height="70" rx="4"/>
+  <text class="head" x="514" y="248">Internet</text>
+  <text class="sub" x="514" y="266">requests to these services</text>
+  <text class="sub" x="514" y="282">are rejected</text>
+
+  <rect class="ext" x="500" y="324" width="240" height="90" rx="4"/>
+  <text class="head" x="514" y="346">Your firewall</text>
+  <text class="sub" x="514" y="364">allows only approved outbound</text>
+  <text class="sub" x="514" y="380">destinations, plus Entra</text>
+  <text class="sub" x="514" y="396">sign-in endpoints</text>
+
+  <!-- arrows -->
+  <line class="step" x1="464" y1="235" x2="498" y2="150" marker-end="url(#arrow)"/>
+  <polyline class="step" points="464,447 472,447 472,310 466,310" marker-end="url(#arrow)"/>
+  <polyline class="step" points="464,140 482,140 482,370 498,370" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="500" width="720" height="84" rx="3" fill="none" stroke="#a4a99f" stroke-width="1"/>
+  <rect class="vnet" x="38" y="514" width="28" height="14" rx="2"/><text class="lbl" x="76" y="526">your virtual network</text>
+  <rect class="subnet" x="250" y="514" width="28" height="14" rx="2"/><text class="lbl" x="288" y="526">subnet</text>
+  <rect class="ext" x="410" y="514" width="28" height="14" rx="2"/><text class="lbl" x="448" y="526">outside your network</text>
+  <rect class="dns" x="38" y="540" width="28" height="14" rx="2"/><text class="lbl" x="76" y="552">private DNS</text>
+  <text class="lbl" x="250" y="552">Arrows: app to private endpoint, endpoint to service,</text>
+  <text class="lbl" x="250" y="570">agent subnet to firewall for outbound traffic.</text>
+</svg>

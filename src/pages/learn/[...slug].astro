@@ -113,6 +113,26 @@ const articleSchema = {
 </SiteLayout>
 
 <script>
+  // Diagram frames scroll sideways on narrow screens. When a frame overflows, a visible "Scroll" cue
+  // sits above it; the frame's aria-label already says this for screen readers.
+  const ARROW = '<svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5" /></svg>';
+  for (const frame of Array.from(document.querySelectorAll<HTMLElement>('.prose .diagram-frame'))) {
+    const cue = document.createElement('p');
+    cue.className = 'scroll-cue';
+    cue.setAttribute('aria-hidden', 'true');
+    cue.innerHTML = `Scroll ${ARROW}`;
+    frame.before(cue);
+    const update = () => {
+      cue.hidden = frame.scrollWidth <= frame.clientWidth + 1;
+      cue.classList.toggle('is-at-end', frame.scrollLeft + frame.clientWidth >= frame.scrollWidth - 1);
+    };
+    new ResizeObserver(update).observe(frame);
+    frame.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
+
+<script>
   // Marks the On this page link for the section being read.
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc-list a'));
   const sections = links

@@ -58,6 +58,13 @@ button, input { font: inherit; }
 .prose .diagram-frame { overflow-x: auto; border: 1px solid var(--af-line); }
 .prose .diagram-frame p { margin: 0; }
 .prose .diagram-frame img { display: block; width: 100%; min-width: 560px; height: auto; }
+/* Shown by the article script only when a frame overflows; it fades once the reader reaches the right edge. */
+.prose .scroll-cue { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--af-ink); font: 600 0.875rem var(--af-font-display); transition: opacity .2s ease; }
+.prose .scroll-cue[hidden] { display: none; }
+.prose .scroll-cue.is-at-end { opacity: .4; }
+.prose .scroll-cue svg { width: 24px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.prose figure > .scroll-cue + .diagram-frame, .prose .scroll-cue + .diagram-frame { margin-top: 0; }
+@media (prefers-reduced-motion: reduce) { .prose .scroll-cue { transition: none; } }
 
 /* Code tabs: the layout script turns a TypeScript + Python pair into tabs. */
 .prose .code-tabs { margin: 28px 0; }

@@ -31,10 +31,10 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 5 | security/evaluating-agent-security.md | published | Adds security/adversarial-test-entry-points.svg (entry points I1 to I5). TypeScript and Python. |
 | 6 | frameworks/choosing-an-agent-framework.md | published | |
 | 6 | frameworks/framework-comparison-by-use-case.md | published | Adds frameworks/approval-control-models.svg. LangGraph and OpenAI Agents SDK, TypeScript and Python, evaluated 2026-11-16. |
-| 7 | deployment/reliability-cost-and-runaway-loops.md | in PR | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
-| 7 | deployment/deploying-an-agent.md | in PR | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
-| 8 | deployment/what-is-microsoft-foundry.md | next | New in the Foundry track. |
-| 8 | deployment/choose-an-azure-agent-hosting-option.md | planned | Now also covers Azure Container Apps. |
+| 7 | deployment/reliability-cost-and-runaway-loops.md | published | Adds deployment/budget-guards.svg and deployment/circuit-breaker-states.svg. TypeScript and Python in code tabs; extends the Stage 4 project. Prices for claude-opus-5-5 checked 2026-11-17. |
+| 7 | deployment/deploying-an-agent.md | published | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
+| 8 | deployment/what-is-microsoft-foundry.md | in PR | Adds deployment/foundry-five-parts.svg. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/choose-an-azure-agent-hosting-option.md | next | Now also covers Azure Container Apps. |
 | 8 | deployment/foundry-models.md | planned | New. |
 | 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |
 | 8 | deployment/deploy-a-hosted-agent-to-foundry.md | planned | Recheck supported SDKs and languages. |
@@ -55,7 +55,7 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 
 ## Stage 8 notes (Microsoft Foundry)
 
-Stage 8 is a 14-article Microsoft Foundry track. Open decision for the user: keep these under the Deployment topic with a `foundry` tag (recommended, no code change), or add a Foundry topic to `src/content.config.ts`. Ask before starting Stage 8. Foundry changes monthly: recheck Microsoft Learn on the day you write each article and state the date checked. Microsoft's docs currently disagree on agent types, and visual workflows are documented as retiring on December 1, 2026.
+Stage 8 is a 14-article Microsoft Foundry track. Decided 2026-11-18: these articles use `topic: Deployment`, `stage: 8` (the Microsoft Foundry stage on the learning path), and the `foundry` tag. No code change. Foundry changes monthly: recheck Microsoft Learn on the day you write each article and state the date checked. Microsoft's docs currently disagree on agent types, and visual workflows are documented as retiring on December 1, 2026.
 
 New articles in this stage, in reading order alongside the existing entries below:
 

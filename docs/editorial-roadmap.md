@@ -35,8 +35,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 7 | deployment/deploying-an-agent.md | published | Adds deployment/release-path.svg. Release checklist as a Markdown list; release gate and kill switch in TypeScript and Python. |
 | 8 | deployment/what-is-microsoft-foundry.md | in PR | Adds deployment/foundry-five-parts.svg. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/choose-an-azure-agent-hosting-option.md | in PR | Adds deployment/hosting-responsibility.svg and deployment/hosting-decision.svg; comparison table is the text equivalent. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/foundry-models.md | next | New. |
-| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | planned | |
+| 8 | deployment/foundry-models.md | in PR | No diagram (the brief has no visual plan; the deployment-type table carries it). Adds foundryCreateMessage / foundry_create_message in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | next | |
 | 8 | deployment/deploy-a-hosted-agent-to-foundry.md | planned | Recheck supported SDKs and languages. |
 | 8 | deployment/microsoft-agent-framework-basics.md | planned | New. |
 | 8 | deployment/foundry-tools.md | planned | New. |

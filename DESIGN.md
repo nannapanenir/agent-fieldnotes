@@ -125,7 +125,7 @@ components:
 
 **Creative North Star: "The Engineer's Drafting Sheet"**
 
-Every page is a technical drawing on cool paper. Navy ink draws the type, the rules and the frames; a pale blue-grey line does the quiet structural work; and one amber colour marks the edge of what an agent is allowed to touch. The learning path is a set of numbered sheets ("Sheet 3 of 8"), figures carry numbered captions, and diagrams sit on a drafting grid. The look serves the site's argument: security is drawn into the picture from the start, and the boundary is always visible.
+Every page is a technical drawing on cool paper. Navy ink draws the type, the rules and the frames; a pale blue-grey line does the quiet structural work; and one amber colour marks the edge of what an agent is allowed to touch. The learning path is drawn as a set of numbered sheets (one card per stage), figures carry numbered captions, and diagrams sit on a drafting grid. The look serves the site's argument: security is drawn into the picture from the start, and the boundary is always visible.
 
 The system is flat and precise. There are no shadows, gradients or soft corners. Depth comes from paper tone (paper vs. raised paper), line weight (1px structural, 1.5px emphatic, 2px boundary) and dash style (solid means "exists", dashed means "boundary", "in progress" or "not yet"). Typography does the expressive work: a wide, heavy Archivo for headings against a calm Source Serif 4 reading text.
 
@@ -245,7 +245,7 @@ A TypeScript/Python pair becomes tabs: a Raised Paper bar with a 1px ink frame (
 A Raised Paper sheet with a 24px Grid Blue drafting grid and a 1px Rule Blue frame. Inside, a 2px dashed amber rectangle is the permission boundary, labelled by a Boundary Tag Yellow tab on its top edge. Numbered step boxes have 1.5px ink borders; the "Check" step is the one amber box. A numbered serif caption sits below ("Figure 1. …").
 
 ### Learning-Path Sheet Card (signature)
-A card labelled "Sheet N of 8, <status>" in 13px Muted Ink above a 20px title. Its border style shows the status (see Cards).
+A card labelled "Stage N of 8, <status>" in 13px Muted Ink above a 20px title. Its border style shows the status (see Cards). The sheet is the visual form; in copy the unit is a **note** and the group is a **stage**. Don't use "sheet", "fieldnote" or "article" as labels readers have to parse.
 
 ## Do's and Don'ts
 

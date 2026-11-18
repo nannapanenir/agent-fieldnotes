@@ -33,7 +33,7 @@ const noteCount = (stage: Stage) => {
       {stages.map((stage) => (
         <li>
           <a class={`is-${stage.status.replace(' ', '-')}`} href={`#stage-${stage.number}`}>
-            <span class="jump-sheet">Sheet {stage.number}<span class="visually-hidden">, {stage.status}</span></span>
+            <span class="jump-sheet">Stage {stage.number}<span class="visually-hidden">, {stage.status}</span></span>
             <span class="jump-name">{stage.name}</span>
           </a>
         </li>
@@ -48,7 +48,7 @@ const noteCount = (stage: Stage) => {
       <section class:list={['stage', `is-${stage.status.replace(' ', '-')}`, { 'stage-raised': stage.number % 2 === 0 }]} id={`stage-${stage.number}`} aria-labelledby={`stage-${stage.number}-title`}>
         <div class="stage-inner">
           <div class="stage-about">
-            <div class="stage-sheet">Sheet {stage.number} of {stages.length}, {stage.status}</div>
+            <div class="stage-sheet">Stage {stage.number} of {stages.length}, {stage.status}</div>
             <h2 id={`stage-${stage.number}-title`}>{stage.name}</h2>
             <p class="stage-description">{stage.description}</p>
             <div class="stage-count">{noteCount(stage)}</div>
@@ -72,8 +72,8 @@ const noteCount = (stage: Stage) => {
                     <span class="note-number">{number}</span>
                     <span class="note-title">{shortTitle(data.title)}</span>
                     <span class="note-side">
-                      <span class:list={['note-label', { 'is-security': data.topic === 'Security' }]}>{data.topic}</span>
-                      <span class="note-meta">{data.level}{data.readingMinutes && `, ${data.readingMinutes} min`}</span>
+                      {data.topic === 'Security' && <span class="note-label is-security">Security</span>}
+                      <span class="note-meta">{data.level}{data.readingMinutes && ` · ${data.readingMinutes} min`}</span>
                     </span>
                   </a>
                 </li>

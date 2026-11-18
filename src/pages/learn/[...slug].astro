@@ -81,7 +81,7 @@ const articleSchema = {
       <nav class="toc-list">
         {toc.map((heading) => <a class:list={{ 'is-security': heading.security }} href={`#${heading.slug}`}>{heading.text}</a>)}
       </nav>
-      <a class="back-link" href={`${base}learn/`}>← All fieldnotes</a>
+      <a class="back-link" href={`${base}learn/`}><svg class="back-arrow" viewBox="0 0 24 12" aria-hidden="true"><path d="M24 6H2M7 1L2 6l5 5" /></svg>Learning path</a>
     </aside>
     <div class="main">
       <article class="prose"><Content /></article>
@@ -175,7 +175,8 @@ const articleSchema = {
   .toc-list a:hover { color: var(--af-ink); text-decoration: underline; text-underline-offset: 3px; }
   .toc-list a.is-security { color: var(--af-boundary-ink); }
   .toc-list a[aria-current] { border-left-color: var(--af-ink); color: var(--af-ink); font-weight: 700; }
-  .back-link { display: inline-block; margin-top: 24px; padding: 8px 0; font-weight: 600; text-decoration: none; }
+  .back-arrow { width: 20px; height: 10px; margin-right: 8px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .back-link { display: inline-flex; align-items: center; margin-top: 24px; padding: 8px 0; font-weight: 600; text-decoration: none; }
   .back-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   @media (max-width: 1040px) {

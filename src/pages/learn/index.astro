@@ -1,5 +1,4 @@
 ---
-import ArticleCard from '../../components/ArticleCard.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { TOPICS, articleHref, articlesInTopic, getPublishedArticles } from '../../lib/articles';
 import { learningPath, type Stage } from '../../lib/learning-path';
@@ -87,16 +86,29 @@ const noteCount = (stage: Stage) => {
     );
   })}
 
-  <div id="topics">
-  {TOPICS.map((topic) => {
-    const posts = articlesInTopic(articles, topic.name);
-    return <section class:list={['topic-section', { 'topic-security': topic.slug === 'security' }]} id={topic.slug}>
-      <div class="topic-heading"><h2>{topic.name}</h2><span>{posts.length} {posts.length === 1 ? 'note' : 'notes'}</span></div>
-      <p class="topic-intro">{topic.description}</p>
-      {posts.length ? <div class="article-grid">{posts.map((article) => <ArticleCard article={article} />)}</div> : <p class="empty-state">This section is planned. Its topic folder is ready for the first Markdown article.</p>}
-    </section>;
-  })}
-  </div>
+  <section class="topics" id="topics" aria-labelledby="topics-title">
+    <div class="topics-inner">
+      <h2 id="topics-title">Browse by topic</h2>
+      <p class="topics-lead">The same notes, grouped by subject instead of reading order.</p>
+      <div class="topic-grid">
+        {TOPICS.map((topic) => {
+          const posts = articlesInTopic(articles, topic.name);
+          return (
+            <section class:list={['topic', { 'is-security': topic.slug === 'security' }]} id={topic.slug} aria-labelledby={`topic-${topic.slug}`}>
+              <h3 id={`topic-${topic.slug}`}>{topic.name}</h3>
+              <p class="topic-count">{posts.length} {posts.length === 1 ? 'note' : 'notes'}</p>
+              <p class="topic-description">{topic.description}</p>
+              {posts.length > 0 ? (
+                <ul>{posts.map((article) => <li><a href={articleHref(article)}>{shortTitle(article.data.title)}</a></li>)}</ul>
+              ) : (
+                <p class="topic-empty">No notes published yet.</p>
+              )}
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 </SiteLayout>
 
 <style>
@@ -144,7 +156,25 @@ const noteCount = (stage: Stage) => {
   .note-unpublished .note-title { font-weight: 600; }
   .note-more { padding: 16px 0 0 60px; color: var(--af-muted); font-size: 16px; }
 
+  .topics { border-top: 1px solid var(--af-line); font-family: var(--af-font-display); scroll-margin-top: 16px; }
+  .topics-inner { max-width: var(--af-page-max); margin: 0 auto; padding: var(--af-section-pad) var(--af-gutter) 88px; }
+  .topics h2 { margin: 0; font: 750 36px/1.1 var(--af-font-display); font-stretch: var(--af-stretch-h2); }
+  .topics-lead { margin: 8px 0 32px; color: var(--af-ink-soft); font: 18px/1.6 var(--af-font-body); }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px; }
+  .topic { min-width: 0; padding-top: 14px; border-top: 1.5px solid var(--af-ink); scroll-margin-top: 16px; }
+  .topic.is-security { border-top: 2px dashed var(--af-boundary); }
+  .topic h3 { margin: 0; font: 700 22px/1.2 var(--af-font-display); }
+  .topic-count { margin: 4px 0 0; color: var(--af-muted); font-size: 14px; }
+  .topic.is-security .topic-count { color: var(--af-boundary-ink); }
+  .topic-description { margin: 10px 0 0; color: var(--af-ink-soft); font: 16px/1.5 var(--af-font-body); }
+  .topic ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .topic li a { display: block; padding: 6px 0; font-size: 15px; line-height: 1.35; text-decoration: none; }
+  .topic li a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .topic-empty { margin: 12px 0 0; color: var(--af-muted); font-size: 15px; }
+
   @media (max-width: 600px) {
+    .topics-inner { padding: 56px 20px 72px; }
+    .topics h2 { font-size: 30px; }
     .stage-inner { padding: 48px 20px; }
     .stage h2 { font-size: 30px; }
     .note-side { padding-left: 60px; }

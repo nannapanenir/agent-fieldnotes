@@ -116,4 +116,6 @@ This is an editorial definition. There is no single official one, and vendors us
 
 ## What to learn next
 
-Follow one turn of an agent from request to safe stop in [The Agent Loop, Step by Step](/learn/architecture/the-agent-loop/). Then see what each part of the system is responsible for in [The Parts of an AI Agent](/learn/architecture/agent-components-model-tools-state/).
+Next on the path is the [Agentic AI Glossary](/learn/foundations/agentic-ai-glossary/), which gives plain definitions of the agent and agent-security terms the later notes use, from tool call and context window to prompt injection and least privilege. [The AI Phrasebook](/learn/foundations/ai-phrasebook/) then covers the wider AI words you keep hearing, such as RAG, MCP, and evals.
+
+Stage 2 starts with [The Agent Loop, Step by Step](/learn/architecture/the-agent-loop/), which follows one turn of an agent from request to safe stop.

@@ -54,12 +54,17 @@ const siteSchema = Astro.site ? {
             <svg class="arrow arrow-left" aria-hidden="true" width="40" height="16" viewBox="0 0 40 16"><path d="M38 8H6M12 3L6 8l6 5" /></svg>
             <svg class="arrow arrow-up" aria-hidden="true" width="16" height="40" viewBox="0 0 16 40"><path d="M8 38V6M3 12l5-6 5 6" /></svg>
           </div>
+          <ul class="tools" aria-label="Tools inside the boundary">
+            <li>search_docs: allowed</li>
+            <li>read_file: allowed</li>
+          </ul>
         </div>
-        <ul class="tools" aria-label="Tools">
-          <li>search_docs: allowed</li>
-          <li>read_file: allowed</li>
-          <li class="tool-blocked">send_email: blocked</li>
-        </ul>
+        <div class="tool-outside">
+          <svg class="stop-line" aria-hidden="true" width="16" height="28" viewBox="0 0 16 28"><path d="M8 28V1M1 1h14" /></svg>
+          <ul class="tools" aria-label="Tool outside the boundary">
+            <li class="tool-blocked">send_email: blocked</li>
+          </ul>
+        </div>
       </div>
       <figcaption>Figure 1. The agent loop. Every action passes the check before it reaches a tool, and only listed tools sit inside the boundary.</figcaption>
     </figure>
@@ -166,6 +171,10 @@ const siteSchema = Astro.site ? {
   .arrow-up { grid-area: 2 / 1; }
   .tools { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; font-size: 14px; }
   .tools li { padding: 6px 10px; border: 1px solid var(--af-line); background: var(--af-paper); }
+  /* The blocked tool sits outside the boundary; its line stops at the dashed edge. */
+  .tool-outside { display: flex; flex-direction: column; align-items: flex-end; padding-right: 48px; }
+  .tool-outside .tools { margin-top: 0; }
+  .stop-line { fill: none; stroke: var(--af-ink); stroke-width: 1.5; }
   .tools .tool-blocked { border-style: dashed; background: transparent; color: var(--af-muted); text-decoration: line-through; }
   figcaption { margin-top: 12px; color: var(--af-muted); font: var(--af-meta)/1.5 var(--af-font-body); }
 

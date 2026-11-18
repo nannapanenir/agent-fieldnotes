@@ -43,8 +43,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 8 | deployment/foundry-iq.md | in PR | No diagram or code (no visual plan in the brief). Concept article: knowledge bases, agentic retrieval, query-time permissions, network boundaries, ASI06. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | in PR | Adds deployment/agent-identity-roles.svg (principal, role, scope; principal types in text); the table covers all three hosting options. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/foundry-guardrails-and-content-safety.md | in PR | No diagram or code (no visual plan in the brief); risk, intervention-point, and control tables carry it. Describes guardrails as a mitigation layer. Agent guardrails in preview on 2026-11-18. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | next | New. |
-| 8 | deployment/azure-networking-and-private-access.md | planned | |
+| 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | in PR | No diagram or code (no visual plan in the brief). States GA vs preview on 2026-11-18: tracing GA (workflow agents preview), evaluations GA with preview evaluators, red teaming GA, monitoring preview. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/azure-networking-and-private-access.md | next | |
 | 8 | deployment/monitor-version-and-roll-back-an-azure-agent.md | planned | |
 | 8 | deployment/monitoring-and-incident-response.md | planned | |
 

@@ -63,7 +63,7 @@ The model chooses the next step, but only from the actions the application allow
 
 ## How the four compare
 
-| | Model call | Chatbot | Fixed workflow | Agent |
+| Approach | Model call | Chatbot | Fixed workflow | Agent |
 | --- | --- | --- | --- | --- |
 | Who chooses the next step | Your code | The user, turn by turn | Your code | The model, within limits |
 | Can it take actions? | No | No | Yes, the actions your code calls | Yes, through allowed tools |

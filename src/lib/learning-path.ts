@@ -107,3 +107,27 @@ export function pathPosition(stages: Stage[], article: Article): PathPosition | 
 
 // Where a stage section sits on /learn/.
 export const stageAnchor = (stage: Stage) => `${import.meta.env.BASE_URL}learn/#stage-${stage.number}`;
+
+// Reading time of a stage's published notes, from their readingMinutes (5 when a note has none).
+export const stageMinutes = (stage: Stage) =>
+  stage.notes.reduce((total, note) => total + (note.kind === 'published' ? (note.article.data.readingMinutes ?? 5) : 0), 0);
+
+export const formatMinutes = (minutes: number) => {
+  if (minutes < 60) return `${minutes} min`;
+  const rest = minutes % 60;
+  return rest === 0 ? `${Math.floor(minutes / 60)} h` : `${Math.floor(minutes / 60)} h ${rest} min`;
+};
+
+const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
+
+// "3 notes · 31 min" for a fully published stage; otherwise its publishing status, which readers still need.
+export const stageSummary = (stage: Stage, stageCount: number) =>
+  stage.status === 'published'
+    ? `${plural(stage.notes.length)} · ${formatMinutes(stageMinutes(stage))}`
+    : `Stage ${stage.number} of ${stageCount}, ${stage.status}`;
+
+// "39 notes · 6 h 40 min" once everything is published; until then, how much of the plan is live.
+export const pathSummary = (stages: Stage[], publishedCount: number, plannedCount: number) =>
+  publishedCount === plannedCount
+    ? `${plural(publishedCount)} · ${formatMinutes(stages.reduce((total, stage) => total + stageMinutes(stage), 0))}`
+    : `${publishedCount} notes published of ${plannedCount} planned`;

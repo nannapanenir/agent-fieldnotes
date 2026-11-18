@@ -1,11 +1,13 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { TOPICS, articleHref, articlesInTopic, getPublishedArticles } from '../../lib/articles';
-import { learningPath, type Stage } from '../../lib/learning-path';
+import { learningPath, pathSummary, stageSummary, type Stage } from '../../lib/learning-path';
 
 const articles = await getPublishedArticles();
 const { stages, publishedCount, plannedCount } = learningPath(articles);
 const progress = plannedCount > 0 ? Math.round((publishedCount / plannedCount) * 100) : 0;
+// The progress bar only means something while notes are still unpublished.
+const showProgress = publishedCount < plannedCount;
 const base = import.meta.env.BASE_URL;
 const shortTitle = (title: string) => title.split(':')[0];
 // A stage with nothing published yet shows its first few notes and a count of the rest.
@@ -31,7 +33,7 @@ const noteNumbers = new Map(stages.flatMap((stage) => stage.notes.map((note, ind
 const noteCount = (stage: Stage) => {
   const total = stage.notes.length;
   const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
-  if (stage.status === 'published') return plural(total);
+  if (stage.status === 'published') return stageSummary(stage, stages.length);
   if (stage.status === 'planned') return `${plural(total)} planned`;
   return `${stage.publishedCount} of ${plural(total)} published`;
 };
@@ -43,8 +45,8 @@ const noteCount = (stage: Stage) => {
     <h1>Learn agents in order.</h1>
     <p class="intro-lead">Eight stages, from what an agent is to running one in production. Each note assumes only the ones before it.</p>
     <div class="progress">
-      <div class="progress-bar" aria-hidden="true"><span style={`width: ${progress}%`}></span></div>
-      <span>{publishedCount} notes published of {plannedCount} planned</span>
+      {showProgress && <div class="progress-bar" aria-hidden="true"><span style={`width: ${progress}%`}></span></div>}
+      <span>{pathSummary(stages, publishedCount, plannedCount)}</span>
     </div>
     <ol class="stage-jump" aria-label="Jump to a stage">
       {stages.map((stage) => (
@@ -65,7 +67,7 @@ const noteCount = (stage: Stage) => {
       <section class:list={['stage', `is-${stage.status.replace(' ', '-')}`, { 'stage-raised': stage.number % 2 === 0 }]} id={`stage-${stage.number}`} aria-labelledby={`stage-${stage.number}-title`}>
         <div class="stage-inner">
           <div class="stage-about">
-            <div class="stage-sheet">Stage {stage.number} of {stages.length}, {stage.status}</div>
+            {stage.status !== 'published' && <div class="stage-sheet">Stage {stage.number} of {stages.length}, {stage.status}</div>}
             <h2 id={`stage-${stage.number}-title`}><span class="visually-hidden">Stage {stage.number}: </span>{stage.name}</h2>
             <p class="stage-description">{stage.description}</p>
             <div class="stage-count">{noteCount(stage)}</div>
@@ -182,7 +184,7 @@ const noteCount = (stage: Stage) => {
   .stage-jump a.is-in-progress { border: 1.5px dashed var(--af-ink); }
   .stage-jump a.is-planned { border: 1px dashed var(--af-line); color: var(--af-muted); }
   .jump-sheet { color: var(--af-muted); font-size: 0.8125rem; }
-  .jump-name { font-weight: 700; font-size: 1rem; }
+  .jump-name { font-weight: 700; font-size: 0.9375rem; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .stage { border-top: 1px solid var(--af-line); font-family: var(--af-font-display); }
   .stage-raised { background: var(--af-paper-raised); }

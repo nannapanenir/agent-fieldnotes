@@ -1,7 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { articleHref, articlesInTopic, getPublishedArticles, latestArticles, type Article } from '../lib/articles';
-import { learningPath, stageAnchor } from '../lib/learning-path';
+import { learningPath, pathSummary, stageAnchor, stageSummary } from '../lib/learning-path';
 
 const articles = await getPublishedArticles();
 const byId = new Map(articles.map((article) => [article.id, article]));
@@ -90,18 +90,18 @@ const siteSchema = Astro.site ? {
     <div class="band-inner">
       <div class="path-heading">
         <h2 id="learning-path-title">The learning path</h2>
-        <p>{publishedCount} notes published of {plannedCount} planned</p>
+        <p>{pathSummary(stages, publishedCount, plannedCount)}</p>
       </div>
       <ol class="path">
         {stages.map((stage) => {
           const href = stage.notes.length > 0 ? stageAnchor(stage) : undefined;
-          const label = `Stage ${stage.number} of ${stages.length}, ${stage.status}`;
+          const label = stageSummary(stage, stages.length);
           return (
             <li class:list={['sheet-card', `is-${stage.status.replace(' ', '-')}`]}>
               {href ? (
-                <a href={href}><span class="sheet-label">{label}</span><span class="sheet-name">{stage.name}</span></a>
+                <a href={href}><span class="sheet-name">{stage.name}</span><span class="sheet-label">{label}</span></a>
               ) : (
-                <div><span class="sheet-label">{label}</span><span class="sheet-name">{stage.name}</span></div>
+                <div><span class="sheet-name">{stage.name}</span><span class="sheet-label">{label}</span></div>
               )}
             </li>
           );

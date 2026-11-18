@@ -41,8 +41,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 8 | deployment/microsoft-agent-framework-basics.md | in PR | No diagram (no visual plan in the brief; the orchestration table maps to orchestration-patterns). Python only: Agent Framework ships for .NET, Python, and Go, not TypeScript. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/foundry-tools.md | in PR | No diagram (no visual plan in the brief); the tool-kind and choice tables carry it. Adds an MCP tool definition (allowed_tools, per-tool require_approval, project connection) in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/foundry-iq.md | in PR | No diagram or code (no visual plan in the brief). Concept article: knowledge bases, agentic retrieval, query-time permissions, network boundaries, ASI06. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | next | |
-| 8 | deployment/foundry-guardrails-and-content-safety.md | planned | New. |
+| 8 | deployment/configure-azure-agent-identity-rbac-and-secrets.md | in PR | Adds deployment/agent-identity-roles.svg (principal, role, scope; principal types in text); the table covers all three hosting options. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/foundry-guardrails-and-content-safety.md | next | New. |
 | 8 | deployment/foundry-evaluations-tracing-and-red-teaming.md | planned | New. |
 | 8 | deployment/azure-networking-and-private-access.md | planned | |
 | 8 | deployment/monitor-version-and-roll-back-an-azure-agent.md | planned | |

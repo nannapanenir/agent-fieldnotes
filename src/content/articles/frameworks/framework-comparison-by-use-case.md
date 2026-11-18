@@ -5,6 +5,8 @@ topic: Frameworks
 level: Intermediate
 publishedAt: 2026-11-16
 order: 4
+stage: 6
+stageOrder: 2
 readingMinutes: 14
 tags: [frameworks, langgraph, openai-agents-sdk, evaluation, security, typescript, python]
 featured: false

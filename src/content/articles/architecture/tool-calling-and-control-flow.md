@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-05
 updatedAt: 2026-11-16
 order: 6
+stage: 2
+stageOrder: 3
 readingMinutes: 12
 tags: [architecture, tools, tool-calling, validation, security]
 featured: false

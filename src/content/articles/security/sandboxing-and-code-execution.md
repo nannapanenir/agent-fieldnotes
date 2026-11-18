@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-14
 updatedAt: 2026-11-16
 order: 7
+stage: 3
+stageOrder: 5
 readingMinutes: 9
 tags: [security, sandboxing, code-execution, isolation, owasp]
 featured: false

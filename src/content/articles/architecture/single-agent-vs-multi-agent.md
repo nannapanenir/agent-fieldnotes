@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-07
 updatedAt: 2026-11-16
 order: 8
+stage: 2
+stageOrder: 5
 readingMinutes: 10
 tags: [architecture, multi-agent, orchestration, a2a, security]
 featured: false

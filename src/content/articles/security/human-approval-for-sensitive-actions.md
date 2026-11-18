@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-14
 updatedAt: 2026-11-16
 order: 8
+stage: 3
+stageOrder: 6
 readingMinutes: 9
 tags: [security, human-in-the-loop, approvals, owasp, nist]
 featured: false

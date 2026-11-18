@@ -6,6 +6,8 @@ level: Beginner
 publishedAt: 2026-11-05
 updatedAt: 2026-11-13
 order: 2
+stage: 1
+stageOrder: 2
 readingMinutes: 10
 tags: [glossary, agents, fundamentals, security, terminology]
 featured: false

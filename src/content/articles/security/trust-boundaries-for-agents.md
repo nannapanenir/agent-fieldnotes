@@ -6,6 +6,8 @@ level: Beginner
 publishedAt: 2026-11-03
 updatedAt: 2026-11-13
 order: 4
+stage: 3
+stageOrder: 1
 readingMinutes: 6
 tags: [security, threat-modeling, tools]
 featured: false

@@ -5,6 +5,8 @@ topic: Architecture
 level: Intermediate
 publishedAt: 2026-11-15
 order: 13
+stage: 4
+stageOrder: 4
 readingMinutes: 26
 tags: [architecture, tutorial, typescript, python, evaluation, testing]
 featured: false

@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-15
 updatedAt: 2026-11-16
 order: 11
+stage: 4
+stageOrder: 2
 readingMinutes: 15
 tags: [architecture, tutorial, typescript, python, tools, permissions]
 featured: false

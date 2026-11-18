@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-14
 updatedAt: 2026-11-16
 order: 5
+stage: 3
+stageOrder: 3
 readingMinutes: 10
 tags: [security, prompt-injection, owasp, agents, tools]
 featured: false

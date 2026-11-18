@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-15
 updatedAt: 2026-11-16
 order: 10
+stage: 4
+stageOrder: 1
 readingMinutes: 15
 tags: [architecture, tutorial, typescript, python, agent-loop, tools]
 featured: false

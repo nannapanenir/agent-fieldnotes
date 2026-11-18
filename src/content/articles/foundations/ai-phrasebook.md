@@ -5,6 +5,8 @@ topic: Foundations
 level: Beginner
 publishedAt: 2026-11-06
 order: 3
+stage: 1
+stageOrder: 3
 readingMinutes: 13
 tags: [fundamentals, terminology, prompt-engineering, context-engineering, harness-engineering]
 featured: false

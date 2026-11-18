@@ -10,6 +10,7 @@ const {
 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const homeUrl = base.endsWith('/') ? base : `${base}/`;
+const onLearningPath = Astro.url.pathname.replace(/\/?$/, '/') === `${homeUrl}learn/`;
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const structuredDataText = structuredData ? JSON.stringify(structuredData).replaceAll('<', '\\u003c') : undefined;
 ---
@@ -43,7 +44,7 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
       <div class="site-header-inner">
         <a class="site-name" href={homeUrl}>Agent Fieldnotes</a>
         <nav class="site-nav" aria-label="Main">
-          <a href={`${homeUrl}learn/`}>Learning path</a>
+          <a href={`${homeUrl}learn/`} aria-current={onLearningPath ? 'page' : undefined}>Learning path</a>
           <a href={`${homeUrl}learn/#topics`}>Topics</a>
           <a href={`${homeUrl}learn/#security`}>Security</a>
           <a href={`${homeUrl}about/`}>About</a>
@@ -174,6 +175,8 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   .site-nav { display: flex; flex-wrap: wrap; gap: 8px 28px; font: 16px var(--af-font-display); }
   .site-nav a { padding: 10px 0; text-decoration: none; }
   .site-nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  .site-nav a[aria-current='page'] { padding-bottom: 8px; border-bottom: 2px solid var(--af-ink); font-weight: 700; }
+  .site-nav a[aria-current='page']:hover { text-decoration: none; }
 
   .site-footer { background: var(--af-ink); color: var(--af-paper); font-family: var(--af-font-display); }
   .site-footer a { color: var(--af-paper); text-decoration: none; }

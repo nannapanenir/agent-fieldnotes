@@ -6,6 +6,8 @@ level: Intermediate
 publishedAt: 2026-11-06
 updatedAt: 2026-11-16
 order: 7
+stage: 2
+stageOrder: 4
 readingMinutes: 11
 tags: [architecture, context, memory, retrieval, rag, security]
 featured: false

@@ -5,6 +5,8 @@ topic: Frameworks
 level: Intermediate
 publishedAt: 2026-11-03
 order: 3
+stage: 6
+stageOrder: 1
 readingMinutes: 5
 tags: [frameworks, architecture, evaluation]
 featured: false

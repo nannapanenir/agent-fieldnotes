@@ -6,6 +6,8 @@ level: Beginner
 publishedAt: 2026-11-03
 updatedAt: 2026-11-13
 order: 2
+stage: 2
+stageOrder: 1
 readingMinutes: 7
 tags: [architecture, tools, control-flow]
 featured: false

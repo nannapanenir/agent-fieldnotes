@@ -13,6 +13,9 @@ publishedAt: 2026-01-01
 # updatedAt: 2026-01-01   # optional; uncomment when you revise a published article
 # TODO: position within the topic list (lower numbers appear first)
 order: 100
+# TODO: learning-path stage (1-8) and position within it, from the status tracker in docs/editorial-roadmap.md
+stage: 1
+stageOrder: 100
 # TODO: estimated reading time in whole minutes (positive integer)
 readingMinutes: 10
 tags: [security, threat-modeling, todo-tag]

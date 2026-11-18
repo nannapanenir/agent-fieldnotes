@@ -5,6 +5,8 @@ topic: Deployment
 level: Intermediate
 publishedAt: 2026-11-17
 order: 2
+stage: 7
+stageOrder: 2
 readingMinutes: 15
 tags: [deployment, release, supply-chain, kill-switch, typescript, python]
 featured: false

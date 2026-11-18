@@ -36,8 +36,8 @@ Statuses: `published` (live, `draft: false`), `in repo` (committed, still draft 
 | 8 | deployment/what-is-microsoft-foundry.md | in PR | Adds deployment/foundry-five-parts.svg. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/choose-an-azure-agent-hosting-option.md | in PR | Adds deployment/hosting-responsibility.svg and deployment/hosting-decision.svg; comparison table is the text equivalent. Checked against Microsoft Learn 2026-11-18. |
 | 8 | deployment/foundry-models.md | in PR | No diagram (the brief has no visual plan; the deployment-type table carries it). Adds foundryCreateMessage / foundry_create_message in TypeScript and Python. Checked against Microsoft Learn 2026-11-18. |
-| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | next | |
-| 8 | deployment/deploy-a-hosted-agent-to-foundry.md | planned | Recheck supported SDKs and languages. |
+| 8 | deployment/deploy-a-prompt-agent-to-foundry.md | in PR | Adds deployment/prompt-agent-flow.svg (markers 1 to 8 match the steps). Uses gpt-5-mini: Agent Service lists no Claude models on 2026-11-18. Function tools run client-side through the Stage 4 runner. Checked against Microsoft Learn 2026-11-18. |
+| 8 | deployment/deploy-a-hosted-agent-to-foundry.md | next | Recheck supported SDKs and languages. |
 | 8 | deployment/microsoft-agent-framework-basics.md | planned | New. |
 | 8 | deployment/foundry-tools.md | planned | New. |
 | 8 | deployment/foundry-iq.md | planned | New. |

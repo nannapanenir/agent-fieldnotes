@@ -120,10 +120,10 @@ export const formatMinutes = (minutes: number) => {
 
 const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
 
-// "3 notes · 31 min" for a fully published stage; otherwise its publishing status, which readers still need.
+// "Stage 1 · 3 notes · 31 min" for a fully published stage; otherwise its publishing status, which readers still need.
 export const stageSummary = (stage: Stage, stageCount: number) =>
   stage.status === 'published'
-    ? `${plural(stage.notes.length)} · ${formatMinutes(stageMinutes(stage))}`
+    ? `Stage ${stage.number} · ${plural(stage.notes.length)} · ${formatMinutes(stageMinutes(stage))}`
     : `Stage ${stage.number} of ${stageCount}, ${stage.status}`;
 
 // "39 notes · 6 h 40 min" once everything is published; until then, how much of the plan is live.

@@ -259,7 +259,7 @@ A TypeScript/Python pair becomes tabs: a Raised Paper bar with a 1px ink frame (
 A Raised Paper sheet with a 24px Grid Blue drafting grid and a 1px Rule Blue frame. Inside, a 2px dashed amber rectangle is the permission boundary, labelled by a Boundary Tag Yellow tab on its top edge. Numbered step boxes have 1.5px ink borders; the "Check" step is the one amber box. A numbered serif caption sits below ("Figure 1. …").
 
 ### Learning-Path Sheet Card (signature)
-A card labelled "Stage N of 8, <status>" in 13px Muted Ink above a 20px title. Its border style shows the status (see Cards). The sheet is the visual form; in copy the unit is a **note** and the group is a **stage**. Don't use "sheet", "fieldnote" or "article" as labels readers have to parse.
+A card with a 20px stage name over a 13px Muted Ink line: "Stage N · 3 notes · 31 min" for a published stage, "Stage N of 8, <status>" while it still has unpublished notes. On /learn/ the same line sits under the stage description, never above the heading. Its border style shows the status (see Cards). The sheet is the visual form; in copy the unit is a **note** and the group is a **stage**. Don't use "sheet", "fieldnote" or "article" as labels readers have to parse.
 
 ## Do's and Don'ts
 

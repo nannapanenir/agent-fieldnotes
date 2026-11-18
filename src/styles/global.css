@@ -17,7 +17,8 @@ body { margin: 0; min-width: 320px; background: var(--af-paper); }
 h1, h2, h3, p { margin-top: 0; }
 a { color: var(--af-ink); }
 a:hover { color: var(--af-ink-strong); }
-a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--af-boundary); outline-offset: 3px; }
+/* Focus is drawn in ink on paper; amber stays reserved for security boundaries. The navy footer uses Boundary Tag Yellow. */
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--af-ink); outline-offset: 3px; }
 button, input { font: inherit; }
 .skip-link { position: absolute; top: -60px; left: 16px; z-index: 10; padding: 10px 14px; background: var(--af-ink); color: var(--af-paper); font-family: var(--af-font-display); }
 .skip-link:hover { color: var(--af-paper); }
@@ -66,7 +67,9 @@ button, input { font: inherit; }
 .prose .code-tab:hover { color: var(--af-ink); }
 .prose .code-tab[aria-selected="true"] { background: var(--af-code-bg); color: var(--af-code-ink); }
 .prose .code-tabs.is-enhanced > pre { border-radius: 0 0 var(--af-radius) var(--af-radius); }
-.prose .code-tab:focus-visible, .prose .code-tabs > pre:focus-visible { outline: 2px solid var(--af-boundary); outline-offset: -2px; }
+.prose .code-tab:focus-visible { outline: 2px solid var(--af-ink); outline-offset: -4px; }
+/* On the navy code surfaces, ink would vanish; draw focus in the code text colour instead. */
+.prose .code-tab[aria-selected="true"]:focus-visible, .prose .code-tabs > pre:focus-visible, .prose pre:focus-visible { outline: 2px solid var(--af-code-ink); outline-offset: -4px; }
 
 @media (max-width: 600px) {
   .prose { font-size: 18px; }

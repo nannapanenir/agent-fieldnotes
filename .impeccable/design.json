@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T16:48:37.603Z",
+  "generatedAt": "2026-11-18T17:23:00.147Z",
   "title": "Design System: Agent Fieldnotes",
   "extensions": {
     "colorMeta": {
@@ -330,7 +330,7 @@
       "refersTo": "button-primary",
       "description": "Main call to action; one per view.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Start with the basics</a>",
-      "css": ".ds-btn-primary{display:inline-block;padding:14px 22px;border-radius:2px;background:var(--af-ink);color:var(--af-paper);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-primary:hover{background:var(--af-ink-strong)}.ds-btn-primary:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+      "css": ".ds-btn-primary{display:inline-block;padding:14px 22px;border-radius:2px;background:var(--af-ink);color:var(--af-paper);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-primary:hover{background:var(--af-ink-strong)}.ds-btn-primary:focus-visible{outline:2px solid var(--af-ink);outline-offset:3px}"
     },
     {
       "name": "Secondary Button",
@@ -338,14 +338,14 @@
       "refersTo": "button-secondary",
       "description": "Outlined companion to the primary button.",
       "html": "<a class=\"ds-btn-secondary\" href=\"#\">See the learning path</a>",
-      "css": ".ds-btn-secondary{display:inline-block;padding:12.5px 22px;border:1.5px solid var(--af-ink);border-radius:2px;color:var(--af-ink);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-secondary:hover{background:var(--af-paper-raised)}.ds-btn-secondary:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+      "css": ".ds-btn-secondary{display:inline-block;padding:12.5px 22px;border:1.5px solid var(--af-ink);border-radius:2px;color:var(--af-ink);font:600 16px var(--af-font-display);text-decoration:none}.ds-btn-secondary:hover{background:var(--af-paper-raised)}.ds-btn-secondary:focus-visible{outline:2px solid var(--af-ink);outline-offset:3px}"
     },
     {
       "name": "Header Navigation",
       "kind": "nav",
       "description": "Site name and top-level links; current page bold with a 2px ink underline.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-name\" href=\"#\">Agent Fieldnotes</a><span class=\"ds-nav-links\"><a href=\"#\" aria-current=\"page\">Learning path</a><a href=\"#\">Topics</a><a href=\"#\">Security</a><a href=\"#\">About</a></span></nav>",
-      "css": ".ds-nav{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:20px 0;border-bottom:1px solid var(--af-line);font-family:var(--af-font-display)}.ds-nav a{color:var(--af-ink);text-decoration:none}.ds-nav-name{font-weight:750;font-size:20px;font-stretch:115%}.ds-nav-links{display:flex;gap:28px;font-size:16px}.ds-nav-links a{padding:10px 0}.ds-nav-links a:hover{text-decoration:underline;text-underline-offset:6px}.ds-nav-links a[aria-current=page]{padding-bottom:8px;border-bottom:2px solid var(--af-ink);font-weight:700}.ds-nav a:focus-visible{outline:2px solid var(--af-boundary);outline-offset:3px}"
+      "css": ".ds-nav{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:20px 0;border-bottom:1px solid var(--af-line);font-family:var(--af-font-display)}.ds-nav a{color:var(--af-ink);text-decoration:none}.ds-nav-name{font-weight:750;font-size:20px;font-stretch:115%}.ds-nav-links{display:flex;gap:28px;font-size:16px}.ds-nav-links a{padding:10px 0}.ds-nav-links a:hover{text-decoration:underline;text-underline-offset:6px}.ds-nav-links a[aria-current=page]{padding-bottom:8px;border-bottom:2px solid var(--af-ink);font-weight:700}.ds-nav a:focus-visible{outline:2px solid var(--af-ink);outline-offset:3px}"
     },
     {
       "name": "Tool Chip",
@@ -360,15 +360,15 @@
       "refersTo": "card-start",
       "description": "Topic card; security variant uses the boundary wash.",
       "html": "<div class=\"ds-cards\"><a class=\"ds-card\" href=\"#\"><span class=\"ds-card-topic\">Architecture</span><span class=\"ds-card-title\">The Agent Loop, Step by Step</span><span class=\"ds-card-sum\">Follow a bounded agent from request to a safe stop.</span></a><a class=\"ds-card ds-card-sec\" href=\"#\"><span class=\"ds-card-topic\">Security</span><span class=\"ds-card-title\">Trust Boundaries for Agent Systems</span><span class=\"ds-card-sum\">Map each trust boundary before adding controls.</span></a></div>",
-      "css": ".ds-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1.5px solid var(--af-ink);background:var(--af-line)}.ds-card{display:flex;flex-direction:column;gap:12px;padding:24px;background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-card-sec{background:var(--af-boundary-bg)}.ds-card-topic{color:var(--af-muted);font:14px var(--af-font-display)}.ds-card-sec .ds-card-topic{color:var(--af-boundary-ink)}.ds-card-title{font:700 24px/1.2 var(--af-font-display)}.ds-card-sum{color:var(--af-ink-soft);font:17px/1.55 var(--af-font-body)}.ds-card:hover .ds-card-title{text-decoration:underline;text-underline-offset:4px}.ds-card:focus-visible{outline:2px solid var(--af-boundary);outline-offset:-4px}"
+      "css": ".ds-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1.5px solid var(--af-ink);background:var(--af-line)}.ds-card{display:flex;flex-direction:column;gap:12px;padding:24px;background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-card-sec{background:var(--af-boundary-bg)}.ds-card-topic{color:var(--af-muted);font:14px var(--af-font-display)}.ds-card-sec .ds-card-topic{color:var(--af-boundary-ink)}.ds-card-title{font:700 24px/1.2 var(--af-font-display)}.ds-card-sum{color:var(--af-ink-soft);font:17px/1.55 var(--af-font-body)}.ds-card:hover .ds-card-title{text-decoration:underline;text-underline-offset:4px}.ds-card:focus-visible{outline:2px solid var(--af-ink);outline-offset:-4px}"
     },
     {
       "name": "Learning-Path Sheet Card",
       "kind": "card",
       "refersTo": "sheet-card",
       "description": "Stage card; border style encodes status.",
-      "html": "<div class=\"ds-sheets\"><a class=\"ds-sheet\" href=\"#\"><span class=\"ds-sheet-label\">Sheet 3 of 8, published</span><span class=\"ds-sheet-name\">Safe implementation</span></a><span class=\"ds-sheet ds-sheet-planned\"><span class=\"ds-sheet-label\">Sheet 4 of 8, planned</span><span class=\"ds-sheet-name\">Build locally</span></span></div>",
-      "css": ".ds-sheets{display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:var(--af-font-display)}.ds-sheet{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1.5px solid var(--af-ink);background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-sheet-planned{border:1px dashed var(--af-line);background:transparent;color:var(--af-muted)}.ds-sheet-label{color:var(--af-muted);font-size:13px}.ds-sheet-name{font-weight:700;font-size:20px}a.ds-sheet:hover .ds-sheet-name{text-decoration:underline;text-underline-offset:4px}a.ds-sheet:focus-visible{outline:2px solid var(--af-boundary);outline-offset:2px}"
+      "html": "<div class=\"ds-sheets\"><a class=\"ds-sheet\" href=\"#\"><span class=\"ds-sheet-label\">Stage 3 of 8, published</span><span class=\"ds-sheet-name\">Safe implementation</span></a><span class=\"ds-sheet ds-sheet-planned\"><span class=\"ds-sheet-label\">Stage 4 of 8, planned</span><span class=\"ds-sheet-name\">Build locally</span></span></div>",
+      "css": ".ds-sheets{display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:var(--af-font-display)}.ds-sheet{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1.5px solid var(--af-ink);background:var(--af-paper);color:var(--af-ink);text-decoration:none}.ds-sheet-planned{border:1px dashed var(--af-line);background:transparent;color:var(--af-muted)}.ds-sheet-label{color:var(--af-muted);font-size:13px}.ds-sheet-name{font-weight:700;font-size:20px}a.ds-sheet:hover .ds-sheet-name{text-decoration:underline;text-underline-offset:4px}a.ds-sheet:focus-visible{outline:2px solid var(--af-ink);outline-offset:2px}"
     },
     {
       "name": "Code Tabs",
@@ -376,7 +376,7 @@
       "refersTo": "code-tab-selected",
       "description": "TypeScript/Python tabs joined to a dark code block.",
       "html": "<div class=\"ds-tabs\"><div class=\"ds-tablist\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">TypeScript</button><button role=\"tab\" aria-selected=\"false\">Python</button></div><pre class=\"ds-pre\">const result = await runAgent(request);</pre></div>",
-      "css": ".ds-tablist{display:flex;border:1px solid var(--af-ink);border-bottom:0;border-radius:2px 2px 0 0;background:var(--af-paper-raised)}.ds-tablist button{margin:0;padding:10px 16px;border:0;border-right:1px solid var(--af-line);background:transparent;color:var(--af-ink-soft);font:600 14px var(--af-font-display);cursor:pointer}.ds-tablist button:hover{color:var(--af-ink)}.ds-tablist button[aria-selected=true]{background:var(--af-code-bg);color:var(--af-code-ink)}.ds-tablist button:focus-visible{outline:2px solid var(--af-boundary);outline-offset:-2px}.ds-pre{margin:0;padding:20px;border-radius:0 0 2px 2px;background:var(--af-code-bg);color:var(--af-code-ink);font:14px/1.7 var(--af-font-code)}"
+      "css": ".ds-tablist{display:flex;border:1px solid var(--af-ink);border-bottom:0;border-radius:2px 2px 0 0;background:var(--af-paper-raised)}.ds-tablist button{margin:0;padding:10px 16px;border:0;border-right:1px solid var(--af-line);background:transparent;color:var(--af-ink-soft);font:600 14px var(--af-font-display);cursor:pointer}.ds-tablist button:hover{color:var(--af-ink)}.ds-tablist button[aria-selected=true]{background:var(--af-code-bg);color:var(--af-code-ink)}.ds-tablist button:focus-visible{outline:2px solid var(--af-ink);outline-offset:-4px}.ds-pre{margin:0;padding:20px;border-radius:0 0 2px 2px;background:var(--af-code-bg);color:var(--af-code-ink);font:14px/1.7 var(--af-font-code)}"
     },
     {
       "name": "Permission Boundary",
@@ -389,7 +389,7 @@
   ],
   "narrative": {
     "northStar": "The Engineer's Drafting Sheet",
-    "overview": "Every page is a technical drawing on cool paper. Navy ink draws the type, the rules and the frames; a pale blue-grey line does the quiet structural work; and one amber colour marks the edge of what an agent is allowed to touch. The learning path is a set of numbered sheets (\"Sheet 3 of 8\"), figures carry numbered captions, and diagrams sit on a drafting grid. The look serves the site's argument: security is drawn into the picture from the start, and the boundary is always visible.\n\nThe system is flat and precise. There are no shadows, gradients or soft corners. Depth comes from paper tone (paper vs. raised paper), line weight (1px structural, 1.5px emphatic, 2px boundary) and dash style (solid means \"exists\", dashed means \"boundary\", \"in progress\" or \"not yet\"). Typography does the expressive work: a wide, heavy Archivo for headings against a calm Source Serif 4 reading text.\n\nReading comes first. Article pages hold a 680px column of serif text with a sticky table of contents. Long code samples sit in dark navy blocks with TypeScript/Python tabs, and diagrams sit in ruled frames.",
+    "overview": "Every page is a technical drawing on cool paper. Navy ink draws the type, the rules and the frames; a pale blue-grey line does the quiet structural work; and one amber colour marks the edge of what an agent is allowed to touch. The learning path is drawn as a set of numbered sheets (one card per stage), figures carry numbered captions, and diagrams sit on a drafting grid. The look serves the site's argument: security is drawn into the picture from the start, and the boundary is always visible.\n\nThe system is flat and precise. There are no shadows, gradients or soft corners. Depth comes from paper tone (paper vs. raised paper), line weight (1px structural, 1.5px emphatic, 2px boundary) and dash style (solid means \"exists\", dashed means \"boundary\", \"in progress\" or \"not yet\"). Typography does the expressive work: a wide, heavy Archivo for headings against a calm Source Serif 4 reading text.\n\nReading comes first. Article pages hold a 680px column of serif text with a sticky table of contents. Long code samples sit in dark navy blocks with TypeScript/Python tabs, and diagrams sit in ruled frames.",
     "keyCharacteristics": [
       "Navy ink on cool blue-grey paper; a single amber accent reserved for security boundaries.",
       "Wide, heavy grotesk headings (Archivo, 110–120% width) over a serif reading face.",
@@ -400,7 +400,7 @@
     "rules": [
       {
         "name": "The One Meaning Rule",
-        "body": "Amber means \"security boundary\" and nothing else. It marks dashed boundary lines, boundary labels, security cards, security links and the focus ring. Never use it for emphasis, warnings, highlights or decoration. This applies to diagrams as well as pages.",
+        "body": "Amber means \"security boundary\" and nothing else. It marks dashed boundary lines, boundary labels, security cards and security links. Never use it for emphasis, warnings, highlights, focus or decoration. This applies to diagrams as well as pages. The one place a yellow appears for another reason is the focus ring on the navy footer, where Boundary Tag Yellow is the only palette colour with enough contrast.",
         "section": "colors"
       },
       {
@@ -434,7 +434,7 @@
       "Do keep article text at the 680px measure and 19px Source Serif 4 with 1.75 line height.",
       "Do draw every new diagram in the site palette: Cool Paper or Raised Paper ground, Drafting Navy lines and text, Grid Blue grid, and amber only for boundaries. Number markers so they match the table or steps in the text.",
       "Do give every diagram a text equivalent (a `<title>`/`<desc>`, plus a table or numbered list when the diagram carries steps).",
-      "Do keep focus visible with the 2px amber outline, and honour `prefers-reduced-motion`.",
+      "Do keep focus visible with the 2px ink outline (Code Paper on code, Boundary Tag Yellow in the footer), and honour `prefers-reduced-motion`.",
       "Do keep text at WCAG 2.2 AA contrast: use ink, Soft Ink or Muted Ink on paper, and Boundary Brown on Boundary Wash."
     ],
     "donts": [

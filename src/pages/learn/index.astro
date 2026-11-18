@@ -66,7 +66,7 @@ const noteCount = (stage: Stage) => {
         <div class="stage-inner">
           <div class="stage-about">
             <div class="stage-sheet">Stage {stage.number} of {stages.length}, {stage.status}</div>
-            <h2 id={`stage-${stage.number}-title`}>{stage.name}</h2>
+            <h2 id={`stage-${stage.number}-title`}><span class="visually-hidden">Stage {stage.number}: </span>{stage.name}</h2>
             <p class="stage-description">{stage.description}</p>
             <div class="stage-count">{noteCount(stage)}</div>
             {stage.number === 4 && (

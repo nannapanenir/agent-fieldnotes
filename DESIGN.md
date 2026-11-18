@@ -147,7 +147,7 @@ A restrained navy-and-paper palette where amber has exactly one meaning.
 - **Deep Navy** (ink-strong): Hover state for links and the primary button only.
 
 ### Secondary
-- **Boundary Amber** (boundary): Dashed boundary lines, the focus outline, and the security divider on the homepage. Non-text only (3.2:1 on paper, meets the 3:1 graphics minimum but not text contrast).
+- **Boundary Amber** (boundary): Dashed boundary lines and the security dividers on the homepage and /learn/. Non-text only (3.2:1 on paper, meets the 3:1 graphics minimum but not text contrast).
 - **Boundary Tag Yellow** (boundary-tag): Fill behind boundary labels ("Permission boundary"), and the security link in the navy footer (8.1:1 on navy).
 - **Boundary Wash** (boundary-bg): Background of security cards and the "Check" step.
 - **Boundary Brown** (boundary-ink): Text on Boundary Wash, and security-coloured text links on paper (7.5:1 on the wash).
@@ -163,7 +163,7 @@ A restrained navy-and-paper palette where amber has exactly one meaning.
 - **Footer Ink** (footer-ink) and **Footer Rule** (footer-line): Secondary text and the divider inside the navy footer.
 
 ### Named Rules
-**The One Meaning Rule.** Amber means "security boundary" and nothing else. It marks dashed boundary lines, boundary labels, security cards, security links and the focus ring. Never use it for emphasis, warnings, highlights or decoration. This applies to diagrams as well as pages.
+**The One Meaning Rule.** Amber means "security boundary" and nothing else. It marks dashed boundary lines, boundary labels, security cards and security links. Never use it for emphasis, warnings, highlights, focus or decoration. This applies to diagrams as well as pages. The one place a yellow appears for another reason is the focus ring on the navy footer, where Boundary Tag Yellow is the only palette colour with enough contrast.
 
 **The Ink Carries Meaning Rule.** If a line or border is the only thing communicating a state or a grouping, draw it in ink or amber, never in Rule Blue.
 
@@ -218,7 +218,7 @@ Character: **ruled and exact.** Components are flat, 2px-cornered and outlined i
 - **Shape:** near-square (2px).
 - **Primary:** Drafting Navy fill, Cool Paper text, Archivo 600 16px, 14px × 22px padding.
 - **Secondary:** transparent with a 1.5px ink border, padding reduced to 12.5px vertically so both buttons are the same height.
-- **Hover / Focus:** primary darkens to Deep Navy; secondary fills with Raised Paper. Focus is a 2px Boundary Amber outline with a 3px offset (amber on the navy footer is Boundary Tag Yellow).
+- **Hover / Focus:** primary darkens to Deep Navy; secondary fills with Raised Paper. Focus is a 2px Drafting Navy outline with a 3px offset. On navy surfaces it switches: Code Paper on code blocks and the selected code tab, Boundary Tag Yellow in the footer.
 
 ### Chips (tool tags)
 - **Style:** square, 1px Rule Blue border, Cool Paper fill, 14px Archivo.
@@ -254,7 +254,7 @@ A card labelled "Stage N of 8, <status>" in 13px Muted Ink above a 20px title. I
 - **Do** keep article text at the 680px measure and 19px Source Serif 4 with 1.75 line height.
 - **Do** draw every new diagram in the site palette: Cool Paper or Raised Paper ground, Drafting Navy lines and text, Grid Blue grid, and amber only for boundaries. Number markers so they match the table or steps in the text.
 - **Do** give every diagram a text equivalent (a `<title>`/`<desc>`, plus a table or numbered list when the diagram carries steps).
-- **Do** keep focus visible with the 2px amber outline, and honour `prefers-reduced-motion`.
+- **Do** keep focus visible with the 2px ink outline (Code Paper on code, Boundary Tag Yellow in the footer), and honour `prefers-reduced-motion`.
 - **Do** keep text at WCAG 2.2 AA contrast: use ink, Soft Ink or Muted Ink on paper, and Boundary Brown on Boundary Wash.
 
 ### Don't:

@@ -43,6 +43,4 @@
   --af-radius:      2px;    /* drafting look: nearly square corners */
 }
 
-/* Google Fonts link for <head>:
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
-*/
+/* Fonts are self-hosted: see fonts.css and src/assets/fonts/README.md. */

@@ -2,14 +2,33 @@
 import ArticleCard from '../../components/ArticleCard.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { TOPICS, articlesInTopic, getPublishedArticles } from '../../lib/articles';
+import { learningPath } from '../../lib/learning-path';
 
 const articles = await getPublishedArticles();
+const { stages, publishedCount, plannedCount } = learningPath(articles);
+const progress = plannedCount > 0 ? Math.round((publishedCount / plannedCount) * 100) : 0;
+const base = import.meta.env.BASE_URL;
 ---
 
 <SiteLayout title="Learning path — Agent Fieldnotes" description="A sequenced guide to AI agents, architecture, frameworks, deployment, and security.">
-  <section class="page-intro">
+  <section class="intro">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href={base}>Home</a><span aria-hidden="true">/</span><span>Learning path</span></nav>
     <h1>Learn agents in order.</h1>
-    <p>Start with the building blocks, follow how systems make decisions, then explore frameworks, deployment, and security. Each Markdown file becomes a page at the matching route.</p>
+    <p class="intro-lead">Eight stages, from what an agent is to running one in production. Each note assumes only the ones before it.</p>
+    <div class="progress">
+      <div class="progress-bar" aria-hidden="true"><span style={`width: ${progress}%`}></span></div>
+      <span>{publishedCount} notes published of {plannedCount} planned</span>
+    </div>
+    <ol class="stage-jump" aria-label="Jump to a stage">
+      {stages.map((stage) => (
+        <li>
+          <a class={`is-${stage.status.replace(' ', '-')}`} href={`#stage-${stage.number}`}>
+            <span class="jump-sheet">Sheet {stage.number}<span class="visually-hidden">, {stage.status}</span></span>
+            <span class="jump-name">{stage.name}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
   </section>
   <div id="topics">
   {TOPICS.map((topic) => {
@@ -22,3 +41,28 @@ const articles = await getPublishedArticles();
   })}
   </div>
 </SiteLayout>
+
+<style>
+  .intro { max-width: var(--af-page-max); margin: 0 auto; padding: 64px var(--af-gutter) 48px; font-family: var(--af-font-display); }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; color: var(--af-muted); font-size: var(--af-meta); }
+  .breadcrumbs a { color: var(--af-muted); }
+  .breadcrumbs a:hover { color: var(--af-ink); }
+  h1 { margin: 20px 0 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); }
+  .intro-lead { max-width: 34em; margin: 20px 0 0; color: var(--af-ink-soft); font: var(--af-lead)/1.6 var(--af-font-body); }
+  .progress { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 32px; font-size: 16px; }
+  .progress-bar { flex: 1 1 320px; max-width: 520px; height: 10px; display: flex; border: 1.5px solid var(--af-ink); }
+  .progress-bar span { background: var(--af-ink); }
+  .stage-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 40px 0 0; padding: 0; list-style: none; }
+  .stage-jump a { display: flex; flex-direction: column; height: 100%; padding: 10px 14px; text-decoration: none; }
+  .stage-jump a:hover .jump-name { text-decoration: underline; text-underline-offset: 3px; }
+  .stage-jump a.is-published { border: 1.5px solid var(--af-ink); background: var(--af-paper); }
+  .stage-jump a.is-in-progress { border: 1.5px dashed var(--af-ink); }
+  .stage-jump a.is-planned { border: 1px dashed var(--af-line); color: var(--af-muted); }
+  .jump-sheet { color: var(--af-muted); font-size: 13px; }
+  .jump-name { font-weight: 700; font-size: 16px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (max-width: 600px) {
+    .intro { padding: 48px 20px 40px; }
+    .stage-jump { grid-template-columns: 1fr 1fr; }
+  }
+</style>

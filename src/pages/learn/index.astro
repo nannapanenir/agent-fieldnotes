@@ -1,13 +1,24 @@
 ---
 import ArticleCard from '../../components/ArticleCard.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { TOPICS, articlesInTopic, getPublishedArticles } from '../../lib/articles';
-import { learningPath } from '../../lib/learning-path';
+import { TOPICS, articleHref, articlesInTopic, getPublishedArticles } from '../../lib/articles';
+import { learningPath, type Stage } from '../../lib/learning-path';
 
 const articles = await getPublishedArticles();
 const { stages, publishedCount, plannedCount } = learningPath(articles);
 const progress = plannedCount > 0 ? Math.round((publishedCount / plannedCount) * 100) : 0;
 const base = import.meta.env.BASE_URL;
+const shortTitle = (title: string) => title.split(':')[0];
+// A stage with nothing published yet shows its first few notes and a count of the rest.
+const PLANNED_PREVIEW = 4;
+const shownNotes = (stage: Stage) => stage.status === 'planned' ? stage.notes.slice(0, PLANNED_PREVIEW) : stage.notes;
+const noteCount = (stage: Stage) => {
+  const total = stage.notes.length;
+  const plural = (n: number) => `${n} ${n === 1 ? 'note' : 'notes'}`;
+  if (stage.status === 'published') return plural(total);
+  if (stage.status === 'planned') return `${plural(total)} planned`;
+  return `${stage.publishedCount} of ${plural(total)} published`;
+};
 ---
 
 <SiteLayout title="Learning path — Agent Fieldnotes" description="A sequenced guide to AI agents, architecture, frameworks, deployment, and security.">
@@ -30,6 +41,52 @@ const base = import.meta.env.BASE_URL;
       ))}
     </ol>
   </section>
+
+  {stages.map((stage) => {
+    const notes = shownNotes(stage);
+    const more = stage.notes.length - notes.length;
+    return (
+      <section class:list={['stage', `is-${stage.status.replace(' ', '-')}`, { 'stage-raised': stage.number % 2 === 0 }]} id={`stage-${stage.number}`} aria-labelledby={`stage-${stage.number}-title`}>
+        <div class="stage-inner">
+          <div class="stage-about">
+            <div class="stage-sheet">Sheet {stage.number} of {stages.length}, {stage.status}</div>
+            <h2 id={`stage-${stage.number}-title`}>{stage.name}</h2>
+            <p class="stage-description">{stage.description}</p>
+            <div class="stage-count">{noteCount(stage)}</div>
+          </div>
+          <ol class="notes">
+            {notes.map((note, index) => {
+              const number = `${stage.number}.${index + 1}`;
+              if (note.kind !== 'published') {
+                return (
+                  <li class="note note-unpublished">
+                    <span class="note-number">{number}</span>
+                    <span class="note-title">{note.title}</span>
+                    <span class="note-label">{note.kind === 'being written' ? 'Being written' : 'Planned'}</span>
+                  </li>
+                );
+              }
+              const { data } = note.article;
+              return (
+                <li class="note">
+                  <a href={articleHref(note.article)}>
+                    <span class="note-number">{number}</span>
+                    <span class="note-title">{shortTitle(data.title)}</span>
+                    <span class="note-side">
+                      <span class:list={['note-label', { 'is-security': data.topic === 'Security' }]}>{data.topic}</span>
+                      <span class="note-meta">{data.level}{data.readingMinutes && `, ${data.readingMinutes} min`}</span>
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+            {more > 0 && <li class="note-more">and {more} more planned {more === 1 ? 'note' : 'notes'}</li>}
+          </ol>
+        </div>
+      </section>
+    );
+  })}
+
   <div id="topics">
   {TOPICS.map((topic) => {
     const posts = articlesInTopic(articles, topic.name);
@@ -52,7 +109,7 @@ const base = import.meta.env.BASE_URL;
   .progress { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 32px; font-size: 16px; }
   .progress-bar { flex: 1 1 320px; max-width: 520px; height: 10px; display: flex; border: 1.5px solid var(--af-ink); }
   .progress-bar span { background: var(--af-ink); }
-  .stage-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 40px 0 0; padding: 0; list-style: none; }
+  .stage-jump { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; margin: 40px 0 0; padding: 0; list-style: none; }
   .stage-jump a { display: flex; flex-direction: column; height: 100%; padding: 10px 14px; text-decoration: none; }
   .stage-jump a:hover .jump-name { text-decoration: underline; text-underline-offset: 3px; }
   .stage-jump a.is-published { border: 1.5px solid var(--af-ink); background: var(--af-paper); }
@@ -61,7 +118,37 @@ const base = import.meta.env.BASE_URL;
   .jump-sheet { color: var(--af-muted); font-size: 13px; }
   .jump-name { font-weight: 700; font-size: 16px; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .stage { border-top: 1px solid var(--af-line); font-family: var(--af-font-display); }
+  .stage-raised { background: var(--af-paper-raised); }
+  .stage-inner { max-width: var(--af-page-max); margin: 0 auto; padding: 56px var(--af-gutter); display: flex; flex-wrap: wrap; gap: 24px 64px; }
+  .stage-about { flex: 1 1 300px; min-width: 0; }
+  .stage-sheet, .stage-count { color: var(--af-muted); font-size: var(--af-meta); }
+  .stage h2 { margin: 8px 0 0; font: 800 34px/1.1 var(--af-font-display); font-stretch: 115%; scroll-margin-top: 16px; }
+  .stage.is-planned h2 { color: var(--af-muted); }
+  .stage-description { max-width: 22em; margin: 14px 0 0; color: var(--af-ink-soft); font: 18px/1.6 var(--af-font-body); }
+  .stage-count { margin-top: 14px; }
+  .notes { flex: 2 1 520px; min-width: 0; margin: 0; padding: 0; list-style: none; border-top: 1.5px solid var(--af-ink); }
+  .stage.is-planned .notes { border-top: 1px dashed var(--af-line); }
+  .note { border-bottom: 1px solid var(--af-line); }
+  .note > a, .note-unpublished { display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: baseline; padding: 16px 0; text-decoration: none; }
+  .note > a:hover .note-title { text-decoration: underline; text-underline-offset: 4px; }
+  .note > a:focus-visible { outline-offset: 2px; }
+  .note-number { flex: none; width: 40px; color: var(--af-muted); font-size: var(--af-meta); }
+  .note-title { flex: 1 1 280px; min-width: 0; font-weight: 700; font-size: 20px; line-height: 1.3; }
+  .note-side { display: flex; flex-wrap: wrap; gap: 2px 14px; align-items: baseline; }
+  .note-label { color: var(--af-muted); font-size: 14px; }
+  .note-label.is-security { color: var(--af-boundary-ink); }
+  .note-meta { color: var(--af-muted); font-size: 13px; }
+  .note-unpublished { color: var(--af-muted); }
+  li.note-unpublished { border-bottom-style: dashed; }
+  .note-unpublished .note-title { font-weight: 600; }
+  .note-more { padding: 16px 0 0 60px; color: var(--af-muted); font-size: 16px; }
+
   @media (max-width: 600px) {
+    .stage-inner { padding: 48px 20px; }
+    .stage h2 { font-size: 30px; }
+    .note-side { padding-left: 60px; }
+    .note-more { padding-left: 60px; }
     .intro { padding: 48px 20px 40px; }
     .stage-jump { grid-template-columns: 1fr 1fr; }
   }

@@ -206,5 +206,7 @@ const structuredDataText = structuredData ? JSON.stringify(structuredData).repla
   }
   @media (max-width: 600px) {
     .site-header-inner, .site-footer-inner, .site-footer-note { padding-left: 20px; padding-right: 20px; }
+    /* Four links fit on one row at 320px; the bold current item no longer pushes About to a second line. */
+    .site-nav { gap: 8px 20px; }
   }
 </style>

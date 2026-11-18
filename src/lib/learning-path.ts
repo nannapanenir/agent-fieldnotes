@@ -1,5 +1,5 @@
 import roadmap from '../../docs/editorial-roadmap.md?raw';
-import { articleHref, type Article } from './articles';
+import type { Article } from './articles';
 
 // The eight stages of the learning path, in order. Published notes join a stage through their
 // `stage` frontmatter; notes not published yet come from the status tracker in docs/editorial-roadmap.md.
@@ -77,11 +77,6 @@ export function learningPath(published: Article[]) {
   return { stages, publishedCount: byId.size, plannedCount: planned.size };
 }
 
-// Where a stage card on the homepage links: its first published note, if any.
-export const stageHref = (stage: Stage) => {
-  const first = stage.notes.find((note) => note.kind === 'published');
-  return first?.kind === 'published' ? articleHref(first.article) : undefined;
-};
 
 export interface PathPosition {
   stage: Stage;

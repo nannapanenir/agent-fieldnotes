@@ -82,3 +82,33 @@ export const stageHref = (stage: Stage) => {
   const first = stage.notes.find((note) => note.kind === 'published');
   return first?.kind === 'published' ? articleHref(first.article) : undefined;
 };
+
+export interface PathPosition {
+  stage: Stage;
+  // 1-based position among the stage's notes, and the stage's note count.
+  index: number;
+  count: number;
+  previous?: Article;
+  next?: Article;
+}
+
+// Where an article sits on the learning path, and its published neighbours in reading order.
+// Returns undefined for an article that has no stage.
+export function pathPosition(stages: Stage[], article: Article): PathPosition | undefined {
+  const stage = stages.find((entry) => entry.notes.some((note) => note.id === article.id));
+  if (!stage) return undefined;
+  const ordered = stages.flatMap((entry) =>
+    entry.notes.flatMap((note) => (note.kind === 'published' ? [note.article] : [])),
+  );
+  const at = ordered.findIndex((entry) => entry.id === article.id);
+  return {
+    stage,
+    index: stage.notes.findIndex((note) => note.id === article.id) + 1,
+    count: stage.notes.length,
+    previous: ordered[at - 1],
+    next: ordered[at + 1],
+  };
+}
+
+// Where a stage section sits on /learn/.
+export const stageAnchor = (stage: Stage) => `${import.meta.env.BASE_URL}learn/#stage-${stage.number}`;

@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import { articleHref, getPublishedArticles } from '../../lib/articles';
+import { learningPath, pathPosition, stageAnchor } from '../../lib/learning-path';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
@@ -9,7 +11,18 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
-const date = article.data.publishedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const formatDate = (value: Date) => value.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const date = formatDate(article.data.publishedAt);
+const updated = article.data.updatedAt && article.data.updatedAt > article.data.publishedAt ? article.data.updatedAt : undefined;
+const { stages } = learningPath(await getPublishedArticles());
+const position = pathPosition(stages, article);
+const minutes = (entry: typeof article) => `${entry.data.readingMinutes ?? 5} min`;
+// "2.1": the stage number and the note's place in that stage, as on /learn/.
+const noteNumber = (entry: typeof article) => {
+  const stage = stages.find((candidate) => candidate.notes.some((note) => note.id === entry.id));
+  return stage ? `${stage.number}.${stage.notes.findIndex((note) => note.id === entry.id) + 1}` : undefined;
+};
+const isSecurity = article.data.topic === 'Security';
 const base = import.meta.env.BASE_URL;
 const topicSlug = article.data.topic.toLowerCase();
 const toc = headings.filter((heading) => heading.depth === 2).map((heading) => ({ ...heading, security: /secur/i.test(heading.text) }));
@@ -33,7 +46,7 @@ const articleSchema = {
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.toString() },
         { '@type': 'ListItem', position: 2, name: 'Learning path', item: Astro.site ? new URL(`${base}learn/`, Astro.site).toString() : undefined },
-        { '@type': 'ListItem', position: 3, name: article.data.topic, item: Astro.site ? new URL(`${base}learn/#${article.data.topic.toLowerCase()}`, Astro.site).toString() : undefined },
+        { '@type': 'ListItem', position: 3, name: position ? `Stage ${position.stage.number}: ${position.stage.name}` : article.data.topic, item: Astro.site ? new URL(position ? `${base}learn/#stage-${position.stage.number}` : `${base}learn/#${topicSlug}`, Astro.site).toString() : undefined },
         { '@type': 'ListItem', position: 4, name: article.data.title, item: canonicalUrl },
       ],
     },
@@ -45,12 +58,20 @@ const articleSchema = {
   <header class="layout article-head">
     <div class="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a href={base}>Home</a><span aria-hidden="true">/</span><a href={`${base}learn/`}>Learning path</a><span aria-hidden="true">/</span><a href={`${base}learn/#${topicSlug}`}>{article.data.topic}</a>
+        <a href={base}>Home</a><span aria-hidden="true">/</span><a href={`${base}learn/`}>Learning path</a><span aria-hidden="true">/</span>{position
+          ? <a href={stageAnchor(position.stage)}>Stage {position.stage.number}: {position.stage.name}</a>
+          : <a href={`${base}learn/#${topicSlug}`}>{article.data.topic}</a>}
       </nav>
-      <div class="kicker">{article.data.topic}, {article.data.level.toLowerCase()} level</div>
       <h1>{article.data.title}</h1>
       <p class="summary">{article.data.description}</p>
-      <div class="meta"><span>Published <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{date}</time></span><span>{article.data.readingMinutes ?? 5} min read</span></div>
+      <div class="meta">
+        {position && <span class="meta-path">Stage {position.stage.number} · Note {noteNumber(article)} of {position.count}</span>}
+        {isSecurity && <span class="meta-security">Security</span>}
+        <span>{article.data.level}</span>
+        <span>{minutes(article)} read</span>
+        <span>Published <time datetime={article.data.publishedAt.toISOString().slice(0, 10)}>{date}</time></span>
+        {updated && <span>Updated <time datetime={updated.toISOString().slice(0, 10)}>{formatDate(updated)}</time></span>}
+      </div>
     </div>
   </header>
   <hr class="divider" />
@@ -62,7 +83,32 @@ const articleSchema = {
       </nav>
       <a class="back-link" href={`${base}learn/`}>← All fieldnotes</a>
     </aside>
-    <article class="prose main"><Content /></article>
+    <div class="main">
+      <article class="prose"><Content /></article>
+      {position && (
+        <nav class="path-nav" aria-label="Learning path">
+          {position.next ? (
+            <a class="path-next" href={articleHref(position.next)}>
+              <span class="path-label">Next in the path · Note {noteNumber(position.next)}</span>
+              <span class="path-title">{position.next.data.title}<svg class="path-arrow" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5" /></svg></span>
+              <span class="path-meta">{position.next.data.level} · {minutes(position.next)}</span>
+            </a>
+          ) : (
+            <a class="path-next" href={`${base}learn/`}>
+              <span class="path-label">End of the path</span>
+              <span class="path-title">Back to the learning path<svg class="path-arrow" viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5" /></svg></span>
+              <span class="path-meta">All eight stages and every note</span>
+            </a>
+          )}
+          {position.previous && (
+            <a class="path-previous" href={articleHref(position.previous)}>
+              <span class="path-previous-label">Previous · Note {noteNumber(position.previous)}</span>
+              <span>{position.previous.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )}
+    </div>
   </div>
 </SiteLayout>
 
@@ -78,6 +124,8 @@ const articleSchema = {
     const line = window.innerHeight * 0.25;
     let current = -1;
     sections.forEach((heading, index) => { if (heading.getBoundingClientRect().top <= line) current = index; });
+    // Short closing sections never reach the line; at the bottom of the page, the last one is current.
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = sections.length - 1;
     links.forEach((link, index) => {
       if (index === current) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
@@ -100,12 +148,25 @@ const articleSchema = {
   .breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
   .breadcrumbs a { color: var(--af-muted); }
   .breadcrumbs a:hover { color: var(--af-ink); }
-  .kicker { margin-top: 28px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
-  h1 { margin: 10px 0 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); overflow-wrap: break-word; }
+  h1 { margin: 28px 0 0; font: 800 var(--af-h1)/1.02 var(--af-font-display); font-stretch: var(--af-stretch-h1); overflow-wrap: break-word; }
   .summary { margin: 20px 0 0; color: var(--af-ink-soft); font-size: 21px; line-height: 1.55; }
   .meta { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; color: var(--af-muted); font: var(--af-meta) var(--af-font-display); }
+  .meta-path { color: var(--af-ink); font-weight: 600; }
+  .meta-security { color: var(--af-boundary-ink); font-weight: 600; }
   .divider { margin: 48px 0 0; border: 0; border-top: 1px solid var(--af-line); }
   .article-body { padding-bottom: 96px; }
+
+  /* Next in the path: a published sheet card, so the path reads as part of the drawing set. */
+  .path-nav { display: flex; flex-direction: column; gap: 16px; margin-top: 64px; padding-top: 32px; border-top: 1.5px solid var(--af-ink); font-family: var(--af-font-display); }
+  .path-next { display: flex; flex-direction: column; gap: 6px; padding: 20px 22px; border: 1.5px solid var(--af-ink); background: var(--af-paper-raised); text-decoration: none; }
+  .path-label, .path-previous-label { color: var(--af-muted); font-size: 14px; }
+  .path-title { display: flex; align-items: baseline; gap: 12px; font-weight: 700; font-size: 22px; line-height: 1.25; }
+  .path-arrow { flex: none; width: 24px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .path-meta { color: var(--af-ink-soft); font-size: 15px; }
+  .path-next:hover .path-title { text-decoration: underline; text-underline-offset: 4px; }
+  .path-previous { display: flex; flex-direction: column; gap: 2px; align-self: flex-start; padding: 6px 0; font-size: 16px; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .path-previous-label { font-weight: 400; }
+  .path-previous:hover span:last-child { text-decoration: underline; text-underline-offset: 3px; }
 
   .toc { grid-column: 3; grid-row: 1; max-width: 240px; min-width: 0; position: sticky; top: 24px; font-family: var(--af-font-display); font-size: var(--af-meta); }
   .toc-title { margin-bottom: 12px; font-weight: 700; }
